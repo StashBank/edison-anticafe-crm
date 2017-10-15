@@ -1,0 +1,51 @@
+<div class="container-fluid"> 
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-secondary" type="button">Go!</button>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <button type="button" class="btn btn-success col-sm-1"
+        (click)="add()">Створити</button>
+    </div>
+  </div>
+</div>
+<br />
+<div class="container-fluid">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-default">
+      <tr>
+        <th>№</th>
+        <th *ngFor="let item of contactCollection.rowConfig">{{item.caption}}</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let item of contactCollection.items; let i = index">
+      <tr 
+        (click)="onItemClick(item, i)"
+        [ngClass]="'table-primary'">
+        <th scope="row">{{i +1}}</th>
+        <td *ngFor="let config of contactCollection.rowConfig">
+          <div>
+            <app-viewmodel *ngIf="!item.selected" [value]="item.model[config.path]" [dataValueType]="config.dataValueType"></app-viewmodel>
+            <app-editmodel *ngIf="item.selected" [value]="item.model[config.path]" [dataValueType]="config.dataValueType"></app-editmodel>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6" *ngIf="selectedIndex === i">
+          <div class="col-sm-3">
+            <button type="button" class="btn btn-primary">Зберегти</button>
+            <button type="button" class="btn btn-secondary"
+              (click)="discardChanges(item, i)">Відмінити</button>
+            <button type="button" class="btn btn-danger"
+              (click)="deleteItem(item, i)">Видалити</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

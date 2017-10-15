@@ -2,13 +2,20 @@
   "name": "edison-anticafe-crm",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "app.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently \"tsc -w\" \"nodemon ./bin/www\" ",
+    "start_ng": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "prod": "NODE_ENV=production ./bin/www",
+    "build:prod": "node bin/bundler.js --prod",
+    "postinstall": "ng build --aot -prod"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +28,13 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "body-parser": "^1.18.2",
+    "bootstrap": "^3.3.7",
+    "compression": "^1.7.1",
+    "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
+    "express": "^4.16.1",
+    "morgan": "^1.9.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },
