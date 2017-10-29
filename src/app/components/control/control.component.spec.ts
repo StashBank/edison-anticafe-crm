@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewmodelComponent } from './viewmodel.component';
+import { ControlComponent } from './control.component';
 
-describe('ViewmodelComponent', () => {
-  let component: ViewmodelComponent;
-  let fixture: ComponentFixture<ViewmodelComponent>;
+describe('ControlComponent', () => {
+  let component: ControlComponent;
+  let fixture: ComponentFixture<ControlComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewmodelComponent ]
+      declarations: [ ControlComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewmodelComponent);
+    fixture = TestBed.createComponent(ControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

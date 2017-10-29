@@ -30,18 +30,21 @@
         <th scope="row">{{i +1}}</th>
         <td *ngFor="let config of contactCollection.rowConfig">
           <div>
-            <app-viewmodel *ngIf="!item.selected" [value]="item.model[config.path]" [dataValueType]="config.dataValueType"></app-viewmodel>
-            <app-editmodel *ngIf="item.selected" [value]="item.model[config.path]" [dataValueType]="config.dataValueType"></app-editmodel>
+            <app-control
+              [model]="item.model"
+              [bindTo]="config.path"
+              [isEditable]="item.selected"></app-control>
           </div>
         </td>
       </tr>
       <tr>
         <td colspan="6" *ngIf="selectedIndex === i">
           <div class="col-sm-3">
-            <button type="button" class="btn btn-primary">Зберегти</button>
-            <button type="button" class="btn btn-secondary"
+            <button type="button" class="btn btn-sm btn-primary"
+              (click)="saveRowData(i)">Зберегти</button>
+            <button type="button" class="btn btn-sm btn-secondary"
               (click)="discardChanges(item, i)">Відмінити</button>
-            <button type="button" class="btn btn-danger"
+            <button type="button" class="btn btn-sm btn-danger"
               (click)="deleteItem(item, i)">Видалити</button>
           </div>
         </td>

@@ -1,0 +1,9 @@
+<div *ngIf="!isEditable">
+  <div>
+    <p>{{value}}</p>
+  </div>
+</div>
+
+<div *ngIf="isEditable" class="input-group" [ngStyle]="{'width':'100%'}">
+  <input class="form-control" [type]="dataValueType" [(ngModel)]="value" />
+</div>
