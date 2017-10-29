@@ -33,7 +33,7 @@ export class ControlComponent implements OnInit {
   }
 
   get dataValueType() : string {
-    const value = this.value;
+    const value = this.model && this.model[this.bindTo];
     if (value && value.constructor === Date) {
       return "date";
     }
