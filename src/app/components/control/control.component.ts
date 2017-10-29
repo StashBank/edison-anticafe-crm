@@ -1,9 +1,7 @@
 import { 
   Component,
   OnInit,
-  Input,
-  Output,
-  EventEmitter
+  Input
 } from '@angular/core';
 
 @Component({
@@ -17,18 +15,18 @@ export class ControlComponent implements OnInit {
   @Input() bindTo: string;
   @Input() isEditable: boolean = true;
   @Input() caption: string;
-  @Output() valueChanged: EventEmitter<{value:any, bindTo: string}> = 
-  new EventEmitter<{ value: any, bindTo: string }>();
-
+  
   get value() {
     const value = this.model && this.model[this.bindTo];
-    return this.getDateValue(value) || value;
+    if (this.dataValueType === "date") {
+      return this.isEditable ? this.getDateStringValue(value) : this.getDateValue(value);
+    }
+    return value;
   }
 
   set value(value: any) {
     if (this.model) {
       this.model[this.bindTo] = value;
-      this.valueChanged.emit({ value: value, bindTo: this.bindTo });
     }
   }
 
@@ -60,8 +58,7 @@ export class ControlComponent implements OnInit {
     return null;
   }
 
-  get dateStringValue(): string {
-    const value = this.value;
+  getDateStringValue(value: any): string {
     if (value && value.constructor === Date) {
       return value.toISOString().substr(0, 10);
     }
