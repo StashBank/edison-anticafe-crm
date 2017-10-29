@@ -66,6 +66,8 @@ export class MainComponent implements OnInit {
     const contact = this.selectedItem.model;
     this.conactService.setContact(id, contact);
     this.getContacts();
+    this.selectedItem = null;
+    this.selectedIndex = -1;
   }
 
   onItemClick(selectedItem: any, selectedIndex: number) {
