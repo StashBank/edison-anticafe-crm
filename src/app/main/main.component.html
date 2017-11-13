@@ -2,53 +2,48 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="Search for..."
+          aria-label="Search for..."
+          [(ngModel)]="searchFor">
         <span class="input-group-btn">
-          <button class="btn btn-secondary" type="button">Go!</button>
+          <button
+            class="btn btn-secondary"
+            type="button"
+            (click)="search()">Go!</button>
         </span>
       </div>
     </div>
     <div class="row">
-      <button type="button" class="btn btn-success col-sm-1"
-        (click)="add()">Створити</button>
+      <button mat-button (click)="add()">Створити</button>
+      <button *ngIf="!!selectedItem"
+        mat-button color="primary"
+        (click)="edit()">Редагувати</button>
+      <button *ngIf="!!selectedItem"
+        mat-button color="accent"
+        (click)="delete()">Видалити</button>
     </div>
   </div>
 </div>
 <br />
 <div class="container-fluid">
-  <table class="table table-bordered table-hover">
-    <thead class="thead-default">
-      <tr>
-        <th>№</th>
-        <th *ngFor="let item of contactCollection.rowConfig">{{item.caption}}</th>
-      </tr>
-    </thead>
-    <tbody *ngFor="let item of contactCollection.items; let i = index">
-      <tr 
-        (click)="onItemClick(item, i)"
-        [ngClass]="'table-primary'">
-        <th scope="row">{{i +1}}</th>
-        <td *ngFor="let config of contactCollection.rowConfig">
-          <div>
-            <app-control
-              [model]="item.model"
-              [bindTo]="config.path"
-              [isEditable]="item.selected"></app-control>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="6" *ngIf="selectedIndex === i">
-          <div class="col-sm-3">
-            <button type="button" class="btn btn-sm btn-primary"
-              (click)="saveRowData(i)">Зберегти</button>
-            <button type="button" class="btn btn-sm btn-secondary"
-              (click)="discardChanges(item, i)">Відмінити</button>
-            <button type="button" class="btn btn-sm btn-danger"
-              (click)="deleteItem(item, i)">Видалити</button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  
+  <div class="grid-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+  
+      <!-- Columns -->
+      <ng-container *ngFor="let config of columnsConfig"
+        [matColumnDef]="config.path">
+        <mat-header-cell *matHeaderCellDef> {{config.caption}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{getDisplayValue(element[config.path])}} </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="onRowClick(row)"
+      [ngClass]="getRowClass(row)"><ng-template><p>1245</p></ng-template></mat-row>
+    </mat-table>
+  </div>
 </div>

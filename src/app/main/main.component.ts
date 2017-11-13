@@ -1,6 +1,13 @@
+import { ContactCardDialogComponent } from './../components/contact-card-dialog/contact-card-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { ContactServiceService } from '../services/contact-service.service';
+import {
+  MatTableDataSource,
+  MatDialog
+} from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+
 
 @Component({
   selector: 'app-main',
@@ -8,94 +15,107 @@ import { ContactServiceService } from '../services/contact-service.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  selectedItem: any;
-  selectedIndex: number = -1;
-  contactCollection: {
-    rowConfig: any[], 
-    items: [{
-      model: Contact,
-      selected: boolean
-    }],
-  };
-  constructor(private conactService: ContactServiceService) { }
+  searchFor: string;
+  displayedColumns = [];
+  dataSource = new MatTableDataSource<Contact>();
+  columnsConfig: [{ caption: string, path: string }];
+  selectedItem: Contact;
+
+  constructor(
+    private conactService: ContactServiceService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
-    this.contactCollection = {
-      rowConfig: [
-        { caption: "Прізвище", path: "firstName" },
-        { caption: "Ім'я", path: "lastName" },
-        { caption: "Мобільний телефон", path: "mobilePhone" },
-        { caption: "E-mail", path: "email" },
-        { caption: "Дата народження", path: "birthDate", dataValueType: "date" }
-      ],
-      items: <[{ model: Contact, selected: boolean }]>[]
-    }
+    this.intiColumnsConfig();
+    this.displayedColumns = this.columnsConfig.map(i => i.path);
     this.getContacts();
+  }
+
+  intiColumnsConfig() {
+    this.columnsConfig = [
+      { caption: 'Прізвище', path: 'firstName' },
+      { caption: 'Ім\'я', path: 'lastName' },
+      { caption: 'Продукт', path: 'product' },
+      { caption: 'Вік', path: 'age' },
+      { caption: 'Мобільний телефон', path: 'mobilePhone' },
+      { caption: 'E-mail', path: 'email' },
+      { caption: 'ЦА', path: 'target' },
+      { caption: 'Дата народження', path: 'birthDate' },
+      { caption: 'Примітки', path: 'notes' }
+    ];
   }
 
   getContacts() {
-    this.contactCollection.items.length = 0;
     const contacts = this.conactService.getContacts();
-    if (contacts) {
-      contacts.forEach((item) => this.contactCollection.items.push({
-        model: item,
-        selected: false
-      }));
-    }
+    this.dataSource = new MatTableDataSource<Contact>(contacts);
   }
 
-  add(){
-    const contact = {
-      firstName: "",
-      lastName: "",
-      mobilePhone: null,
-      email: null,
-      birthDate: null
-    };
-    const item = {
-      model: contact,
-      selected: false
-    };
-    //this.contactCollection.items.push(item);
-    this.conactService.addContact(contact);
-    this.getContacts();
-    this.onItemClick(item, this.contactCollection.items.length - 1);
+  search() {
+    console.log(this.searchFor);
   }
 
-  saveRowData(id: number) {
-    const contact = this.selectedItem.model;
-    this.conactService.setContact(id, contact);
-    this.getContacts();
-    this.selectedItem = null;
-    this.selectedIndex = -1;
-  }
-
-  onItemClick(selectedItem: any, selectedIndex: number) {
-    if (this.selectedIndex > -1) {
-      this.discardChanges(this.selectedItem, this.selectedIndex);
-    }
-    this.selectedItem = {model: selectedItem.model};
-    this.selectedIndex = selectedIndex;
-    this.contactCollection.items.forEach((item, index, arr)=> {
-      item.selected = index === selectedIndex;
+  openContactDialog(contact?: Contact): Observable<any> {
+    const dialogRef = this.dialog.open(ContactCardDialogComponent, {
+      width: '640px',
+      data: { contact: contact }
     });
+
+    return dialogRef.afterClosed();
   }
 
-  discardChanges(selectedItem: any, selectedIndex: number) {
-    this.selectedItem = null;
-    this.selectedIndex = -1;
-    selectedItem.selected = false;
-    this.contactCollection.items[selectedIndex].model = 
-      this.conactService.getContact(selectedIndex);
+  add() {
+    this.openContactDialog()
+      .subscribe(contact => {
+        if (contact) {
+          this.conactService.addContact(contact);
+          this.getContacts();
+        }
+      });
   }
 
-  deleteItem(selectedItem: any, selectedIndex: number) {
-    this.selectedItem = null;
-    this.selectedIndex = -1;
-    selectedItem.selected = false;
-    //this.contactCollection.items.splice(selectedIndex, 1);
-    this.conactService.deleteContact(selectedIndex);
-    this.getContacts();
+  edit() {
+    if (this.selectedItem) {
+      const contact = Object.assign({}, this.selectedItem);
+      this.openContactDialog(contact)
+        .subscribe(res => {
+          if (res) {
+            this.conactService.setContact(this.selectedItem.id, res);
+            this.getContacts();
+          }
+          this.selectedItem = null;
+        });
+    }
   }
-  
+
+  delete() {
+    if (this.selectedItem) {
+      this.conactService.deleteContact(this.selectedItem.id);
+      this.selectedItem = null;
+      this.getContacts();
+    }
+  }
+
+  onRowClick(row: any) {
+    this.selectedItem = row;
+  }
+
+  getRowClass(row: Contact) {
+    if (this.selectedItem && row && this.selectedItem.id === row.id) {
+      return 'selected';
+    }
+  }
+
+  getDisplayValue(value: any): string {
+    if (!value) {
+      return value;
+    }
+    if (value.constructor === Date) {
+      const day = value.getDate();
+      const month = value.getMonth() + 1;
+      const year = value.getFullYear();
+      return `${day > 9 ? day : '0' + day}.${month > 9 ? month : '0' + month}.${year}`;
+    }
+    return value.toString();
+  }
 }
