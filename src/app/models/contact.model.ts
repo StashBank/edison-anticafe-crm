@@ -8,12 +8,12 @@ export class Contact {
     public email?: string;
     public birthDate?: Date;
 
-    constructor() {
-        this.id = UUID.generate();
-        this.firstName = '';
-        this.lastName = null;
-        this.mobilePhone = null;
-        this.email = null;
-        this.birthDate = null;
+    constructor(contact: any = {}) {
+        this.id = contact._id || UUID.generate();
+        this.firstName = contact.firstName || '';
+        this.lastName = contact.lastName || null;
+        this.mobilePhone = contact.mobilePhone || null;
+        this.email = contact.email || null;
+        this.birthDate = contact.birthDate || null;
     }
 }

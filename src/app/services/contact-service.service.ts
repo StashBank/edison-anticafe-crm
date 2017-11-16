@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+
 import { Contact } from '../models/contact.model';
 import { UUID } from '../models/base.types';
 
@@ -29,44 +34,30 @@ const initialData: Contact[] = [{
 @Injectable()
 export class ContactServiceService {
 
-  constructor() { }
+  constructor(private http: Http) { }
 
-  public getContacts(): Contact[] {
-    return initialData.map(this.cloneItem);
+  public getContacts(): Observable<any> {
+    return this.http.get('/api/dataservice/contactCollection')
+      .map(res => res.json());
   }
 
-  public getContact(id: string): Contact {
-    const index = this.getIndex(id);
-    return this.cloneItem(initialData[index]);
+  public getContact(id: string): Observable<any> {
+    return this.http.get(`/api/dataservice/contact/${id}`)
+      .map(res => res.json());
   }
 
-  public addContact(contact: Contact) {
-    initialData.push(contact);
+  public addContact(contact: Contact): Observable<any> {
+    return this.http.post('/api/dataservice/contact', contact)
+      .map(res => res.json());
   }
 
-  public setContact(id: string, contact: Contact) {
-    const index = this.getIndex(id);
-    initialData[index] = contact;
+  public setContact(id: string, contact: Contact): Observable<any> {
+    return this.http.put(`/api/dataservice/contact/${id}`, contact)
+      .map(res => res.json());
   }
 
   public deleteContact(id: string) {
-    const index = this.getIndex(id);
-    initialData.splice(index, 1);
-  }
-
-  private cloneItem(item: Contact): Contact {
-    const obj = Object.assign({}, item);
-    return <Contact>obj;
-  }
-
-  private getIndex(id: string): number {
-    let index = -1;
-    initialData.forEach((e, i) => {
-      if (e.id === id) {
-        index = i;
-        return false;
-      }
-    });
-    return index;
+    return this.http.delete(`/api/dataservice/contact/${id}`)
+      .map(res => res.json());
   }
 }

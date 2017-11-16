@@ -31,12 +31,12 @@
 <div class="container-fluid">
   
   <div class="grid-container mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource" matSort>
   
       <!-- Columns -->
       <ng-container *ngFor="let config of columnsConfig"
         [matColumnDef]="config.path">
-        <mat-header-cell *matHeaderCellDef> {{config.caption}} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> {{config.caption}} </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{getDisplayValue(element[config.path])}} </mat-cell>
       </ng-container>
   

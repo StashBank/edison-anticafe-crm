@@ -1,10 +1,11 @@
 import { ContactCardDialogComponent } from './../components/contact-card-dialog/contact-card-dialog.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { ContactServiceService } from '../services/contact-service.service';
 import {
   MatTableDataSource,
-  MatDialog
+  MatDialog,
+  MatSort
 } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
@@ -21,6 +22,8 @@ export class MainComponent implements OnInit {
   columnsConfig: [{ caption: string, path: string }];
   selectedItem: Contact;
 
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private conactService: ContactServiceService,
     private dialog: MatDialog
@@ -32,10 +35,15 @@ export class MainComponent implements OnInit {
     this.getContacts();
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+
   intiColumnsConfig() {
     this.columnsConfig = [
-      { caption: 'Прізвище', path: 'firstName' },
-      { caption: 'Ім\'я', path: 'lastName' },
+      { caption: 'Ім\'я', path: 'firstName' },
+      { caption: 'Прізвище', path: 'lastName' },
       { caption: 'Продукт', path: 'product' },
       { caption: 'Вік', path: 'age' },
       { caption: 'Мобільний телефон', path: 'mobilePhone' },
@@ -47,8 +55,13 @@ export class MainComponent implements OnInit {
   }
 
   getContacts() {
-    const contacts = this.conactService.getContacts();
-    this.dataSource = new MatTableDataSource<Contact>(contacts);
+    this.conactService.getContacts()
+      .subscribe((res: {success: boolean, data: any[]}) => {
+        if (res.success) {
+          const contacts = res.data.map(item => new Contact(item));
+          this.dataSource = new MatTableDataSource<Contact>(contacts);
+        }
+      });
   }
 
   search() {
@@ -68,8 +81,8 @@ export class MainComponent implements OnInit {
     this.openContactDialog()
       .subscribe(contact => {
         if (contact) {
-          this.conactService.addContact(contact);
-          this.getContacts();
+          this.conactService.addContact(contact)
+            .subscribe(() => this.getContacts());
         }
       });
   }
@@ -80,8 +93,8 @@ export class MainComponent implements OnInit {
       this.openContactDialog(contact)
         .subscribe(res => {
           if (res) {
-            this.conactService.setContact(this.selectedItem.id, res);
-            this.getContacts();
+            this.conactService.setContact(this.selectedItem.id, res)
+              .subscribe(() => this.getContacts());
           }
           this.selectedItem = null;
         });
@@ -90,9 +103,9 @@ export class MainComponent implements OnInit {
 
   delete() {
     if (this.selectedItem) {
-      this.conactService.deleteContact(this.selectedItem.id);
+      this.conactService.deleteContact(this.selectedItem.id)
+        .subscribe(() => this.getContacts());
       this.selectedItem = null;
-      this.getContacts();
     }
   }
 
