@@ -1,72 +1,40 @@
 import { Injectable } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { UUID } from '../models/base.types';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
-
-const initialData: Contact[] = [{
-  id: UUID.generate(),
-  firstName: '1-Тестовий',
-  lastName: '1-Клієнт',
-  mobilePhone: '0123456789',
-  email: 'some-mail-1@email.com',
-  birthDate: new Date(1989, 5, 26)
-}, {
-  id: UUID.generate(),
-  firstName: '2-Тестовий',
-  lastName: '2-Клієнт',
-  mobilePhone: '0123456788',
-  email: 'some-mail-2@email.com',
-  birthDate: new Date(1989, 5, 27)
-}, {
-  id: UUID.generate(),
-  firstName: '3-Тестовий',
-  lastName: '3-Клієнт',
-  mobilePhone: '0123456787',
-  email: 'some-mail-3@email.com',
-  birthDate: new Date(1989, 5, 28)
-}];
 
 @Injectable()
 export class ContactServiceService {
 
-  constructor() { }
+  private dataServiceURI = '/api/dataservice';
 
-  public getContacts(): Contact[] {
-    return initialData.map(this.cloneItem);
+  constructor(private http: Http) { }
+
+  public getContacts(): Observable<any> {
+    return this.http.get(`${this.dataServiceURI}/contactCollection`)
+      .map(res => res.json());
   }
 
-  public getContact(id: string): Contact {
-    const index = this.getIndex(id);
-    return this.cloneItem(initialData[index]);
+  public getContact(id: string): Observable<any> {
+    return this.http.get(`${this.dataServiceURI}/contact/${id}`)
+      .map(res => res.json());
   }
 
-  public addContact(contact: Contact) {
-    initialData.push(contact);
+  public addContact(contact: Contact): Observable<any> {
+    return this.http.post(`${this.dataServiceURI}/contact`, contact)
+      .map(res => res.json());
   }
 
-  public setContact(id: string, contact: Contact) {
-    const index = this.getIndex(id);
-    initialData[index] = contact;
+  public setContact(id: string, contact: Contact): Observable<any> {
+    return this.http.put(`${this.dataServiceURI}/contact`, contact)
+    .map(res => res.json());
   }
 
-  public deleteContact(id: string) {
-    const index = this.getIndex(id);
-    initialData.splice(index, 1);
-  }
-
-  private cloneItem(item: Contact): Contact {
-    const obj = Object.assign({}, item);
-    return <Contact>obj;
-  }
-
-  private getIndex(id: string): number {
-    let index = -1;
-    initialData.forEach((e, i) => {
-      if (e.id === id) {
-        index = i;
-        return false;
-      }
-    });
-    return index;
+  public deleteContact(id: string): Observable<any> {
+    return this.http.delete(`${this.dataServiceURI}/contact/${id}`)
+    .map(res => res.json());
   }
 }

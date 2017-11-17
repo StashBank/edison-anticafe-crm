@@ -47,8 +47,12 @@ export class MainComponent implements OnInit {
   }
 
   getContacts() {
-    const contacts = this.conactService.getContacts();
-    this.dataSource = new MatTableDataSource<Contact>(contacts);
+    const contacts = this.conactService.getContacts()
+      .subscribe((res: {success: boolean, data: any[]}) => {
+        if (res.success) {
+          this.dataSource = new MatTableDataSource<Contact>(res.data);
+        }
+      });
   }
 
   search() {
@@ -68,8 +72,12 @@ export class MainComponent implements OnInit {
     this.openContactDialog()
       .subscribe(contact => {
         if (contact) {
-          this.conactService.addContact(contact);
-          this.getContacts();
+          this.conactService.addContact(contact)
+          .subscribe((res: {success: boolean}) => {
+            if (res.success) {
+              this.getContacts();
+            }
+          });
         }
       });
   }
@@ -80,8 +88,12 @@ export class MainComponent implements OnInit {
       this.openContactDialog(contact)
         .subscribe(res => {
           if (res) {
-            this.conactService.setContact(this.selectedItem.id, res);
-            this.getContacts();
+            this.conactService.setContact(this.selectedItem.id, res)
+            .subscribe((res: {success: boolean}) => {
+              if (res.success) {
+                this.getContacts();
+              }
+            });
           }
           this.selectedItem = null;
         });
@@ -90,9 +102,13 @@ export class MainComponent implements OnInit {
 
   delete() {
     if (this.selectedItem) {
-      this.conactService.deleteContact(this.selectedItem.id);
-      this.selectedItem = null;
-      this.getContacts();
+      this.conactService.deleteContact(this.selectedItem.id)
+      .subscribe((res: {success: boolean}) => {
+        if (res.success) {
+          this.selectedItem = null;
+          this.getContacts();
+        }
+      });
     }
   }
 

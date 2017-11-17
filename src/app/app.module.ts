@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
@@ -31,6 +32,7 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpModule,
     MatButtonModule,
     MatTableModule,
     MatDialogModule,
