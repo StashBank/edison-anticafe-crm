@@ -57,8 +57,9 @@ export class MainComponent implements OnInit {
   getContacts() {
     this.conactService.getContacts()
       .subscribe((res: {success: boolean, data: any[]}) => {
-        if (res.success) {
-          const contacts = res.data.map(item => new Contact(item));
+        if (res.success && res.data) {
+          this.selectedItem = null;
+          const contacts = res.data.map(i =>  new Contact(i));
           this.dataSource = new MatTableDataSource<Contact>(contacts);
         }
       });
@@ -82,7 +83,11 @@ export class MainComponent implements OnInit {
       .subscribe(contact => {
         if (contact) {
           this.conactService.addContact(contact)
-            .subscribe(() => this.getContacts());
+          .subscribe((res: {success: boolean}) => {
+            if (res.success) {
+              this.getContacts();
+            }
+          });
         }
       });
   }
@@ -91,10 +96,14 @@ export class MainComponent implements OnInit {
     if (this.selectedItem) {
       const contact = Object.assign({}, this.selectedItem);
       this.openContactDialog(contact)
-        .subscribe(res => {
-          if (res) {
-            this.conactService.setContact(this.selectedItem.id, res)
-              .subscribe(() => this.getContacts());
+        .subscribe(result => {
+          if (result) {
+            this.conactService.setContact(this.selectedItem.id, result)
+            .subscribe((response: {success: boolean}) => {
+              if (response.success) {
+                this.getContacts();
+              }
+            });
           }
           this.selectedItem = null;
         });
@@ -104,8 +113,12 @@ export class MainComponent implements OnInit {
   delete() {
     if (this.selectedItem) {
       this.conactService.deleteContact(this.selectedItem.id)
-        .subscribe(() => this.getContacts());
-      this.selectedItem = null;
+      .subscribe((res: {success: boolean}) => {
+        if (res.success) {
+          this.selectedItem = null;
+          this.getContacts();
+        }
+      });
     }
   }
 
@@ -114,7 +127,7 @@ export class MainComponent implements OnInit {
   }
 
   getRowClass(row: Contact) {
-    if (this.selectedItem && row && this.selectedItem.id === row.id) {
+    if (this.selectedItem && row && this.selectedItem === row) {
       return 'selected';
     }
   }

@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatTableModule,
@@ -10,7 +10,8 @@ import {
   MatDialogModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatIconModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -34,13 +35,15 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     HttpModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpModule,
     MatButtonModule,
     MatTableModule,
     MatSortModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   exports: [
     MatButtonModule,
@@ -49,7 +52,8 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIconModule
   ],
   entryComponents: [
     ContactCardDialogComponent

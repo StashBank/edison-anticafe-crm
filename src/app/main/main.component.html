@@ -17,6 +17,7 @@
       </div>
     </div>
     <div class="row">
+      <mat-icon (click)="getContacts()" style="cursor: pointer">refresh</mat-icon>
       <button mat-button (click)="add()">Створити</button>
       <button *ngIf="!!selectedItem"
         mat-button color="primary"
