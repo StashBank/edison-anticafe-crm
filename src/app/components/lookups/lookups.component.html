@@ -1,0 +1,30 @@
+<div class="card-container">
+  <mat-card>
+    <mat-card-header>{{lookup && lookup.caption}}</mat-card-header>
+    <hr>
+    <mat-card-content>
+      <mat-list>
+        <div *ngFor="let item of lookupData; let i=index">
+          <mat-list-item *ngIf="!item.isDeleted">
+            <span class="rno">{{i + 1}}</span>
+            <mat-form-field>
+              <input matInput [tabindex]="i"
+                required
+                [(ngModel)]="item.name"
+                (ngModelChange)="onChanges(item)">
+            </mat-form-field>
+            <mat-icon (click)="saveItem(item)"
+              class="icon" 
+              *ngIf="item.changed">done</mat-icon>
+            <mat-icon (click)="deleteItem(item)"
+              *ngIf="!item.isNew"
+              class="icon">delete</mat-icon>
+          </mat-list-item>
+        </div>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="appendItem()">Додати</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

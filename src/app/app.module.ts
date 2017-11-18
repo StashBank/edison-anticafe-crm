@@ -1,3 +1,4 @@
+import { LookupsService } from './services/lookups.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -11,7 +12,11 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatSelectModule,
-  MatIconModule
+  MatIconModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatCardModule,
+  MatListModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -20,6 +25,8 @@ import { MainComponent } from './main/main.component';
 import { ControlComponent } from './components/control/control.component';
 import { ContactServiceService } from './services/contact-service.service';
 import { ContactCardDialogComponent } from './components/contact-card-dialog/contact-card-dialog.component';
+import { AppRouterModule } from './modules/app.router.module';
+import { LookupsComponent } from './components/lookups/lookups.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +34,8 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     HeaderComponent,
     MainComponent,
     ControlComponent,
-    ContactCardDialogComponent
+    ContactCardDialogComponent,
+    LookupsComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +44,7 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    AppRouterModule,
     MatButtonModule,
     MatTableModule,
     MatSortModule,
@@ -43,7 +52,11 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatListModule
   ],
   exports: [
     MatButtonModule,
@@ -53,12 +66,16 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatIconModule
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatCardModule,
+    MatListModule
   ],
   entryComponents: [
     ContactCardDialogComponent
   ],
-  providers: [ContactServiceService],
+  providers: [ContactServiceService, LookupsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

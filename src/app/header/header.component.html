@@ -1,47 +1,25 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a href="#" class="navbar-brand">Edison anticafe</a>
-    </div>
-
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li>
-          <a href="#" (click)="onSelect('main')">Головна</a>
-        </li>
-        <li>
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" role="button">Довідники
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="#">Продукти</a>
-                </li>
-                <li>
-                  <a href="#">Тарифи</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" role="button">User name
-            <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="#">Profile</a>
-            </li>
-            <li>
-              <a href="#">Logout</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <mat-toolbar class="collapse navbar-collapse">
+      <div class="navbar-header">
+        <button mat-button routerLink="/" class="navbar-brand">Edison anticafe</button>
+      </div>
+      <button mat-button class="navbar-brand" routerLink="/">Головна</button>
+      <button mat-button class="navbar-brand" [matMenuTriggerFor]="lookupMenu"
+            class="navbar-brand">Довідники<span class="caret"></span></button>
+      <mat-menu #lookupMenu="matMenu">
+        <button *ngFor="let lookup of lookups"
+          mat-menu-item [routerLink]="'lookup/' + lookup.name">{{lookup.caption}}</button>
+      </mat-menu>
+      <div class="nav navbar-nav navbar-right">
+        <button mat-button
+          [matMenuTriggerFor]="userMenu" 
+          class="navbar-brand">User name<span class="caret"></span></button>
+          <mat-menu #userMenu="matMenu">
+            <button mat-menu-item routerLink="/">Профіль</button>
+            <button mat-menu-item routerLink="/">Вихід</button>
+          </mat-menu>
+      </div>
+    </mat-toolbar>
   </div>
 </nav>

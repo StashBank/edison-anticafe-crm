@@ -1,4 +1,6 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { LookupsService } from '../services/lookups.service';
 
 @Component({
   selector: 'app-header',
@@ -7,13 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  lookups: any[];
+
+  constructor(
+    private router: Router,
+    private lookupsService: LookupsService
+  ) { }
 
   ngOnInit() {
-  }
-
-  onSelect(path: string) {
-
+    this.lookupsService.get()
+      .subscribe(data => this.lookups = data);
   }
 
 }

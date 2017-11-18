@@ -32,7 +32,7 @@ export class ContactServiceService {
   }
 
   public setContact(id: string, contact: Contact): Observable<any> {
-    return this.http.put(`${this.dataServiceURI}/contact`, contact)
+  return this.http.put(`${this.dataServiceURI}/contact/${id}`, contact)
     .map(res => res.json());
   }
 

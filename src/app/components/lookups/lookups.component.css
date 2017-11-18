@@ -1,0 +1,12 @@
+.rno {
+    margin-right: 6px;
+}
+.icon {
+    cursor: pointer;
+    margin-left:3px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+}
