@@ -23,17 +23,20 @@ export class LookupsComponent implements OnInit {
 
   ngOnInit() {
     this.getLookup()
-      .then(() => this.getRouterParams())
-      .then(() => this.getLookupData())
-      .catch(err => console.log(err));
+      .then(this.getRouterParams.bind(this))
+      .catch(this.onError.bind(this));
   }
 
   onChanges(item) {
     item.changed = true;
   }
 
+  onError(error) {
+    console.log(error);
+  }
+
   getLookup(): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this.lookupService.get().subscribe((res: any) => {
         if (res) {
           this.lookups = res;
@@ -46,31 +49,28 @@ export class LookupsComponent implements OnInit {
   }
 
   getRouterParams(): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
       this.route.params.subscribe((params: any) => {
         const lookupName = params['lookupName'];
         this.lookup = this.lookups && this.lookups.find(i => i.name === lookupName);
-        resolve();
+        this.getLookupData();
       });
     });
   }
 
-  getLookupData(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const lookupName = this.lookup && this.lookup.name;
-      if (lookupName) {
-        this.lookupService.getLookupData(lookupName).subscribe((res: any) => {
-          if (res.success) {
-            this.lookupData = res.data;
-            resolve();
-          } else {
-            reject(res.error);
-          }
-        });
-      } else {
-        reject('lookup not found');
-      }
-    });
+  getLookupData() {
+    const lookupName = this.lookup && this.lookup.name;
+    if (lookupName) {
+      this.lookupService.getLookupData(lookupName).subscribe((res: any) => {
+        if (res.success) {
+          this.lookupData = res.data;
+        } else {
+          this.onError(res.error);
+        }
+      });
+    } else {
+      this.onError('lookup not found');
+    }
   }
 
   appendItem() {

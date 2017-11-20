@@ -10,3 +10,6 @@
     display: flex;
     justify-content: center;
 }
+mat-card {
+    min-width: 480px;
+}
