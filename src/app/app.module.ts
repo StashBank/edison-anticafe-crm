@@ -27,6 +27,7 @@ import { ContactServiceService } from './services/contact-service.service';
 import { ContactCardDialogComponent } from './components/contact-card-dialog/contact-card-dialog.component';
 import { AppRouterModule } from './modules/app.router.module';
 import { LookupsComponent } from './components/lookups/lookups.component';
+import { ContactCardComponent } from './components/contact-card/contact-card.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { LookupsComponent } from './components/lookups/lookups.component';
     MainComponent,
     ControlComponent,
     ContactCardDialogComponent,
-    LookupsComponent
+    LookupsComponent,
+    ContactCardComponent
   ],
   imports: [
     BrowserModule,

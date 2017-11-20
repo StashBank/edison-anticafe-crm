@@ -1,6 +1,6 @@
 <div class="fields-container">
   <div class="expand-wrap">
-    <mat-icon>launch</mat-icon>
+    <mat-icon [routerLink]="['contact', data.contact.id]" (click)="onNoClick()">launch</mat-icon>
   </div>
 
   <mat-form-field>
