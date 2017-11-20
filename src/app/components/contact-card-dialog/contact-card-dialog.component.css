@@ -6,3 +6,12 @@
 .fields-container > * {
   width: 100%;
 }
+
+.expand-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+.expand-wrap mat-icon {
+  color: lightskyblue;
+  cursor: pointer;
+}
