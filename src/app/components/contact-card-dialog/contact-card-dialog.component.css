@@ -15,3 +15,8 @@
   color: lightskyblue;
   cursor: pointer;
 }
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

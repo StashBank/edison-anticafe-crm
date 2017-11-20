@@ -1,26 +1,56 @@
 <div class="fields-container">
   <div class="expand-wrap">
-    <mat-icon [routerLink]="['contact', data.contact.id]" (click)="onNoClick()">launch</mat-icon>
+      <mat-icon 
+        tabindex="-1"
+        [routerLink]="['contact', data.contact.id]"
+        (click)="onNoClick()">launch</mat-icon>
   </div>
+  <form #f="ngForm" >
+    <mat-form-field>
+      <input 
+        matInput
+        tabindex="1"
+        placeholder="Ім'я"
+        [(ngModel)]="data.contact.firstName"
+        name="firstName"
+        required>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <input
+        matInput
+        tabindex="2"
+        placeholder="Прізвище"
+        [(ngModel)]="data.contact.lastName"
+        name="lastName">
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput tabindex="1" placeholder="Ім'я" [(ngModel)]="data.contact.firstName" required>
-  </mat-form-field>
-  
-  <mat-form-field>
-    <input matInput tabindex="2" placeholder="Прізвище" [(ngModel)]="data.contact.lastName">
-  </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        tabindex="3"
+        placeholder="Мобільний телефон"
+        [(ngModel)]="data.contact.mobilePhone"
+        name="mobilePhone">
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput tabindex="3" placeholder="Мобільний телефон" [(ngModel)]="data.contact.mobilePhone">
-  </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        tabindex="4"
+        placeholder="e-mail"
+        [(ngModel)]="data.contact.email"
+        name="email">
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput tabindex="4" placeholder="e-mail" [(ngModel)]="data.contact.email">
-  </mat-form-field>
-
-  <div mat-dialog-actions>
-    <button mat-raised-button color="primary" [mat-dialog-close]="data.contact" tabindex="5">Гаразд</button>
-    <button mat-button (click)="onNoClick()" tabindex="6">Відміна</button>
-  </div>
+    <div mat-dialog-actions>
+      <button 
+        mat-raised-button
+        color="primary" 
+        [mat-dialog-close]="data.contact"
+        tabindex="5"
+        [disabled]="!f.form.valid">Гаразд</button>
+      <button mat-button (click)="onNoClick()" tabindex="6">Відміна</button>
+    </div>
+  </form>
 </div>
