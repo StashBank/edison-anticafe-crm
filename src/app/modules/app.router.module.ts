@@ -6,7 +6,7 @@ import { ContactCardComponent } from '../components/contact-card/contact-card.co
 
 const appRoutes = [
   {path: '', pathMatch: 'full', component: MainComponent},
-  {path: 'contact/:id?', component: ContactCardComponent},
+  {path: 'contact/:id', component: ContactCardComponent},
   { path: 'lookup/:lookupName', pathMatch: 'full', component: LookupsComponent }
 ];
 

@@ -16,7 +16,9 @@ import {
   MatMenuModule,
   MatToolbarModule,
   MatCardModule,
-  MatListModule
+  MatListModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -58,7 +60,9 @@ import { ContactCardComponent } from './components/contact-card/contact-card.com
     MatMenuModule,
     MatToolbarModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     MatButtonModule,
@@ -72,7 +76,9 @@ import { ContactCardComponent } from './components/contact-card/contact-card.com
     MatMenuModule,
     MatToolbarModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   entryComponents: [
     ContactCardDialogComponent
