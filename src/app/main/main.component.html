@@ -2,7 +2,7 @@
   <div class="row" style="padding-left: 20px">
     <mat-form-field class="search-field">
       <input #filter matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
-      <mat-icon *ngIf="!!filter.value" matSuffix (click)="filter.value = ''">clear</mat-icon>
+      <mat-icon *ngIf="!!filter.value" matSuffix (click)="clearFileter(filter)">clear</mat-icon>
     </mat-form-field>
     <button mat-icon-button (click)="getContacts()">
       <mat-icon>refresh</mat-icon>

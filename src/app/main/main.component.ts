@@ -59,6 +59,11 @@ export class MainComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
+  clearFileter(filter) {
+    filter.value = '';
+    this.applyFilter('');
+  }
+
   getContacts() {
     this.conactService.getContacts()
       .subscribe((res: {success: boolean, data: any[]}) => {
