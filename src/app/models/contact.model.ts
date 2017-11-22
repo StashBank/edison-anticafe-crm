@@ -14,6 +14,20 @@ export class Contact {
         this.lastName = contact.lastName || null;
         this.mobilePhone = contact.mobilePhone || null;
         this.email = contact.email || null;
-        this.birthDate = contact.birthDate || null;
+        this.birthDate = this.getBirthDate(contact.birthDate || null);
+    }
+
+    getBirthDate(birthDate): Date {
+        if (!birthDate) {
+            return birthDate;
+        }
+        if (birthDate.constructor === Date) {
+            return birthDate;
+        }
+        const dateValue = Date.parse(birthDate);
+        if (!isNaN(dateValue)) {
+            return new Date(dateValue);
+        }
+        return null;
     }
 }
