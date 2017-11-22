@@ -16,7 +16,6 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  searchFor: string;
   displayedColumns = [];
   dataSource = new MatTableDataSource<Contact>();
   columnsConfig: [{ caption: string, path: string }];
@@ -54,6 +53,12 @@ export class MainComponent implements OnInit {
     ];
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   getContacts() {
     this.conactService.getContacts()
       .subscribe((res: {success: boolean, data: any[]}) => {
@@ -63,10 +68,6 @@ export class MainComponent implements OnInit {
           this.dataSource = new MatTableDataSource<Contact>(contacts);
         }
       });
-  }
-
-  search() {
-    console.log(this.searchFor);
   }
 
   openContactDialog(contact?: Contact): Observable<any> {

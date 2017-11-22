@@ -1,31 +1,35 @@
 <div class="container-fluid"> 
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="input-group">
-        <input 
-          type="text"
-          class="form-control"
-          placeholder="Search for..."
-          aria-label="Search for..."
-          [(ngModel)]="searchFor">
-        <span class="input-group-btn">
-          <button
-            class="btn btn-secondary"
-            type="button"
-            (click)="search()">Go!</button>
-        </span>
-      </div>
-    </div>
-    <div class="row">
-      <mat-icon (click)="getContacts()" style="cursor: pointer">refresh</mat-icon>
-      <button mat-button (click)="add()">Створити</button>
-      <button *ngIf="!!selectedItem"
-        mat-button color="primary"
-        (click)="edit()">Редагувати</button>
-      <button *ngIf="!!selectedItem"
-        mat-button color="accent"
-        (click)="delete()">Видалити</button>
-    </div>
+  <div class="row" style="padding-left: 20px">
+    <mat-form-field class="search-field">
+      <input #filter matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
+      <mat-icon *ngIf="!!filter.value" matSuffix (click)="filter.value = ''">clear</mat-icon>
+    </mat-form-field>
+    <button mat-icon-button (click)="getContacts()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <!--<button mat-button (click)="add()">Створити</button>-->
+    <button mat-icon-button (click)="add()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <!--<button *ngIf="!!selectedItem" mat-button color="primary" (click)="edit()">Редагувати</button>-->
+    <!--<button *ngIf="!!selectedItem" mat-button color="accent" (click)="delete()">Видалити</button>-->
+      <button mat-icon-button [matMenuTriggerFor]="additionalMenu" *ngIf="!!selectedItem">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      <mat-menu #additionalMenu="matMenu">
+        <button mat-menu-item (click)="edit()">
+          <mat-icon>edit</mat-icon>
+          <span>Редагувати</span>
+        </button>
+        <button mat-menu-item (click)="delete()">
+            <mat-icon>delete_forever</mat-icon>
+            <span>Видалити</span>
+          </button>
+        <button mat-menu-item>
+          <mat-icon>assignment</mat-icon>
+          <span>Замовлення</span>
+        </button>
+      </mat-menu>
   </div>
 </div>
 <br />

@@ -21,3 +21,11 @@
 .mat-header-cell.mat-sort-header-sorted {
   color: black;
 }
+
+mat-icon {
+  cursor: pointer;
+}
+
+.search-field {
+  min-width: 220px;
+}
