@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+import { LookupsService } from './../../services/lookups.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContactServiceService } from '../../services/contact-service.service';
@@ -16,17 +18,20 @@ export class ContactCardComponent implements OnInit {
   contact: Contact;
   id: string;
   isNew: boolean;
+  ageList: any[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private contactService: ContactServiceService) { }
+    private contactService: ContactServiceService,
+    private lookupsService: LookupsService) { }
 
   ngOnInit() {
     this.contact = new Contact();
     this.initFormControls();
     this.getRouterParams();
+    this.initLookups();
   }
 
   initFormControls() {
@@ -35,7 +40,8 @@ export class ContactCardComponent implements OnInit {
       lastName: new FormControl(),
       mobilePhone: new FormControl(),
       email: new FormControl(),
-      birthDate: new FormControl()
+      birthDate: new FormControl(),
+      age: new FormControl()
     });
   }
 
@@ -61,6 +67,7 @@ export class ContactCardComponent implements OnInit {
               values[controlName] = this.contact[controlName];
             }
           }
+          values['age'] = null;
           this.form.setValue(values);
         }
       });
@@ -82,6 +89,15 @@ export class ContactCardComponent implements OnInit {
 
   cancel() {
     this.location.back();
+  }
+
+  initLookups() {
+    this.lookupsService.getLookupData('Age')
+      .subscribe(res => {
+        if (res.success) {
+          this.ageList = res.data.map(i => ({value: i._id, displayValue: i.name}));
+        }
+      });
   }
 
 }

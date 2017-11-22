@@ -1,49 +1,73 @@
 <form [formGroup]="form" (ngSubmit)="save()">
   <mat-card class="fields-container">
     <mat-card-content>
-      
-        <mat-form-field>
-          <input matInput
-            tabindex="1"
-            placeholder="Ім'я"
-            formControlName="firstName">
-        </mat-form-field>
-    
-        <mat-form-field>
-          <input
-            matInput
-            tabindex="2"
-            placeholder="Прізвище"
-            formControlName="lastName">
-        </mat-form-field>
-  
-        <mat-form-field>
-          <input
-            matInput
-            tabindex="3"
-            placeholder="Мобільний телефон"
-            formControlName="mobilePhone">
-        </mat-form-field>
-  
-        <mat-form-field>
-          <input
-            matInput
-            type="email"
-            tabindex="4"
-            placeholder="e-mail"
-            formControlName="email">
-        </mat-form-field>
+      <mat-grid-list cols="24">
 
-        <mat-form-field>
-          <input
-            matInput
-            [matDatepicker]="birthDatePicker"
-            tabindex="5"
-            placeholder="Дата народження"
-            formControlName="birthDate">
-          <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #birthDatePicker></mat-datepicker>
-        </mat-form-field>
+        <mat-grid-tile [colspan]="12">
+          <mat-form-field>
+            <input matInput
+              tabindex="1"
+              placeholder="Ім'я"
+              formControlName="firstName">
+          </mat-form-field>
+        </mat-grid-tile>
+    
+        <mat-grid-tile [colspan]="12">
+          <mat-form-field>
+            <input
+              matInput
+              tabindex="2"
+              placeholder="Прізвище"
+              formControlName="lastName">
+            </mat-form-field>
+        </mat-grid-tile>
+  
+        <mat-grid-tile [colspan]="12">
+          <mat-form-field>
+              <input
+                matInput
+                tabindex="3"
+                placeholder="Мобільний телефон"
+                formControlName="mobilePhone">
+            </mat-form-field>
+        </mat-grid-tile>
+  
+        <mat-grid-tile [colspan]="12">
+          <mat-form-field>
+              <input
+                matInput
+                type="email"
+                tabindex="4"
+                placeholder="e-mail"
+                formControlName="email">
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="12">
+          <mat-form-field>
+              <input
+                matInput
+                [matDatepicker]="birthDatePicker"
+                tabindex="5"
+                placeholder="Дата народження"
+                formControlName="birthDate">
+              <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthDatePicker></mat-datepicker>
+            </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="12">
+          <mat-form-field>
+            <mat-select placeholder="Вікова категорія" tabindex="6" formControlName="age">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let age of ageList" [value]="age.value">
+                  {{age.displayValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
     </mat-card-content>
     <mat-card-actions>
       <button 
