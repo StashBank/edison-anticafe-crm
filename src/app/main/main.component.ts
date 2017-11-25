@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ContactCardDialogComponent } from './../components/contact-card-dialog/contact-card-dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Contact } from '../models/contact.model';
@@ -25,7 +26,8 @@ export class MainComponent implements OnInit {
 
   constructor(
     private conactService: ContactServiceService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -41,8 +43,10 @@ export class MainComponent implements OnInit {
 
   intiColumnsConfig() {
     this.columnsConfig = [
-      { caption: 'Ім\'я', path: 'firstName' },
-      { caption: 'Прізвище', path: 'lastName' },
+      //  caption: 'Ім\'я', path: 'firstName' },
+      // { caption: 'Прізвище', path: 'lastName' },
+      { caption: 'Номер клієнта', path: 'contactId' },
+      { caption: 'Ім\'я', path: 'fullName' },
       { caption: 'Продукт', path: 'product' },
       { caption: 'Вік', path: 'age' },
       { caption: 'Мобільний телефон', path: 'mobilePhone' },
@@ -71,6 +75,7 @@ export class MainComponent implements OnInit {
           this.selectedItem = null;
           const contacts = res.data.map(i =>  new Contact(i));
           this.dataSource = new MatTableDataSource<Contact>(contacts);
+          this.dataSource.sort = this.sort;
         }
       });
   }
@@ -130,6 +135,12 @@ export class MainComponent implements OnInit {
 
   onRowClick(row: any) {
     this.selectedItem = row;
+  }
+
+  onRowDblClick(row: any) {
+    if (row.id) {
+      this.router.navigate(['/contact', row.id]);
+    }
   }
 
   getRowClass(row: Contact) {

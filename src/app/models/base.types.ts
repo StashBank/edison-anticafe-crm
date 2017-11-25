@@ -22,3 +22,17 @@ export class UUID {
         return Math.random() * 0xffffffff | 0;
     }
 }
+
+export class Lookup {
+    public value: string;
+    public displayValue: string;
+
+    constructor(args: any = {}) {
+        this.value = args.value || args._id;
+        this.displayValue = args.displayValue || args.name;
+    }
+
+    toString(): string {
+        return this.displayValue;
+    }
+}

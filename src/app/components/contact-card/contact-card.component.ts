@@ -6,6 +6,7 @@ import { ContactServiceService } from '../../services/contact-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Contact } from '../../models/contact.model';
+import { Promise, resolve } from 'q';
 
 @Component({
   selector: 'app-contact-card',
@@ -19,6 +20,8 @@ export class ContactCardComponent implements OnInit {
   id: string;
   isNew: boolean;
   ageList: any[];
+  productList: any[];
+  targetList: any[];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,8 +33,8 @@ export class ContactCardComponent implements OnInit {
   ngOnInit() {
     this.contact = new Contact();
     this.initFormControls();
-    this.getRouterParams();
     this.initLookups();
+    this.getRouterParams();
   }
 
   initFormControls() {
@@ -41,7 +44,10 @@ export class ContactCardComponent implements OnInit {
       mobilePhone: new FormControl(),
       email: new FormControl(),
       birthDate: new FormControl(),
-      age: new FormControl()
+      notes: new FormControl(),
+      age: new FormControl(),
+      product: new FormControl(),
+      target: new FormControl()
     });
   }
 
@@ -64,10 +70,10 @@ export class ContactCardComponent implements OnInit {
           const values = {};
           for (const controlName in this.contact) {
             if (this.form.contains(controlName)) {
-              values[controlName] = this.contact[controlName];
+              const value = this.contact[controlName];
+              values[controlName] = value && value.value ? value.value : value || null;
             }
           }
-          values['age'] = null;
           this.form.setValue(values);
         }
       });
@@ -92,12 +98,16 @@ export class ContactCardComponent implements OnInit {
   }
 
   initLookups() {
-    this.lookupsService.getLookupData('Age')
-      .subscribe(res => {
-        if (res.success) {
-          this.ageList = res.data.map(i => ({value: i._id, displayValue: i.name}));
-        }
-      });
+    const lookups = ['Age', 'Product', 'Target'];
+    lookups.forEach(lookupNae => {
+      this.lookupsService.getLookupData(lookupNae)
+        .subscribe(res => {
+          if (res.success) {
+            const listName = lookupNae.toLowerCase() + 'List';
+            this[listName] = res.data.map(i => ({ value: i._id, displayValue: i.name }));
+          }
+        });
+    });
   }
 
 }

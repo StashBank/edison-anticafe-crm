@@ -1,18 +1,19 @@
-<form [formGroup]="form" (ngSubmit)="save()">
-  <mat-card class="fields-container">
+<mat-card class="fields-container">
+  <form [formGroup]="form">
     <mat-card-content>
-      <mat-grid-list cols="24">
+      <mat-grid-list cols="24" rowHeight="60">
 
-        <mat-grid-tile [colspan]="12">
+        <mat-grid-tile [colspan]="6">
           <mat-form-field>
             <input matInput
               tabindex="1"
               placeholder="Ім'я"
-              formControlName="firstName">
+              formControlName="firstName"
+              required>
           </mat-form-field>
         </mat-grid-tile>
     
-        <mat-grid-tile [colspan]="12">
+        <mat-grid-tile [colspan]="6">
           <mat-form-field>
             <input
               matInput
@@ -22,7 +23,7 @@
             </mat-form-field>
         </mat-grid-tile>
   
-        <mat-grid-tile [colspan]="12">
+        <mat-grid-tile [colspan]="6">
           <mat-form-field>
               <input
                 matInput
@@ -32,7 +33,7 @@
             </mat-form-field>
         </mat-grid-tile>
   
-        <mat-grid-tile [colspan]="12">
+        <mat-grid-tile [colspan]="6">
           <mat-form-field>
               <input
                 matInput
@@ -43,7 +44,7 @@
             </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="12">
+        <mat-grid-tile [colspan]="6">
           <mat-form-field>
               <input
                 matInput
@@ -56,7 +57,7 @@
             </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="12">
+        <mat-grid-tile [colspan]="6">
           <mat-form-field>
             <mat-select placeholder="Вікова категорія" tabindex="6" formControlName="age">
               <mat-option>--</mat-option>
@@ -67,17 +68,46 @@
           </mat-form-field>
         </mat-grid-tile>
 
+        <mat-grid-tile [colspan]="6">
+          <mat-form-field>
+            <mat-select placeholder="Продукт" tabindex="7" formControlName="product">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let product of productList" [value]="product.value">
+                {{product.displayValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="6">
+          <mat-form-field>
+            <mat-select placeholder="ЦА" tabindex="7" formControlName="target">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let target of targetList" [value]="target.value">
+                {{target.displayValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="24" [rowspan]="4">
+          <mat-form-field>
+            <textarea matInput tabindex="8" placeholder="Примітки" formControlName="notes"></textarea>
+          </mat-form-field>
+        </mat-grid-tile>
+
       </mat-grid-list>
     </mat-card-content>
     <mat-card-actions>
       <button 
         mat-raised-button
         color="primary"
-        type="submit"
+        (click)="save()"
         [disabled]="!form.valid">Зберегти</button>
       <button 
         mat-button
-        (click)="cancel()">Відміна</button>
+        (click)="cancel()">Назад</button>
     </mat-card-actions>
-  </mat-card>
-</form>
+  </form>
+</mat-card>
+

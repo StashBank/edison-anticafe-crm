@@ -7,29 +7,25 @@
     <button mat-icon-button (click)="getContacts()">
       <mat-icon>refresh</mat-icon>
     </button>
-    <!--<button mat-button (click)="add()">Створити</button>-->
     <button mat-icon-button (click)="add()">
       <mat-icon>add</mat-icon>
     </button>
-    <!--<button *ngIf="!!selectedItem" mat-button color="primary" (click)="edit()">Редагувати</button>-->
-    <!--<button *ngIf="!!selectedItem" mat-button color="accent" (click)="delete()">Видалити</button>-->
-      <button mat-icon-button [matMenuTriggerFor]="additionalMenu">
+    <button mat-icon-button>
+      <mat-icon>assignment</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="additionalMenu">
           <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #additionalMenu="matMenu">
+      <button mat-menu-item (click)="edit()" [disabled]="!selectedItem">
+        <mat-icon>edit</mat-icon>
+        <span>Редагувати</span>
+      </button>
+      <button mat-menu-item (click)="delete()" [disabled]="!selectedItem">
+          <mat-icon>delete_forever</mat-icon>
+          <span>Видалити</span>
         </button>
-      <mat-menu #additionalMenu="matMenu">
-        <button mat-menu-item (click)="edit()" [disabled]="!selectedItem">
-          <mat-icon>edit</mat-icon>
-          <span>Редагувати</span>
-        </button>
-        <button mat-menu-item (click)="delete()" [disabled]="!selectedItem">
-            <mat-icon>delete_forever</mat-icon>
-            <span>Видалити</span>
-          </button>
-        <button mat-menu-item [disabled]="!selectedItem">
-          <mat-icon>assignment</mat-icon>
-          <span>Замовлення</span>
-        </button>
-      </mat-menu>
+    </mat-menu>
   </div>
 </div>
 <br />
@@ -48,6 +44,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"
       (click)="onRowClick(row)"
+       (dblclick)="onRowDblClick(row)"
       [ngClass]="getRowClass(row)"></mat-row>
     </mat-table>
   </div>
