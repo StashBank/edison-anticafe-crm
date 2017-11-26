@@ -32,6 +32,7 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
 import { AppRouterModule } from './modules/app.router.module';
 import { LookupsComponent } from './components/lookups/lookups.component';
 import { ContactCardComponent } from './components/contact-card/contact-card.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ContactCardComponent } from './components/contact-card/contact-card.com
     ControlComponent,
     ContactCardDialogComponent,
     LookupsComponent,
-    ContactCardComponent
+    ContactCardComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

@@ -133,6 +133,11 @@ export class MainComponent implements OnInit {
     }
   }
 
+  order() {
+    const queryParams = this.selectedItem ? {contactId: this.selectedItem.id} : {};
+    this.router.navigate(['order'], {queryParams});
+  }
+
   onRowClick(row: any) {
     this.selectedItem = row;
   }

@@ -1,3 +1,4 @@
+import { OrderComponent } from './../components/order/order.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from '../main/main.component';
@@ -7,7 +8,8 @@ import { ContactCardComponent } from '../components/contact-card/contact-card.co
 const appRoutes = [
   {path: '', pathMatch: 'full', component: MainComponent},
   {path: 'contact/:id', component: ContactCardComponent},
-  { path: 'lookup/:lookupName', pathMatch: 'full', component: LookupsComponent }
+  {path: 'lookup/:lookupName', component: LookupsComponent},
+  {path: 'order', component: OrderComponent}
 ];
 
 @NgModule({
