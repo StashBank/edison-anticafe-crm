@@ -5,7 +5,6 @@ const settings = require('../setttings');
 const connectionStrings = settings.connectionStrings;
 
 const mongoose = require('mongoose');
-mongoose.connect(connectionStrings.mongoDB, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
 const LookupModels = require('../models/lookupModel');
