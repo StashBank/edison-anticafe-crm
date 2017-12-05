@@ -17,9 +17,13 @@ const LOOKUPS = [
     }
 ];
 
+const devConnectionString = 'mongodb://admin:0_admin_1@ds159024.mlab.com:59024/edison-anticafe-crm-dev';
+const prodConnectionString = 'mongodb://admin:0_admin_1@ds129906.mlab.com:29906/edison-anticafe-crm';
+
+
 module.exports = {
     connectionStrings: {
-        mongoDB: 'mongodb://admin:0_admin_1@ds159024.mlab.com:59024/edison-anticafe-crm-dev'
+        mongoDB: process.env.NODE_ENV === 'production' ? prodConnectionString : devConnectionString
     }, 
     lookups: LOOKUPS
 }

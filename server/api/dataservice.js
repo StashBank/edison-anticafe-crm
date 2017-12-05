@@ -39,7 +39,7 @@ app.get('/contactCollection', (req, res) => {
         .then(disconnect)
     })
     .catch(err => {
-        res.status(500).send({ error: err, success: false });
+        res.status(500).send({ error: err.message, success: false });
         disconnect();
     });
 });
@@ -56,7 +56,7 @@ app.get('/contact/:id', (req, res) => {
         .then(disconnect)
     })
     .catch(err => {
-        res.status(500).send({ error: err, success: false });
+        res.status(500).send({ error: err.message, success: false });
         disconnect();
     });
 });
@@ -66,19 +66,19 @@ app.post('/contact', (req, res) => {
     if (!body || body === {}) {
         res.status(500).send({ error: "contact data is required", success: false })
     }
+    let contactId = 0;
     dbUtils.getNextSequence('contactId')
-    .then(connect)
     .then((contactId) => {
         let contact = new Contact(body);
         contact.contactId = contactId;
         contact.save()
         .then(contact => res.send({ contact: contact, success: true }))
-        .catch(err => res.status(500).send({ error: err, success: false }));
+        .catch(err => {
+            res.status(500).send({ error: err.message, success: false });
+        });
     })
-    .then(disconnect)
     .catch(err => {
-        res.status(500).send({ error: err, success: false });
-        disconnect();
+        res.status(500).send({ error: err.message, success: false });
     });
 });
 
@@ -95,7 +95,7 @@ app.put('/contact/:id', (req, res) => {
         .then(disconnect)
     })
     .catch(err => {
-        res.status(500).send({ error: err, success: false });
+        res.status(500).send({ error: err.message, success: false });
         disconnect();
     });
 });
@@ -108,7 +108,7 @@ app.delete('/contact/:id', (req, res) => {
         .then((data) => res.send({ success: data != null }))
     })
     .catch(err => {
-        res.status(500).send({ error: err, success: false });
+        res.status(500).send({ error: err.message, success: false });
         disconnect();
     });
 });
