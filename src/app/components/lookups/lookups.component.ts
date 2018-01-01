@@ -7,7 +7,7 @@ import { LookupsService } from '../../services/lookups.service';
   selector: 'app-lookups',
   templateUrl: './lookups.component.html',
   styleUrls: ['./lookups.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class LookupsComponent implements OnInit {
 
@@ -32,7 +32,7 @@ export class LookupsComponent implements OnInit {
   }
 
   onError(error) {
-    console.log(error);
+    console.error(error);
   }
 
   getLookup(): Promise<any> {
@@ -98,7 +98,7 @@ export class LookupsComponent implements OnInit {
 
   updateItem(item: any) {
     if (this.lookup) {
-      this.lookupService.setLookupItem(this.lookup.name, item._id, item)
+      this.lookupService.setLookupItem(this.lookup.name, item.id, item)
         .subscribe(res => {
           if (res.success) {
             this.getLookupData();
@@ -109,7 +109,7 @@ export class LookupsComponent implements OnInit {
 
   deleteItem(item: any) {
     if (this.lookup) {
-    this.lookupService.deleteLookupItem(this.lookup.name, item._id)
+    this.lookupService.deleteLookupItem(this.lookup.name, item.id)
       .subscribe(res => {
         if (res.success) {
           this.getLookupData();

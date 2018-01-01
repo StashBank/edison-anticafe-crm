@@ -1,0 +1,110 @@
+<mat-card class="fields-container">
+    <form [formGroup]="form">
+        <mat-card-actions class="row">
+                <button mat-raised-button color="primary" (click)="save()" [disabled]="!saveButtonEnabled">Зберегти</button>
+                <button mat-button (click)="cancel()">Назад</button>
+            <div *ngIf="!isNew && !isFinalStatus">
+                <button mat-button color="primary" *ngIf="performButtonVisible" (click)="perform()">Виконати</button>
+                <button mat-button color="primary" *ngIf="postponeButtonVisible" (click)="postpone()">Призупинити</button>
+                <button mat-button color="primary" *ngIf="continueButtonVisible" (click)="continue()">Продовжити</button>
+                <button mat-button color="primary" *ngIf="closeButtonVisible" (click)="close()">Закінчити</button>
+                <button mat-button color="primary" *ngIf="rejectButtonVisible" (click)="reject()">Відмінити</button>
+            </div>
+        </mat-card-actions>
+        <mat-card-content>
+            <mat-grid-list cols="24" rowHeight="60">
+                
+                <div>
+                    <mat-grid-tile [colspan]="12" *ngIf="!anonymous">
+                        <mat-form-field >
+                            <input matInput
+                                tabindex="1"
+                                placeholder="Клієнт"
+                                formControlName="contact" required>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="12" *ngIf="anonymous">
+                        <mat-form-field>
+                            <input matInput
+                                tabindex="1"
+                                placeholder="ПІБ"
+                                formControlName="contactName">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </div>
+
+                <mat-grid-tile [colspan]="6">
+                    <mat-form-field >
+                        <input matInput
+                            tabindex="2"
+                            placeholder="Номер"
+                            formControlName="number">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="6">
+                    <mat-form-field>
+                        <mat-select tabindex="2" 
+                             placeholder="Статус"
+                             formControlName="status">
+                            <mat-option>--</mat-option>
+                            <mat-option *ngFor="let item of orderstatusList" [value]="item.value">
+                                {{item.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="6">
+                    <mat-form-field>
+                        <input matInput
+                            tabindex="4"
+                            placeholder="Дата початку"
+                            formControlName="startDate">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="6">
+                    <mat-form-field>
+                        <input matInput
+                            tabindex="5"
+                            placeholder="Дата закінчення"
+                            formControlName="endDate">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="6">
+                    <mat-form-field>
+                        <input matInput
+                            tabindex="6"
+                            placeholder="Вартість"
+                            formControlName="cost">
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="6">
+                    <mat-form-field>
+                        <mat-select tabindex="7"
+                            placeholder="Продукт"
+                            formControlName="product">
+                            <mat-option>--</mat-option>
+                            <mat-option *ngFor="let item of productList" [value]="item.value">
+                                {{item.displayValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="24" [rowspan]="4">
+                    <mat-form-field>
+                        <textarea matInput
+                            tabindex="8"
+                            placeholder="Примітки" 
+                            formControlName="notes"></textarea>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+        </mat-card-content>
+    </form>
+</mat-card>

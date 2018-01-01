@@ -11,6 +11,7 @@
         <button *ngFor="let lookup of lookups"
           mat-menu-item [routerLink]="'lookup/' + lookup.name">{{lookup.caption}}</button>
       </mat-menu>
+      <button mat-button class="navbar-brand" routerLink="/orders">Замовлення</button>
       <div class="nav navbar-nav navbar-right">
         <button mat-button
           [matMenuTriggerFor]="userMenu" 

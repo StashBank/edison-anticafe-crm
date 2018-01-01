@@ -1,0 +1,45 @@
+<div class="card-container">
+  <mat-card>
+    <mat-card-header>Продукти</mat-card-header>
+    <hr>
+    <mat-card-content>
+      <div class="edit-container">
+        <mat-nav-list class="product-list">
+          <mat-list-item *ngFor="let item of productList" 
+            [ngClass]="getListItemClass(item)"
+            (click)="selectProduct(item)">
+            {{item}}
+          </mat-list-item>
+        </mat-nav-list>
+        <form [formGroup]="form" class="product-edit">
+          <mat-grid-list cols="6" rowHeight="60">
+
+            <mat-grid-tile [colspan]="6">
+              <mat-form-field>
+                <input matInput tabindex="1" placeholder="Назва" formControlName="name" required>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="6">
+              <mat-form-field>
+                <mat-select placeholder="Тариф" tabindex="2" formControlName="tariff" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let item of tariffList" [value]="item.value">
+                    {{item.displayValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+        </form>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="create()" [disabled]="isNew">Створити</button>
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.valid">Зберегти</button>
+      <button mat-raised-button color="warn" (click)="delete()" [disabled]="!itemSelected">Видалити</button>
+      <button mat-button (click)="cancel()">Назад</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

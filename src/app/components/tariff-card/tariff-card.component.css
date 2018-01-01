@@ -1,0 +1,34 @@
+.selected {
+    color: dodgerblue !important;
+}
+
+.edit-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.tariff-list{
+    flex-grow: 1;
+    border-right: 1px solid lightslategray;
+    margin-right: 6px;
+}
+
+.tariff-edit {
+    flex-grow: 3;
+}
+
+form {
+    max-width: 920px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+mat-form-field {
+    width: 100%;
+    height: 100%;
+}
+mat-form-field > * {
+    width: 90%;
+    height: 100%;
+}

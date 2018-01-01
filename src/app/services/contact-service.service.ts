@@ -12,32 +12,32 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ContactServiceService {
 
-  private dataServiceURI = '/api/dataservice';
+  private dataServiceURI = '/api/contactService';
 
   constructor(private http: Http) { }
 
   public getContacts(): Observable<any> {
-    return this.http.get(`${this.dataServiceURI}/contactCollection`)
+    return this.http.get(this.dataServiceURI)
       .map(res => res.json());
   }
 
   public getContact(id: string): Observable<any> {
-    return this.http.get(`${this.dataServiceURI}/contact/${id}`)
+    return this.http.get(`${this.dataServiceURI}/${id}`)
       .map(res => res.json());
   }
 
   public addContact(contact: Contact): Observable<any> {
-    return this.http.post(`${this.dataServiceURI}/contact`, contact)
+    return this.http.post(this.dataServiceURI, contact)
       .map(res => res.json());
   }
 
   public setContact(id: string, contact: Contact): Observable<any> {
-  return this.http.put(`${this.dataServiceURI}/contact/${id}`, contact)
+  return this.http.put(`${this.dataServiceURI}/${id}`, contact)
     .map(res => res.json());
   }
 
   public deleteContact(id: string): Observable<any> {
-    return this.http.delete(`${this.dataServiceURI}/contact/${id}`)
+    return this.http.delete(`${this.dataServiceURI}/${id}`)
     .map(res => res.json());
   }
 }

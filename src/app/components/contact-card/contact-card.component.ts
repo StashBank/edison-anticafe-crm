@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Contact } from '../../models/contact.model';
 import { Promise, resolve } from 'q';
+import { Lookup } from '../../models/base.types';
 
 @Component({
   selector: 'app-contact-card',
@@ -79,10 +80,16 @@ export class ContactCardComponent implements OnInit {
       });
   }
 
+  getSaveQuery(newContact: Contact) {
+    return this.isNew ?
+      this.contactService.addContact(newContact) :
+      this.contactService.setContact(this.id, newContact);
+  }
+
   save() {
     if (this.form.valid) {
       const newContact = Object.assign(this.contact, this.form.value);
-      this.contactService.setContact(this.id, newContact)
+      this.getSaveQuery(newContact)
         .subscribe(res => {
           let msg = 'Дані збережено';
           if (!res.success) {
@@ -104,7 +111,7 @@ export class ContactCardComponent implements OnInit {
         .subscribe(res => {
           if (res.success) {
             const listName = lookupNae.toLowerCase() + 'List';
-            this[listName] = res.data.map(i => ({ value: i._id, displayValue: i.name }));
+            this[listName] = res.data.map(i => new Lookup(i));
           }
         });
     });

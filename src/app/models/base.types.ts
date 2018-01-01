@@ -26,10 +26,12 @@ export class UUID {
 export class Lookup {
     public value: string;
     public displayValue: string;
+    public code: any;
 
     constructor(args: any = {}) {
-        this.value = args.value || args._id;
+        this.value = args.value || args.id || args._id;
         this.displayValue = args.displayValue || args.name;
+        this.code = args.code;
     }
 
     toString(): string {

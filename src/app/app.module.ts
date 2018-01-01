@@ -32,7 +32,11 @@ import { ContactCardDialogComponent } from './components/contact-card-dialog/con
 import { AppRouterModule } from './modules/app.router.module';
 import { LookupsComponent } from './components/lookups/lookups.component';
 import { ContactCardComponent } from './components/contact-card/contact-card.component';
-import { OrderComponent } from './components/order/order.component';
+import { OrderCardComponent } from './components/order-card/order-card.component';
+import { TariffCardComponent } from './components/tariff-card/tariff-card.component';
+import { ProductCardComponent } from './components/product-card/product-card.component';
+import { OrderService } from './services/order.service';
+import { OrderListComponent } from './components/order-list/order-list.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,10 @@ import { OrderComponent } from './components/order/order.component';
     ContactCardDialogComponent,
     LookupsComponent,
     ContactCardComponent,
-    OrderComponent
+    OrderCardComponent,
+    TariffCardComponent,
+    ProductCardComponent,
+    OrderListComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +98,7 @@ import { OrderComponent } from './components/order/order.component';
   entryComponents: [
     ContactCardDialogComponent
   ],
-  providers: [ContactServiceService, LookupsService],
+  providers: [ContactServiceService, LookupsService, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

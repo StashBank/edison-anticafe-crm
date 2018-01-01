@@ -14,7 +14,7 @@ export class Contact {
     public target?: Lookup;
 
     constructor(contact: any = {}) {
-        this.id = contact._id || UUID.generate();
+        this.id = contact.id || contact._id || UUID.generate();
         this.contactId = contact.contactId;
         this.firstName = contact.firstName || '';
         this.lastName = contact.lastName || null;
