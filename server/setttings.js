@@ -39,7 +39,7 @@ const LOOKUPS = [
             },
             {
                 modelName: 'Tariff',
-                as: 'childrens',
+                as: 'children',
                 attributes: ['id', 'name']
             }
         ]

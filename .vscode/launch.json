@@ -9,6 +9,12 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "./bin/www"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Debug",
+            "program": "${workspaceFolder}/bin/www"
         }
     ]
 }

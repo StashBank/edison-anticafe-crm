@@ -19,7 +19,7 @@ const Tariff = lookupModels.Tariff;
 const TariffType = lookupModels.TariffType;
 const Product = lookupModels.Product;
 
-Tariff.hasMany(Tariff, { as: 'childrens', foreignKey: 'parentId' });
+Tariff.hasMany(Tariff, { as: 'children', foreignKey: 'parentId' });
 Tariff.belongsTo(Tariff, { as: 'parent' });
 Tariff.belongsTo(TariffType, { as: 'type' });
 Product.belongsTo(Tariff, { as: 'tariff' });

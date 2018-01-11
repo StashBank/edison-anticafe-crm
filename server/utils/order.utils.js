@@ -19,14 +19,33 @@ class CostHelper {
 				model: TariffType,
 				as: 'type',
 				attributes: ['id', 'name', 'code']
-			},]
+			}, {
+				model: Tariff,
+				as: 'children',
+				attributes: ['id', 'name', 'cost', 'position']
+			}]
 		});
 		return tariff;
 	}
 	costHour(order, tariff) {
 		const duration = this.getDuration(order);
-		const totalHours = duration / SECONDS_IN_HOURS;
-		return totalHours * tariff.cost || 0;
+		let totalHours = duration / SECONDS_IN_HOURS;
+		if (!tariff.children) {
+			return totalHours * tariff.cost || 0;
+		}
+		const hours = parseInt(totalHours);
+		const seconds = totalHours - hours;
+		const hourTimes = new Array(hours).fill(1);
+		hourTimes.push(seconds);
+		const subTariffs = tariff.children.slice()
+			.sort((v1, v2) => v1.position > v2.position);
+		return hourTimes.reduce((p,c) => {
+			const subTariff = subTariffs.shift();
+			const cost = subTariff ? subTariff.cost : tariff.cost;
+			p += c * cost;
+			return p;
+		}, 0);
+
 	}
 	costOnce(order, tariff) {
 		return tariff.cost || 0;
@@ -35,14 +54,12 @@ class CostHelper {
 		const timeline = order.timeline;
 		const currentDate = new Date();
 		const miliseconds = timeline.timelines.reduce((p,c) => {
-			console.log(`c.endDate construcotr ? ${c.endDate.constructor}`);
 			const endDate = c.endDate || currentDate;
 			const startDate = c.startDate || endDate;
-			console.log(`c.startDate construcotr ? ${c.startDate.constructor}`);
 			return endDate - startDate;
 		}, 0);
-		console.log(miliseconds);
-		return miliseconds / MILISECONDS_IN_SECONDS;
+		const seconds =  miliseconds / MILISECONDS_IN_SECONDS;
+		return seconds;
 	}
 }
 
