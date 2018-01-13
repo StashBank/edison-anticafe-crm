@@ -2,6 +2,9 @@
   <mat-card>
     <mat-card-header>{{lookup && lookup.caption}}</mat-card-header>
     <hr>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="appendItem()">Додати</button>
+    </mat-card-actions>
     <mat-card-content>
       <mat-list>
         <div *ngFor="let item of lookupData; let i=index">
@@ -23,8 +26,5 @@
         </div>
       </mat-list>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="appendItem()">Додати</button>
-    </mat-card-actions>
   </mat-card>
 </div>

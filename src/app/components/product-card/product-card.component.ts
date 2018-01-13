@@ -5,6 +5,9 @@ import { Product } from './../../models/product.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { Lookup } from '../../models/base.types';
+import { MatSnackBar } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-product-card',
@@ -24,9 +27,12 @@ export class ProductCardComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private lookupsService: LookupsService) { }
+    private lookupsService: LookupsService,
+    public snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.initFormControls();
     this.getLookupData();
     this.initLookups();
@@ -63,7 +69,9 @@ export class ProductCardComponent implements OnInit {
   }
 
   getLookupData() {
-    this.lookupsService.getLookupData(this.lookupName).subscribe((res: any) => {
+    this.lookupsService.getLookupData(this.lookupName)
+    .finally(() => this.spinner.hide())
+    .subscribe((res: any) => {
       if (res.success) {
         this.productList = res.data.map(p => new Product(p));
         this.isNew = true;
@@ -86,6 +94,7 @@ export class ProductCardComponent implements OnInit {
       }
     }
     this.form.setValue(values);
+    this.form.markAsUntouched();
     this.isNew = false;
     this.itemSelected = true;
   }
@@ -106,15 +115,18 @@ export class ProductCardComponent implements OnInit {
 
   save() {
     const data = this.form.value;
+    this.spinner.show();
     this.getSaveQuery(data)
+      .finally(() => this.spinner.hide())
       .subscribe((res) => {
         if (res.success) {
-          alert('Дані збережено');
+          this.snackBar.open('Дані збережено', null, { duration: 800 });
           this.onSaved(res.data);
         } else {
-          alert('Помилка збереження даних');
+          this.snackBar.open('Помилка збереження даних', null, { duration: 800 });
           this.onError(res);
         }
+        this.form.markAsUntouched();
       }, this.onError);
   }
 

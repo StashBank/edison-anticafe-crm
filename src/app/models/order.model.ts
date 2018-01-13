@@ -26,6 +26,7 @@ export class Order {
     public endDate?: Date;
     public cost?: number;
     public notes?: string;
+    public timeline?: {index: number, timelines: [{startDate: Date, endDate: Date}]};
 
     constructor(args: any = {}) {
         this.id = args.id || args._id || UUID.generate();
@@ -39,6 +40,7 @@ export class Order {
         this.cost = args.cost;
         this.notes = args.notes;
         this.products = args.products ? args.products.map(p => new Product(p)) : [];
+        this.timeline = args.timeline;
     }
 
     public get client() {

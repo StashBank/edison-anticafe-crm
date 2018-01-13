@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { Product } from './../../models/product.model';
 import { Observable } from 'rxjs/Observable';
 import { OrderService } from './../../services/order.service';
@@ -10,6 +11,8 @@ import { Location } from '@angular/common';
 import { LookupsService } from './../../services/lookups.service';
 import { Lookup } from '../../models/base.types';
 import { Contact } from '../../models/contact.model';
+import { NgxSpinnerService } from 'ngx-spinner';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-order-card',
@@ -92,7 +95,11 @@ export class OrderCardComponent implements OnInit {
   }
 
   get saveButtonEnabled(): boolean {
-    return this.form.valid;
+    return this.form.touched && this.form.valid;
+  }
+
+  get timelines(): any[] {
+    return this.order && this.order.timeline && this.order.timeline.timelines || [];
   }
 
   constructor(
@@ -100,9 +107,12 @@ export class OrderCardComponent implements OnInit {
     private location: Location,
     private contactService: ContactServiceService,
     private orderService: OrderService,
-    private lookupsService: LookupsService) { }
+    private lookupsService: LookupsService,
+    public snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.order = new Order();
     this.initFormControls();
     this.initLookups();
@@ -135,6 +145,8 @@ export class OrderCardComponent implements OnInit {
             this.anonymous = false;
             this.getOrderByContact();
             this.getContact();
+          } else {
+            this.spinner.hide();
           }
         });
       }
@@ -164,6 +176,7 @@ export class OrderCardComponent implements OnInit {
 
   getOrderByContact() {
     this.orderService.getOrderByContact(this.contactId)
+      .finally(() => this.spinner.hide())
       .subscribe(res => {
         if (res.success && res.data) {
           this.order = new Order(res.data);
@@ -175,6 +188,7 @@ export class OrderCardComponent implements OnInit {
 
   getOrder(id: string) {
     this.orderService.getOrder(id)
+      .finally(() => this.spinner.hide())
       .subscribe((res) => {
         if (res.success && res.data) {
           this.order = new Order(res.data);
@@ -242,8 +256,10 @@ export class OrderCardComponent implements OnInit {
     order.status = order.status && order.status.value;
     order.contact = this.contactId;
     order = Object.assign(order, this.form.value);
+    this.spinner.show();
     this.getSaveQuery(order)
-    .subscribe(res => this.onSaved(res));
+      .finally(() => this.spinner.hide())
+      .subscribe(res => this.onSaved(res));
   }
 
   getSaveQuery(order: any): Observable<any> {
@@ -255,13 +271,15 @@ export class OrderCardComponent implements OnInit {
   onSaved(res: any) {
     if (res.success) {
       this.order.status = this.orderstatusList.find(i => i.id = res.data.statusId);
+      this.order.timeline = res.data.timeline;
       this.form.controls['status'].setValue(res.data.statusId);
       this.isNew = false;
-      alert('Дані збережено');
+      this.snackBar.open('Дані збережено', null, { duration: 800 });
     } else {
-      alert('Помилка при збережені');
+      this.snackBar.open('Помилка при збережені', null, { duration: 800 });
       console.error(res);
     }
+    this.form.markAsUntouched();
   }
 
   getOrderStatus(code: string) {
@@ -280,7 +298,7 @@ export class OrderCardComponent implements OnInit {
     if (res.success) {
       this.setOrderStatus(res.data.statusId);
     } else {
-      alert('Помилка при збережені');
+      this.snackBar.open('Помилка при збережені', null, { duration: 800 });
       console.error(res);
     }
   }
@@ -288,6 +306,7 @@ export class OrderCardComponent implements OnInit {
   perform() {
     this.orderService.perform(this.order.id)
       .subscribe(res => {
+        this.order.timeline = res.data.timeline;
         this.onStageChanged(res);
         this.form.controls['startDate'].setValue(
           this.getDateString(new Date(Date.parse(res.data.startDate)))
@@ -298,6 +317,7 @@ export class OrderCardComponent implements OnInit {
   postpone() {
     this.orderService.postpone(this.order.id)
       .subscribe(res => {
+        this.order.timeline = res.data.timeline;
         this.onStageChanged(res);
       });
   }
@@ -305,6 +325,7 @@ export class OrderCardComponent implements OnInit {
   continue() {
     this.orderService.continue(this.order.id)
       .subscribe(res => {
+        this.order.timeline = res.data.timeline;
         this.onStageChanged(res);
       });
   }
@@ -312,6 +333,7 @@ export class OrderCardComponent implements OnInit {
   close() {
     this.orderService.close(this.order.id)
       .subscribe(res => {
+        this.order.timeline = res.data.timeline;
         this.onStageChanged(res);
         this.form.controls['endDate'].setValue(
           this.getDateString(new Date(Date.parse(res.data.endDate)))
@@ -323,11 +345,27 @@ export class OrderCardComponent implements OnInit {
   reject() {
     this.orderService.reject(this.order.id)
       .subscribe(res => {
+        this.order.timeline = res.data.timeline;
         this.onStageChanged(res);
         this.form.controls['endDate'].setValue(
           this.getDateString(new Date(Date.parse(res.data.endDate)))
         );
       });
+  }
+
+  getTimelineString(item: any) {
+    const startDate = this.parseDate(item && item.startDate);
+    const endDate = this.parseDate(item && item.endDate);
+    let res = this.getDateString(startDate);
+    if (endDate) {
+      res += ` - ${this.getDateString(endDate)}`;
+    }
+    return res;
+  }
+
+  parseDate(val: string): Date {
+    const d = Date.parse(val);
+    return d ? new Date(d) : null;
   }
 
 }

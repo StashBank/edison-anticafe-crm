@@ -1,5 +1,9 @@
 <mat-card class="fields-container">
   <form [formGroup]="form">
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.touched || !form.valid">Зберегти</button>
+      <button mat-button (click)="cancel()">Назад</button>
+    </mat-card-actions>
     <mat-card-content>
       <mat-grid-list cols="24" rowHeight="60">
 
@@ -98,16 +102,6 @@
 
       </mat-grid-list>
     </mat-card-content>
-    <mat-card-actions>
-      <button 
-        mat-raised-button
-        color="primary"
-        (click)="save()"
-        [disabled]="!form.valid">Зберегти</button>
-      <button 
-        mat-button
-        (click)="cancel()">Назад</button>
-    </mat-card-actions>
   </form>
 </mat-card>
 

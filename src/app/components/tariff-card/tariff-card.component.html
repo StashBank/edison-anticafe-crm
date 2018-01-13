@@ -4,7 +4,7 @@
     <hr>
     <mat-card-actions>
       <button mat-raised-button (click)="create()" [disabled]="isNew">Створити</button>
-      <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.valid">Зберегти</button>
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.touched || !form.valid">Зберегти</button>
       <button mat-raised-button color="warn" (click)="delete()" [disabled]="!itemSelected">Видалити</button>
       <button mat-button (click)="cancel()">Назад</button>
     </mat-card-actions>

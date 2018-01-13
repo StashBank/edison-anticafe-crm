@@ -2,6 +2,9 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { LookupsService } from '../../services/lookups.service';
+import { MatSnackBar } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-lookups',
@@ -19,9 +22,12 @@ export class LookupsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private lookupService: LookupsService) { }
+    private lookupService: LookupsService,
+    public snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.getLookup()
       .then(this.getRouterParams.bind(this))
       .catch(this.onError.bind(this));
@@ -61,7 +67,9 @@ export class LookupsComponent implements OnInit {
   getLookupData() {
     const lookupName = this.lookup && this.lookup.name;
     if (lookupName) {
-      this.lookupService.getLookupData(lookupName).subscribe((res: any) => {
+      this.lookupService.getLookupData(lookupName)
+      .finally(() => this.spinner.hide())
+      .subscribe((res: any) => {
         if (res.success) {
           this.lookupData = res.data;
         } else {
@@ -78,6 +86,7 @@ export class LookupsComponent implements OnInit {
   }
 
   saveItem(item: any) {
+    this.spinner.show();
     if (item.isNew) {
       this.insertItem(item);
     } else {
@@ -88,6 +97,7 @@ export class LookupsComponent implements OnInit {
   insertItem(item: any) {
     if (this.lookup) {
       this.lookupService.addLookupItem(this.lookup.name, item)
+        .finally(() => this.spinner.hide())
         .subscribe(res => {
           if (res.success) {
             this.getLookupData();
@@ -99,6 +109,7 @@ export class LookupsComponent implements OnInit {
   updateItem(item: any) {
     if (this.lookup) {
       this.lookupService.setLookupItem(this.lookup.name, item.id, item)
+        .finally(() => this.spinner.hide())
         .subscribe(res => {
           if (res.success) {
             this.getLookupData();
@@ -109,7 +120,9 @@ export class LookupsComponent implements OnInit {
 
   deleteItem(item: any) {
     if (this.lookup) {
-    this.lookupService.deleteLookupItem(this.lookup.name, item.id)
+      this.spinner.show();
+      this.lookupService.deleteLookupItem(this.lookup.name, item.id)
+      .finally(() => this.spinner.hide())
       .subscribe(res => {
         if (res.success) {
           this.getLookupData();

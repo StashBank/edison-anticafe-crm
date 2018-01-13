@@ -20,9 +20,13 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatGridListModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSnackBarModule,
+  MatTabsModule,
+  MatExpansionModule
 } from '@angular/material';
 
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MainComponent } from './main/main.component';
@@ -60,6 +64,7 @@ import { OrderListComponent } from './components/order-list/order-list.component
     ReactiveFormsModule,
     HttpModule,
     AppRouterModule,
+    NgxSpinnerModule,
     MatButtonModule,
     MatTableModule,
     MatSortModule,
@@ -75,7 +80,9 @@ import { OrderListComponent } from './components/order-list/order-list.component
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTabsModule,
+    MatExpansionModule
   ],
   exports: [
     MatButtonModule,
@@ -93,7 +100,9 @@ import { OrderListComponent } from './components/order-list/order-list.component
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule,
+    MatTabsModule
   ],
   entryComponents: [
     ContactCardDialogComponent

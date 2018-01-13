@@ -12,8 +12,7 @@
             </div>
         </mat-card-actions>
         <mat-card-content>
-            <mat-grid-list cols="24" rowHeight="60">
-                
+            <mat-grid-list cols="24" rowHeight="60">      
                 <div>
                     <mat-grid-tile [colspan]="12" *ngIf="!anonymous">
                         <mat-form-field >
@@ -32,7 +31,6 @@
                         </mat-form-field>
                     </mat-grid-tile>
                 </div>
-
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field >
                         <input matInput
@@ -41,7 +39,6 @@
                             formControlName="number">
                     </mat-form-field>
                 </mat-grid-tile>
-
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
                         <mat-select tabindex="2" 
@@ -54,7 +51,6 @@
                         </mat-select>
                     </mat-form-field>
                 </mat-grid-tile>
-
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
                         <input matInput
@@ -63,7 +59,6 @@
                             formControlName="startDate">
                     </mat-form-field>
                 </mat-grid-tile>
-
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
                         <input matInput
@@ -72,7 +67,6 @@
                             formControlName="endDate">
                     </mat-form-field>
                 </mat-grid-tile>
-
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
                         <input matInput
@@ -81,7 +75,6 @@
                             formControlName="cost">
                     </mat-form-field>
                 </mat-grid-tile>
-
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
                         <mat-select tabindex="7"
@@ -95,16 +88,32 @@
                     </mat-form-field>
                 </mat-grid-tile>
 
-                <mat-grid-tile [colspan]="24" [rowspan]="4">
-                    <mat-form-field>
-                        <textarea matInput
-                            tabindex="8"
-                            placeholder="Примітки" 
-                            formControlName="notes"></textarea>
-                    </mat-form-field>
-                </mat-grid-tile>
-
             </mat-grid-list>
+            <mat-tab-group>
+                <mat-tab label="Примітки">
+                    <mat-grid-list cols="24" rowHeight="60">
+                        <mat-grid-tile [colspan]="24" [rowspan]="6">
+                            <mat-form-field>
+                                <textarea matInput tabindex="8" formControlName="notes"></textarea>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </mat-tab>
+                <mat-tab label="Додаткова інформація">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>Час відвідування</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-list role="timelines">
+                                <mat-list-item role="timelines" *ngFor="let item of timelines">
+                                    <span>{{getTimelineString(item)}}</span>
+                                </mat-list-item>
+                            </mat-list>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-tab>
+            </mat-tab-group>
         </mat-card-content>
     </form>
 </mat-card>

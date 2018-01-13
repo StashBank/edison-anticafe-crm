@@ -8,6 +8,9 @@ import { Location } from '@angular/common';
 import { Contact } from '../../models/contact.model';
 import { Promise, resolve } from 'q';
 import { Lookup } from '../../models/base.types';
+import { MatSnackBar } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-contact-card',
@@ -29,9 +32,12 @@ export class ContactCardComponent implements OnInit {
     private router: Router,
     private location: Location,
     private contactService: ContactServiceService,
-    private lookupsService: LookupsService) { }
+    private lookupsService: LookupsService,
+    public snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.contact = new Contact();
     this.initFormControls();
     this.initLookups();
@@ -59,12 +65,14 @@ export class ContactCardComponent implements OnInit {
         this.getContact();
       } else {
         this.isNew = true;
+        this.spinner.hide();
       }
     });
   }
 
   getContact() {
     this.contactService.getContact(this.id)
+      .finally(() => this.spinner.hide())
       .subscribe(response => {
         if (response.success) {
           this.contact = new Contact(response.data);
@@ -89,15 +97,20 @@ export class ContactCardComponent implements OnInit {
   save() {
     if (this.form.valid) {
       const newContact = Object.assign(this.contact, this.form.value);
+      this.spinner.show();
       this.getSaveQuery(newContact)
-        .subscribe(res => {
-          let msg = 'Дані збережено';
-          if (!res.success) {
-            msg = res.error;
-          }
-          alert(msg);
-        });
+        .finally(() => this.spinner.hide())
+        .subscribe(res => this.onSaved(res));
     }
+  }
+
+  onSaved(res) {
+    let msg = 'Дані збережено';
+    if (!res.success) {
+      msg = res.error;
+    }
+    this.snackBar.open(msg, null, { duration: 800 });
+    this.form.markAsUntouched();
   }
 
   cancel() {

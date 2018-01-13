@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import { LookupsService } from '../../services/lookups.service';
 import { UUID, Lookup } from '../../models/base.types';
 import { TariffType } from '../../models/tariff.model';
+import { MatSnackBar } from '@angular/material';
+import { NgxSpinnerService } from 'ngx-spinner';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-tariff-card',
@@ -25,9 +28,12 @@ export class TariffCardComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private lookupsService: LookupsService) { }
+    private lookupsService: LookupsService,
+    public snackBar: MatSnackBar,
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
     this.initFormControls();
     this.getLookupData();
     this.initLookups();
@@ -65,7 +71,9 @@ export class TariffCardComponent implements OnInit {
   }
 
   getLookupData() {
-    this.lookupsService.getLookupData(this.lookupName).subscribe((res: any) => {
+    this.lookupsService.getLookupData(this.lookupName)
+    .finally(() => this.spinner.hide())
+    .subscribe((res: any) => {
       if (res.success) {
         this.tariffList = res.data.map(t => new Tariff(t));
         this.isNew = true;
@@ -92,6 +100,7 @@ export class TariffCardComponent implements OnInit {
       }
     }
     this.form.setValue(values);
+    this.form.markAsUntouched();
     this.isNew = false;
     this.itemSelected = true;
     this.updateParentList();
@@ -118,14 +127,16 @@ export class TariffCardComponent implements OnInit {
   save() {
     const data = this.form.value;
     this.getSaveQuery(data)
+      .finally(() => this.spinner.hide())
       .subscribe((res) => {
         if (res.success) {
-          alert('Дані збережено');
+          this.snackBar.open('Дані збережено', null, { duration: 800 });
           this.onSaved(res.data);
         } else {
-          alert('Помилка збереження даних');
+          this.snackBar.open('Помилка збереження даних', null, { duration: 800 });
           this.onError(res);
         }
+        this.form.markAsUntouched();
       }, this.onError);
   }
 
