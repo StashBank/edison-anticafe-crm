@@ -1,7 +1,12 @@
 const Sequelize = require('sequelize');
 const settings = require('../setttings');
 const connectionStrings = settings.connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize);
+const sequelize = new Sequelize(connectionStrings.sequelize, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: true
+    }
+});
 const DataTypes = Sequelize;
 const lookups = require('./lookups');
 const Contact = require('./contact');
@@ -26,8 +31,8 @@ Order.belongsTo(OrderStatus, { as: 'status' });
 Order.belongsTo(Product, { as: 'product' });
 
 // Order.sync({ alter:true });
-/*sequelize.sync({ alter: alterTableOnSync })
-    .then(() => console.log('sequelize Order has been synchronized'))
-    .catch((err) => { console.log('sequelize Order has not been synchronized'); throw err });
-*/
+//sequelize.sync({ alter: alterTableOnSync })
+//    .then(() => console.log('sequelize Order has been synchronized'))
+//    .catch((err) => { console.log('sequelize Order has not been synchronized'); throw err });
+
 module.exports = { Order };

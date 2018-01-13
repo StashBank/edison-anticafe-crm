@@ -64,11 +64,20 @@ const LOOKUPS = [
 const devConnectionString = 'mongodb://admin:0_admin_1@ds159024.mlab.com:59024/edison-anticafe-crm-dev';
 const prodConnectionString = 'mongodb://admin:0_admin_1@ds129906.mlab.com:29906/edison-anticafe-crm';
 
+const SEQUELIZE_CONNECTION = {
+    PROD: 'postgres://uzmoekxlksvppv:c2f108051c08ad9a464802a96c899e0dc23367158d7e08e38764da3b5f447024@ec2-54-225-68-71.compute-1.amazonaws.com:5432/djk2tiqstbcof?ssl=true',
+    DEV: 'postgres://admin:admin@localhost:5432/edison'
+}
+
 
 module.exports = {
     connectionStrings: {
-        mongoDB: process.env.NODE_ENV === 'production' ? prodConnectionString : devConnectionString,
-        sequelize: 'postgres://admin:admin@localhost:5432/edison'
+        mongoDB: process.env.NODE_ENV === 'production'
+            ? prodConnectionString
+            : devConnectionString,
+        sequelize: process.env.NODE_ENV === 'production'
+            ? SEQUELIZE_CONNECTION.PROD
+            : SEQUELIZE_CONNECTION.DEV
     },
     sequelize: {
         alterTableOnSync: false

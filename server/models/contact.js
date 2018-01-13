@@ -1,7 +1,12 @@
 const Sequelize = require('sequelize');
 const settings = require('../setttings');
 const connectionStrings = settings.connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize);
+const sequelize = new Sequelize(connectionStrings.sequelize, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: true
+    }
+});
 const DataTypes = Sequelize;
 const lookups = require('./lookups');
 const Age = lookups.Age;
@@ -24,8 +29,8 @@ Contact.belongsTo(Age, { as: 'age' });
 Contact.belongsTo(Target, { as: 'target' });
 Contact.belongsTo(Product, { as: 'product' });
 
-/* sequelize.sync({ alter: alterTableOnSync})
-    .then(() => console.log('sequelize Contact has been synchronized'))
-    .catch((err) => { console.log('sequelize Contact has not been synchronized'); throw err});
-*/
+//sequelize.sync({ alter: alterTableOnSync})
+//    .then(() => console.log('sequelize Contact has been synchronized'))
+//    .catch((err) => { console.log('sequelize Contact has not been synchronized'); throw err});
+
 module.exports = Contact;

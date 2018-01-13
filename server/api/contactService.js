@@ -2,7 +2,12 @@ const express = require('express');
 const app = express();
 const Sequelize = require('sequelize');
 const connectionStrings = require('../setttings').connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize);
+const sequelize = new Sequelize(connectionStrings.sequelize, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: true
+    }
+});
 const Contact = require('../models/contact');
 const lookups = require('../models/lookups');
 const Age = lookups.Age;

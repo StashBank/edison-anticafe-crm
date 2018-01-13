@@ -1,7 +1,12 @@
 const Sequelize = require('sequelize');
 const settings = require('../setttings');
 const connectionStrings = settings.connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize);
+const sequelize = new Sequelize(connectionStrings.sequelize, {
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: true
+    }
+});
 const LOOKUPS = settings.lookups;
 const alterTableOnSync = settings.sequelize.alterTableOnSync;
 
@@ -26,8 +31,8 @@ Product.belongsTo(Tariff, { as: 'tariff' });
 
 // Tariff.sync({ alter: true });
 
-/*sequelize.sync({ alter: alterTableOnSync })
-    .then(() => console.log('sequelize Lookups has been synchronized'))
-    .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
-*/
+//sequelize.sync({ alter: alterTableOnSync })
+//    .then(() => console.log('sequelize Lookups has been synchronized'))
+//    .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
+
 module.exports = lookupModels;

@@ -4,6 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { LookupsService } from '../../services/lookups.service';
 import { UUID, Lookup } from '../../models/base.types';
+import { TariffType } from '../../models/tariff.model';
 
 @Component({
   selector: 'app-tariff-card',
@@ -16,6 +17,7 @@ export class TariffCardComponent implements OnInit {
   lookupName = 'Tariff';
   tariffList: Tariff[];
   parentList: Tariff[];
+  tarifftypeList: TariffType[];
   tariff = new Tariff();
   isNew = true;
   itemSelected = false;
