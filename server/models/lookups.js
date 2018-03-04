@@ -31,8 +31,8 @@ Product.belongsTo(Tariff, { as: 'tariff' });
 
 // Tariff.sync({ alter: true });
 
-//sequelize.sync({ alter: alterTableOnSync })
-//    .then(() => console.log('sequelize Lookups has been synchronized'))
-//    .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
+sequelize.sync({ alter: alterTableOnSync })
+   .then(() => console.log('sequelize Lookups has been synchronized'))
+   .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
 
 module.exports = lookupModels;

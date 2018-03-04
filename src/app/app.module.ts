@@ -41,6 +41,9 @@ import { TariffCardComponent } from './components/tariff-card/tariff-card.compon
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { OrderService } from './services/order.service';
 import { OrderListComponent } from './components/order-list/order-list.component';
+import { ExpenseListComponent } from './components/expense-list/expense-list.component';
+import { ExpenseCardComponent } from './components/expense-card/expense-card.component';
+import { ExpenseService } from './services/expense.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +57,9 @@ import { OrderListComponent } from './components/order-list/order-list.component
     OrderCardComponent,
     TariffCardComponent,
     ProductCardComponent,
-    OrderListComponent
+    OrderListComponent,
+    ExpenseListComponent,
+    ExpenseCardComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +112,12 @@ import { OrderListComponent } from './components/order-list/order-list.component
   entryComponents: [
     ContactCardDialogComponent
   ],
-  providers: [ContactServiceService, LookupsService, OrderService],
+  providers: [
+    ContactServiceService,
+    LookupsService,
+    OrderService,
+    ExpenseService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -58,6 +58,10 @@ const LOOKUPS = [
             code: Sequelize.STRING,
             isFinal: Sequelize.BOOLEAN
         }
+    },
+    {
+        name: 'ExpenseType',
+        caption: 'Тип витрат'
     }
 ];
 

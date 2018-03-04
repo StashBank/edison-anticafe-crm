@@ -358,9 +358,39 @@ export class OrderCardComponent implements OnInit {
     const endDate = this.parseDate(item && item.endDate);
     let res = this.getDateString(startDate);
     if (endDate) {
-      res += ` - ${this.getDateString(endDate)}`;
+      const interval = this.getFormatedInterval(this.getDateInterval(startDate, endDate)) || '0';
+      res += ` - ${this.getDateString(endDate)} (${interval})`;
     }
     return res;
+  }
+
+  getDateInterval(startDate: Date, endDate: Date): any {
+    const intervalDate = new Date(<any>endDate - <any>startDate);
+    const nullDate = new Date(0);
+    return {
+      years: intervalDate.getFullYear() - nullDate.getFullYear(),
+      months: intervalDate.getMonth() - nullDate.getMonth(),
+      days: intervalDate.getDate() - nullDate.getDate(),
+      hours: intervalDate.getHours() - nullDate.getHours(),
+      minutes: intervalDate.getMinutes() - nullDate.getMinutes(),
+      seconds: intervalDate.getSeconds() - nullDate.getSeconds()
+    };
+  }
+
+  getFormatedInterval(interval: any) {
+    let res = '';
+    if (interval.years || interval.months || interval.days) {
+      const months = this.getTwoDigitDateValue(interval.months);
+      const days = this.getTwoDigitDateValue(interval.days);
+      res = `${interval.years}.${months}.${days}`;
+    }
+    if (interval.hours || interval.minutes || interval.seconds) {
+      const hours = this.getTwoDigitDateValue(interval.hours);
+      const minutes = this.getTwoDigitDateValue(interval.minutes);
+      const seconds = this.getTwoDigitDateValue(interval.seconds);
+      res += `${hours}:${minutes}:${seconds}`;
+    }
+    return res.trim();
   }
 
   parseDate(val: string): Date {

@@ -1,5 +1,5 @@
+import { Expense } from './../../models/expense.model';
 import { Router } from '@angular/router';
-import { Order } from './../../models/order.model';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
   MatTableDataSource,
@@ -7,25 +7,25 @@ import {
   MatSort
 } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { OrderService } from '../../services/order.service';
+import { ExpenseService } from '../../services/expense.service';
 
 @Component({
-  selector: 'app-order-list',
-  templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.css'],
+  selector: 'app-expense-list',
+  templateUrl: './expense-list.component.html',
+  styleUrls: ['./expense-list.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class OrderListComponent implements OnInit {
+export class ExpenseListComponent implements OnInit {
 
   displayedColumns = [];
-  dataSource = new MatTableDataSource<Order>();
+  dataSource = new MatTableDataSource<Expense>();
   columnsConfig: { caption: string, path: string }[];
-  selectedItem: Order;
+  selectedItem: Expense;
 
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private orderService: OrderService,
+    private expenseService: ExpenseService,
     private router: Router) { }
 
   ngOnInit() {
@@ -52,23 +52,19 @@ export class OrderListComponent implements OnInit {
 
   intiColumnsConfig() {
     this.columnsConfig = [
-      { caption: 'Номер', path: 'number' },
-      { caption: 'Кліент', path: 'client' },
-      { caption: 'Продукт', path: 'product' },
-      { caption: 'Дата початку', path: 'startDate' },
-      { caption: 'Дата закінчення', path: 'endDate' },
-      { caption: 'Статус', path: 'status' },
-      { caption: 'Вартість', path: 'cost' }
+      { caption: 'Тип', path: 'type' },
+      { caption: 'Дата', path: 'date' },
+      { caption: 'Сума', path: 'amount' }
     ];
   }
 
   getOrders() {
-    this.orderService.getOrders()
+    this.expenseService.getExpenses()
       .subscribe((res: { success: boolean, data: any[] }) => {
         if (res.success && res.data) {
           this.selectedItem = null;
-          const orders = res.data.map(i => new Order(i));
-          this.dataSource = new MatTableDataSource<Order>(orders);
+          const expenses = res.data.map(i => new Expense(i));
+          this.dataSource = new MatTableDataSource<Expense>(expenses);
           this.dataSource.sort = this.sort;
         }
       });
@@ -80,11 +76,11 @@ export class OrderListComponent implements OnInit {
 
   onRowDblClick(row: any) {
     if (row.id) {
-      this.router.navigate(['/order', row.id]);
+      this.router.navigate(['/expense', row.id]);
     }
   }
 
-  getRowClass(row: Order) {
+  getRowClass(row: Expense) {
     if (this.selectedItem && row && this.selectedItem === row) {
       return 'selected';
     }
@@ -98,10 +94,7 @@ export class OrderListComponent implements OnInit {
       const day = this.getDatePartValue(value.getDate());
       const month = this.getDatePartValue(value.getMonth() + 1);
       const year = value.getFullYear();
-      const hours = this.getDatePartValue(value.getHours());
-      const minutes = this.getDatePartValue(value.getMinutes());
-      const seconds = this.getDatePartValue(value.getSeconds());
-      return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+      return `${day}.${month}.${year}`;
     }
     return value.toString();
   }
