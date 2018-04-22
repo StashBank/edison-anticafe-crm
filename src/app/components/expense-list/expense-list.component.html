@@ -4,8 +4,11 @@
       <input #filter matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
       <mat-icon *ngIf="!!filter.value" matSuffix (click)="clearFileter(filter)">clear</mat-icon>
     </mat-form-field>
-    <button mat-icon-button (click)="getOrders()">
+    <button mat-icon-button (click)="getExpenses()">
       <mat-icon>refresh</mat-icon>
+    </button>
+    <button mat-icon-button (click)="createExpense()">
+      <mat-icon>add</mat-icon>
     </button>
   </div>
 </div>

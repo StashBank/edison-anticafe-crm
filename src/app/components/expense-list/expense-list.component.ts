@@ -31,7 +31,7 @@ export class ExpenseListComponent implements OnInit {
   ngOnInit() {
     this.intiColumnsConfig();
     this.displayedColumns = this.columnsConfig.map(i => i.path);
-    this.getOrders();
+    this.getExpenses();
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -58,7 +58,7 @@ export class ExpenseListComponent implements OnInit {
     ];
   }
 
-  getOrders() {
+  getExpenses() {
     this.expenseService.getExpenses()
       .subscribe((res: { success: boolean, data: any[] }) => {
         if (res.success && res.data) {
@@ -107,6 +107,10 @@ export class ExpenseListComponent implements OnInit {
       return '';
     }
     return value > 9 ? value.toString() : '0' + value;
+  }
+
+  createExpense() {
+    this.router.navigate(['expense']);
   }
 
 }

@@ -5,7 +5,7 @@
       <button mat-button (click)="cancel()">Назад</button>
     </mat-card-actions>
     <mat-card-content>
-      <mat-grid-list cols="24" rowHeight="60">
+      <mat-grid-list cols="18" rowHeight="60">
 
         <mat-grid-tile [colspan]="6">
           <mat-form-field>
@@ -37,7 +37,7 @@
             </mat-form-field>
         </mat-grid-tile>
   
-        <mat-grid-tile [colspan]="6">
+        <!-- <mat-grid-tile [colspan]="6">
           <mat-form-field>
               <input
                 matInput
@@ -46,9 +46,9 @@
                 placeholder="e-mail"
                 formControlName="email">
             </mat-form-field>
-        </mat-grid-tile>
+        </mat-grid-tile> -->
 
-        <mat-grid-tile [colspan]="6">
+        <!-- <mat-grid-tile [colspan]="6">
           <mat-form-field>
               <input
                 matInput
@@ -59,7 +59,7 @@
               <mat-datepicker-toggle matSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
               <mat-datepicker #birthDatePicker></mat-datepicker>
             </mat-form-field>
-        </mat-grid-tile>
+        </mat-grid-tile> -->
 
         <mat-grid-tile [colspan]="6">
           <mat-form-field>
@@ -94,7 +94,7 @@
           </mat-form-field>
         </mat-grid-tile>
 
-        <mat-grid-tile [colspan]="24" [rowspan]="4">
+        <mat-grid-tile [colspan]="18" [rowspan]="4">
           <mat-form-field>
             <textarea matInput tabindex="8" placeholder="Примітки" formControlName="notes"></textarea>
           </mat-form-field>

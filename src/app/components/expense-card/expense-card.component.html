@@ -1,5 +1,5 @@
 <mat-card class="fields-container">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (keypress)="onKeyPress($event)">
     <mat-card-actions class="row">
       <button mat-raised-button color="primary" (click)="save()" [disabled]="!saveButtonEnabled">Зберегти</button>
       <button mat-button (click)="cancel()">Назад</button>

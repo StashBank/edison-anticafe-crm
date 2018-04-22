@@ -398,4 +398,11 @@ export class OrderCardComponent implements OnInit {
     return d ? new Date(d) : null;
   }
 
+  onKeyPress(event: KeyboardEvent) {
+    if (event.key === '13' && this.saveButtonEnabled) {
+      this.save();
+      event.preventDefault();
+    }
+  }
+
 }

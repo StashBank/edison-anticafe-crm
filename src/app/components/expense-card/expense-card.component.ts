@@ -135,4 +135,10 @@ export class ExpenseCardComponent implements OnInit {
     this.form.markAsUntouched();
   }
 
+  onKeyPress(event: KeyboardEvent) {
+    if (event.key === '13' && this.saveButtonEnabled) {
+      this.save();
+    }
+  }
+
 }
