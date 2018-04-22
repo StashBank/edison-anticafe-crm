@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 export class MainComponent implements OnInit {
   displayedColumns = [];
   dataSource = new MatTableDataSource<Contact>();
-  columnsConfig: [{ caption: string, path: string }];
+  columnsConfig: Array<{ caption: string, path: string }>;
   selectedItem: Contact;
 
   @ViewChild(MatSort) sort: MatSort;
