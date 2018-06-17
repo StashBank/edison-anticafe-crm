@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row" style="padding-left: 20px">
+    <mat-form-field class="search-field">
+      <input #filter matInput (keyup)="applyFilter($event.target.value)" placeholder="Пошук">
+      <mat-icon *ngIf="!!filter.value" matSuffix (click)="clearFileter(filter)">clear</mat-icon>
+    </mat-form-field>
+    <button mat-icon-button (click)="getIncomes()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <button mat-icon-button (click)="createIncome()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="grid-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
+
+      <!-- Columns -->
+      <ng-container *ngFor="let config of columnsConfig" [matColumnDef]="config.path">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> {{config.caption}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{getDisplayValue(element[config.path])}} </mat-cell>
+      </ng-container>
+
+      <ng-container [matColumnDef]="'order'">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Замовлення</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <a *ngIf="element.order" [routerLink]="['/order', element.order.id]" >{{ element.order.number }} </a>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)" (dblclick)="onRowDblClick(row)" [ngClass]="getRowClass(row)"></mat-row>
+    </mat-table>
+  </div>
+</div>

@@ -44,6 +44,9 @@ import { OrderListComponent } from './components/order-list/order-list.component
 import { ExpenseListComponent } from './components/expense-list/expense-list.component';
 import { ExpenseCardComponent } from './components/expense-card/expense-card.component';
 import { ExpenseService } from './services/expense.service';
+import { IncomeService } from './services/income.service';
+import { IncomeCardComponent } from './components/income-card/income-card.component';
+import { IncomeListComponent } from './components/income-list/income-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,9 @@ import { ExpenseService } from './services/expense.service';
     ProductCardComponent,
     OrderListComponent,
     ExpenseListComponent,
-    ExpenseCardComponent
+    ExpenseCardComponent,
+    IncomeCardComponent,
+    IncomeListComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +121,8 @@ import { ExpenseService } from './services/expense.service';
     ContactServiceService,
     LookupsService,
     OrderService,
-    ExpenseService
+    ExpenseService,
+    IncomeService
   ],
   bootstrap: [AppComponent]
 })

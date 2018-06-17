@@ -1,0 +1,38 @@
+<mat-card class="fields-container">
+  <form [formGroup]="form" (keypress)="onKeyPress($event)">
+    <mat-card-actions class="row">
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!saveButtonEnabled">Зберегти</button>
+      <button mat-button (click)="cancel()">Назад</button>
+    </mat-card-actions>
+    <mat-card-content>
+      <mat-grid-list cols="24" rowHeight="60">
+
+        <mat-grid-tile [colspan]="8">
+          <mat-form-field>
+            <mat-select tabindex="1" placeholder="Тип" formControlName="type">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let item of incometypeList" [value]="item.value">
+                {{item.displayValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="8">
+          <mat-form-field>
+            <input matInput [matDatepicker]="datePicker" tabindex="2" placeholder="Дата" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+          </mat-form-field>
+        </mat-grid-tile>
+
+        <mat-grid-tile [colspan]="6">
+          <mat-form-field>
+            <input matInput type="number" tabindex="3" placeholder="Сума" formControlName="amount">
+          </mat-form-field>
+        </mat-grid-tile>
+
+      </mat-grid-list>
+    </mat-card-content>
+  </form>
+</mat-card>

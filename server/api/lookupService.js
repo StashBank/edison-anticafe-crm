@@ -1,14 +1,9 @@
 const express = require('express');
 const app = express();
-const Sequelize = require('sequelize');
 const settings = require('../setttings');
-const connectionStrings = settings.connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize, {
-    dialect: 'postgres',
-    dialectOptions: {
-        ssl: true
-    }
-});
+const db = require('../db/sequelize');
+const Sequelize = db.Sequelize;
+const sequelize = db.sequelize;
 
 const LookupModels = require('../models/lookups');
 

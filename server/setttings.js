@@ -61,7 +61,17 @@ const LOOKUPS = [
     },
     {
         name: 'ExpenseType',
-        caption: 'Тип витрат'
+        caption: 'Тип витрат',
+        attributes: {
+            code: Sequelize.STRING
+        }
+    },
+    {
+        name: 'IncomeType',
+        caption: 'Тип доходів',
+        attributes: {
+            code: Sequelize.STRING
+        }
     }
 ];
 

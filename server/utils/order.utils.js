@@ -1,17 +1,23 @@
 const Sequelize = require('sequelize');
 const Tariff = require('../models/lookups').Tariff;
 const TariffType = require('../models/lookups').TariffType;
+const IncomeType = require('../models/lookups').IncomeType;
+const Income = require('../models/income').Income;
 
 const SECONDS_IN_HOURS = 60 * 60;
 const MILISECONDS_IN_SECONDS = 1000;
 
 class CostHelper {
 	async cost(order) {
-		const tariff = await this.fetchTariffById(order.product.tariffId);
-		if (tariff.type.code === 'hour') {
-			return this.costHour(order, tariff);
+		const tarrifId = order.product && order.product.tariffId;
+		if (tarrifId) {
+			const tariff = await this.fetchTariffById(tarrifId);
+			if (tariff.type.code === 'hour') {
+				return this.costHour(order, tariff);
+			}
+			return this.costOnce(order, tariff);
 		}
-		return this.costOnce(order, tariff);
+		return 0;
 	}
 	async fetchTariffById(id) {
 		const tariff = await Tariff.findById(id, {
@@ -63,11 +69,34 @@ class CostHelper {
 	}
 }
 
+const getModelObject = (body, model) => {
+	const obj = {};
+	for (const attribute in body) {
+		const column = model.attributes[attribute] || model.attributes[`${attribute}Id`];
+		const columnPath = column && column.fieldName;
+		if (columnPath && model.tableAttributes.hasOwnProperty(columnPath)) {
+			obj[columnPath] = body[attribute];
+		}
+	}
+	return obj;
+}
+
 const utils = {
-	cost: async (order) => {
+	cost: async order => {
 		const costHelper = new CostHelper();
 		const cost = await costHelper.cost(order);
 		return Math.round(cost * 100) / 100;
+	},
+	createOrderIncomes: async (order, amount) => {
+		const type = await IncomeType.find({
+			where: { code: 'order'}
+		});
+		return Income.create(getModelObject({
+			date: new Date(),
+			amount,
+			typeId: type.id,
+			orderId: order.id
+		}, Income));
 	}
 }
 module.exports = utils;

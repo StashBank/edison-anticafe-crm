@@ -1,12 +1,7 @@
-const Sequelize = require('sequelize');
 const settings = require('../setttings');
-const connectionStrings = settings.connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize, {
-    dialect: 'postgres',
-    dialectOptions: {
-        ssl: true
-    }
-});
+const db = require('../db/sequelize');
+const Sequelize = db.Sequelize;
+const sequelize = db.sequelize;
 const LOOKUPS = settings.lookups;
 const alterTableOnSync = settings.sequelize.alterTableOnSync;
 
@@ -17,7 +12,7 @@ for(const lookup of LOOKUPS) {
         name: { type: Sequelize.STRING, allowNull: false }
     }, lookup.attributes);
     lookupModels[lookup.name] = sequelize.define(lookup.name, attributes);
-    //lookupModels[lookup.name].sync({ alter: true });
+    // lookupModels[lookup.name].sync({ alter: true });
 }
 
 const Tariff = lookupModels.Tariff;
@@ -29,7 +24,8 @@ Tariff.belongsTo(Tariff, { as: 'parent' });
 Tariff.belongsTo(TariffType, { as: 'type' });
 Product.belongsTo(Tariff, { as: 'tariff' });
 
-// Tariff.sync({ alter: true });
+Tariff.sync({ alter: true });
+Product.sync({ alter: true });
 
 sequelize.sync({ alter: alterTableOnSync })
    .then(() => console.log('sequelize Lookups has been synchronized'))

@@ -9,6 +9,8 @@ import { MainComponent } from '../main/main.component';
 import { LookupsComponent } from './../components/lookups/lookups.component';
 import { ContactCardComponent } from '../components/contact-card/contact-card.component';
 import { ExpenseListComponent } from '../components/expense-list/expense-list.component';
+import { IncomeCardComponent } from '../components/income-card/income-card.component';
+import { IncomeListComponent } from '../components/income-list/income-list.component';
 
 const appRoutes = [
   { path: '', pathMatch: 'full', component: MainComponent },
@@ -23,6 +25,9 @@ const appRoutes = [
   { path: 'expenses', component: ExpenseListComponent},
   { path: 'expense', component: ExpenseCardComponent },
   { path: 'expense/:id', component: ExpenseCardComponent },
+  { path: 'incomes', component: IncomeListComponent },
+  { path: 'income', component: IncomeCardComponent },
+  { path: 'income/:id', component: IncomeCardComponent },
 ];
 
 @NgModule({

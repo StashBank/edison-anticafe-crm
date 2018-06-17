@@ -3,9 +3,10 @@ const app = express();
 const db = require('../db/sequelize');
 const Sequelize = db.Sequelize;
 const sequelize = db.sequelize;
-const Expense = require('../models/expense');
+const Income = require('../models/income').Income;
+const Order = require('../models/order').Order;
 const lookups = require('../models/lookups');
-const ExpenseType = lookups.ExpenseType;
+const IncomeType = lookups.IncomeType;
 
 const errorHandler = (res, err) => {
 	console.dir(err);
@@ -29,11 +30,16 @@ const getModelObject = (body, model) => {
 	return obj;
 }
 
-const expenseInclude = [
+const incomeInclude = [
 	{
-		model: ExpenseType,
+		model: IncomeType,
 		as: 'type',
 		attributes: ['id', 'name']
+	},
+	{
+		model: Order,
+		as: 'order',
+		attributes: ['id', 'number']
 	}
 ];
 
@@ -41,25 +47,28 @@ const parseDate = (src) => src ? new Date(Date.parse(src)) : null;
 
 app.get('/schema', (req, res) => {
 	res.send({
-		tableAttributes: Expense.tableAttributes,
-		attributes: Expense.attributes
+		tableAttributes: Income.tableAttributes,
+		attributes: Income.attributes
 	});
 });
 
-app.get('/', (req, res) => {
-	Expense.findAll({ include: expenseInclude })
-		.then((expenses) => res.send({ success: true, data: expenses }))
-		.catch((err) => { errorHandler(res, err) });
+app.get('/', async (req, res) => {
+	try {
+		const incomes = await Income.findAll({ include: incomeInclude })
+		res.send({ success: true, data: incomes })
+	} catch(err) {
+		errorHandler(res, err)
+	};
 });
 
 app.get('/:id', async (req, res) => {
 	const id = req.params.id;
 	try {
-		const expense = await Expense.findById(id, { include: expenseInclude });
-		if (!expense) {
-			return res.status(404).send({ success: false, message: 'Expense Not Found' });
+		const income = await Income.findById(id, { include: incomeInclude });
+		if (!income) {
+			return res.status(404).send({ success: false, message: 'Income Not Found' });
 		}
-		res.send({ success: true, data: expense });
+		res.send({ success: true, data: income });
 	} catch (err) {
 		errorHandler(res, err)
 	}
@@ -68,10 +77,10 @@ app.get('/:id', async (req, res) => {
 app.post('/', (req, res) => {
 	const body = req.body;
 	if (!body || body === {}) {
-		res.status(500).send({ error: "expense data is required", success: false })
+		res.status(500).send({ error: "income data is required", success: false })
 	}
-	Expense.create(getModelObject(body, Expense))
-		.then((expense) => res.send({ success: true, data: expense }))
+	Income.create(getModelObject(body, Income))
+		.then((income) => res.send({ success: true, data: income }))
 		.catch((err) => { errorHandler(res, err) });
 });
 
@@ -79,12 +88,12 @@ app.put('/:id', async (req, res) => {
 	const body = req.body;
 	const id = req.params.id;
 	if (!body || body === {}) {
-		res.status(500).send({ error: "Expense data is required", success: false })
+		res.status(500).send({ error: "Income data is required", success: false })
 	}
 	try {
-		let expense = await Expense.findById(id);
-		await expense.update(getModelObject(body, Expense));
-		res.send({ success: true, data: expense });
+		let income = await Income.findById(id);
+		await income.update(getModelObject(body, Income));
+		res.send({ success: true, data: income });
 	} catch (err) {
 		errorHandler(res, err);
 	}
@@ -93,11 +102,11 @@ app.put('/:id', async (req, res) => {
 app.delete('/:id', async (req, res) => {
 	const id = req.params.id;
 	try {
-		let expense = await Expense.findById(id)
-		if (!expense) {
-			return res.status(404).send({ success: false, message: 'Expense  Not Found' });
+		let income = await Income.findById(id)
+		if (!income) {
+			return res.status(404).send({ success: false, message: 'Income  Not Found' });
 		}
-		await expense.destroy()
+		await income.destroy()
 		res.send({ success: true });
 	} catch (err) {
 		errorHandler(res, err)

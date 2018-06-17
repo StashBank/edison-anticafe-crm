@@ -1,13 +1,8 @@
 const express = require('express');
 const app = express();
-const Sequelize = require('sequelize');
-const connectionStrings = require('../setttings').connectionStrings;
-const sequelize = new Sequelize(connectionStrings.sequelize, {
-    dialect: 'postgres',
-    dialectOptions: {
-        ssl: true
-    }
-});
+const db = require('../db/sequelize');
+const Sequelize = db.Sequelize;
+const sequelize = db.sequelize;
 const Contact = require('../models/contact');
 const OrderModels = require('../models/order');
 const Order = OrderModels.Order;
@@ -251,6 +246,7 @@ app.post('/close', async (req, res) => {
         timelines[timeline.index].endDate = endDate;
         order.timeline = timeline;
         const cost = await Utils.cost(order);
+        await Utils.createOrderIncomes(order, cost);
         const newValues = { statusId, endDate, timeline, cost }
         await order.update(getModelObject(newValues, Order))
         res.send({ success: true, data: newValues });
