@@ -10,14 +10,16 @@ const MILISECONDS_IN_SECONDS = 1000;
 class CostHelper {
 	async cost(order) {
 		const tarrifId = order.product && order.product.tariffId;
+		const orderProducts = order.products || [];
+		const tariffs = orderProducts.map(p => p.product.tariff);
 		if (tarrifId) {
 			const tariff = await this.fetchTariffById(tarrifId);
-			if (tariff.type.code === 'hour') {
-				return this.costHour(order, tariff);
-			}
-			return this.costOnce(order, tariff);
+			tariffs.unshift(tariff);
 		}
-		return 0;
+		return tariffs.reduce((cost, tariff) => cost + this.getTariffCost(order, tariff), 0);
+	}
+	getTariffCost(order, tariff) {
+		return tariff.type && tariff.type.code === 'hour' ? this.costHour(order, tariff) : this.costOnce(order, tariff);
 	}
 	async fetchTariffById(id) {
 		const tariff = await Tariff.findById(id, {

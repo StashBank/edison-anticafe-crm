@@ -13,6 +13,23 @@ export class OrderStatus extends Lookup {
     }
 }
 
+export class OrderProduct extends Lookup {
+    public product: Product;
+    public quantity: number;
+
+    constructor(args: any = {}) {
+        super(args);
+        this.product = args.product ? new Product(args.product) : null;
+        this.quantity = args.quantity;
+    }
+
+    toString(): string {
+        const product = this.product || '';
+        const quantity = this.quantity || 0;
+        return `${product} - ${quantity}`;
+    }
+}
+
 export class Order {
 
     public id: string;
@@ -20,7 +37,7 @@ export class Order {
     public contactName: string;
     public number: number;
     public product: Product;
-    public products: Product[];
+    public products: OrderProduct[];
     public status: OrderStatus;
     public startDate = new Date();
     public endDate?: Date;
@@ -39,12 +56,21 @@ export class Order {
         this.endDate = this.getDate(args.endDate);
         this.cost = args.cost;
         this.notes = args.notes;
-        this.products = args.products ? args.products.map(p => new Product(p)) : [];
+        this.products = args.products ? args.products.map(p => new OrderProduct(p)) : [];
         this.timeline = args.timeline;
     }
 
     public get client() {
         return this.contactName || this.contact && this.contact.fullName;
+    }
+
+    public addProduct(product: any): Array<OrderProduct> {
+        this.products.push(new OrderProduct(product));
+        return this.products;
+    }
+
+    public removeProduct(index: number): Array<OrderProduct> {
+        return this.products.splice(index, 1);
     }
 
     getDate(date): Date {

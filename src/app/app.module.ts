@@ -47,6 +47,8 @@ import { ExpenseService } from './services/expense.service';
 import { IncomeService } from './services/income.service';
 import { IncomeCardComponent } from './components/income-card/income-card.component';
 import { IncomeListComponent } from './components/income-list/income-list.component';
+import { AddProductDialogComponent } from './components/add-product-dialog/add-product-dialog.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { IncomeListComponent } from './components/income-list/income-list.compon
     ExpenseListComponent,
     ExpenseCardComponent,
     IncomeCardComponent,
-    IncomeListComponent
+    IncomeListComponent,
+    AddProductDialogComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -115,7 +119,8 @@ import { IncomeListComponent } from './components/income-list/income-list.compon
     MatTabsModule
   ],
   entryComponents: [
-    ContactCardDialogComponent
+    ContactCardDialogComponent,
+    AddProductDialogComponent
   ],
   providers: [
     ContactServiceService,

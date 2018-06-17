@@ -1,0 +1,21 @@
+<div class="fields-container">
+  <form #f="ngForm">
+    <mat-form-field>
+      <mat-select tabindex="1" placeholder="Продукт" [(ngModel)]="data.productId" name="product" required>
+        <mat-option>--</mat-option>
+        <mat-option *ngFor="let item of productList" [value]="item.value">
+          {{item.displayValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput tabindex="1" placeholder="Кількість" [(ngModel)]="data.quantity" name="quantity" required>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" [mat-dialog-close]="data" tabindex="2" [disabled]="!f.form.valid">Гаразд</button>
+      <button mat-button (click)="onCancelClick()" tabindex="3">Відміна</button>
+    </div>
+  </form>
+</div>

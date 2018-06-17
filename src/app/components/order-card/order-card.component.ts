@@ -1,9 +1,9 @@
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Product } from './../../models/product.model';
 import { Observable } from 'rxjs/Observable';
 import { OrderService } from './../../services/order.service';
 import { ContactServiceService } from './../../services/contact-service.service';
-import { Order, OrderStatus } from './../../models/order.model';
+import { Order, OrderStatus, OrderProduct } from './../../models/order.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ import { Lookup } from '../../models/base.types';
 import { Contact } from '../../models/contact.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import 'rxjs/add/operator/finally';
+import { AddProductDialogComponent } from '../add-product-dialog/add-product-dialog.component';
 
 @Component({
   selector: 'app-order-card',
@@ -102,6 +103,10 @@ export class OrderCardComponent implements OnInit {
     return this.order && this.order.timeline && this.order.timeline.timelines || [];
   }
 
+  get products(): OrderProduct[] {
+    return this.order && this.order.products;
+  }
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -109,7 +114,8 @@ export class OrderCardComponent implements OnInit {
     private orderService: OrderService,
     private lookupsService: LookupsService,
     public snackBar: MatSnackBar,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.spinner.show();
@@ -129,7 +135,8 @@ export class OrderCardComponent implements OnInit {
       endDate: new FormControl({ value: null, disabled: true }),
       cost: new FormControl({ value: null, disabled: true }),
       product: new FormControl(null, Validators.required),
-      notes: new FormControl()
+      notes: new FormControl(),
+      products: new FormControl()
     });
   }
 
@@ -403,6 +410,32 @@ export class OrderCardComponent implements OnInit {
       this.save();
       event.preventDefault();
     }
+  }
+
+  addProduct() {
+    const dialogRef = this.dialog.open(AddProductDialogComponent, {
+      width: '640px',
+      data: { productList: this.productList }
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.order.addProduct({
+            product: result.productList.find(p => p.value === result.productId),
+            quantity: result.quantity
+          });
+          this.form.patchValue({ products: this.products });
+          this.form.markAsTouched();
+          this.form.markAsDirty();
+        }
+      });
+  }
+
+  removeProduct(index: number) {
+    this.order.removeProduct(index);
+    this.form.patchValue({ products: this.products });
+    this.form.markAsTouched();
+    this.form.markAsDirty();
   }
 
 }

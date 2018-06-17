@@ -1,9 +1,6 @@
 const express = require('express');
 const app = express();
 const settings = require('../setttings');
-const db = require('../db/sequelize');
-const Sequelize = db.Sequelize;
-const sequelize = db.sequelize;
 
 const LookupModels = require('../models/lookups');
 

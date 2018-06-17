@@ -19,3 +19,16 @@ mat-card-actions {
     display: flex;
     align-items: center;
 }
+.product-item {
+    display: flex;
+    width: 75%
+}
+.product-item > span {
+    flex-grow: 10
+}
+.product-item > .icon {
+    flex-grow: 2
+}
+.icon {
+    cursor: pointer;
+}

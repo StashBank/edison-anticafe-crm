@@ -91,23 +91,15 @@
             </mat-grid-list>
             <mat-tab-group>
                 <mat-tab label="Продукти">
-                    <!-- <mat-accordion>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Час відвідування
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    Type your name and age
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <mat-list role="timelines">
-                                <mat-list-item role="timelines" *ngFor="let item of timelines">
-                                    <span>{{getTimelineString(item)}}</span>
-                                </mat-list-item>
-                            </mat-list>
-                        </mat-expansion-panel>
-                    </mat-accordion> -->
+                    <button mat-button color="primary" (click)="addProduct()">Додати</button>
+                    <mat-list role="products">
+                        <mat-list-item role="products" *ngFor="let item of products; let i = index">
+                            <div class="product-item">
+                                <span>{{item}}</span>
+                                <mat-icon (click)="removeProduct(i)" class="icon">clear</mat-icon>
+                            </div>
+                        </mat-list-item>
+                    </mat-list>
                 </mat-tab>
                 <mat-tab label="Примітки">
                     <mat-grid-list cols="24" rowHeight="60">
@@ -126,7 +118,7 @@
                                     Час відвідування
                                 </mat-panel-title>
                                 <mat-panel-description>
-                                    Type your name and age
+                                    
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
                             <mat-list role="timelines">
