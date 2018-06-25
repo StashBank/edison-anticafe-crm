@@ -15,6 +15,16 @@ const User = sequelize.define('User', {
   isAdmin: DataTypes.BOOLEAN
 });
 
+const adminUser = {
+  login: 'admin',
+  password: '12345678',
+  active: true,
+  email: 'admin@email.com',
+  isAdmin: true
+}
+
+User.create(adminUser);
+
 // Income.sync({ alter: alterTableOnSync })
 User.sync({ alter: true })
   .then(() => console.log('sequelize Users has been synchronized'))
