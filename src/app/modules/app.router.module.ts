@@ -11,9 +11,11 @@ import { ContactCardComponent } from '../components/contact-card/contact-card.co
 import { ExpenseListComponent } from '../components/expense-list/expense-list.component';
 import { IncomeCardComponent } from '../components/income-card/income-card.component';
 import { IncomeListComponent } from '../components/income-list/income-list.component';
+import { LoginComponent } from '../components/login/login.component';
 
 const appRoutes = [
   { path: '', pathMatch: 'full', component: MainComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'contact/:id', component: ContactCardComponent },
   { path: 'contact', pathMatch: 'full', component: ContactCardComponent },
   { path: 'lookup/Tariff', component: TariffCardComponent },

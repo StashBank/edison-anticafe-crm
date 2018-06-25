@@ -1,16 +1,88 @@
 const express = require('express');
 const path = require('path');
-const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compression = require('compression');
-
+const session = require('express-session')
+const MemoryStore = require('memorystore')(session);
+const passport = require('passport');
+const config = require('./server/config');
+const LocalStrategy = require('passport-local').Strategy
+const User = require('./server/models/user').User;
+const authenticationMiddleware = require('./server/authenticate/middleware')
 var api = require('./server/api');
 var app = express();
+
+app.use(session({
+  store: new MemoryStore({
+    checkPeriod: 86400000
+  }),
+  secret: config.memoryStore.secret,
+  resave: false,
+  saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
 
 const options = {
   index: 'index.html'
 };
+
+//app.use(logger('dev'));
+app.use(compression());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+app.post('/login',
+  function() {
+    passport.authenticate('local', { failureRedirect: '/login' }).apply(passport, arguments);
+  },
+  function (req, res) {
+    // res.redirect('/');
+    const { id, login } = req.user;
+    res.send({ id, login });
+  }
+);
+
+app.post('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/login');
+});
+
+passport.use(new LocalStrategy(
+  async function (username, password, done) {
+    try {
+      const user = await User.findOne({
+        where: {
+          login: username
+        }
+      });
+      if (!user) {
+        return done(null, false)
+      }
+      if (password !== user.password) {
+        return done(null, false)
+      }
+      return done(null, user)
+    } catch (err) {
+      return done(err);
+    }
+  }
+));
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser( async function (id, done) {
+  let user, err;
+  try {
+    user = await User.findById(id);
+  } catch (ex) {
+    err = ex;
+  }
+  done(err, user);
+});
 
 if (app.get('env') !== 'production') {
 
@@ -21,14 +93,10 @@ if (app.get('env') !== 'production') {
 }
 app.use(express.static(__dirname + "/node_modules"));
 
-//app.use(logger('dev'));
-app.use(compression());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'dist/index.html')));
+app.use(authenticationMiddleware());
 app.use(express.static(path.join(__dirname, 'dist'), options));
-//app.use(express.static(path.join(__dirname, 'app')));
+
 
 // Routes registration
 app.use('/api', api);

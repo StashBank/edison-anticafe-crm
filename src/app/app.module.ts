@@ -1,8 +1,9 @@
+import { AppHttp } from './services/http.service';
 import { LookupsService } from './services/lookups.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpModule, Http } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
@@ -49,6 +50,7 @@ import { IncomeCardComponent } from './components/income-card/income-card.compon
 import { IncomeListComponent } from './components/income-list/income-list.component';
 import { AddProductDialogComponent } from './components/add-product-dialog/add-product-dialog.component';
 import { LoginComponent } from './components/login/login.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -127,7 +129,8 @@ import { LoginComponent } from './components/login/login.component';
     LookupsService,
     OrderService,
     ExpenseService,
-    IncomeService
+    IncomeService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

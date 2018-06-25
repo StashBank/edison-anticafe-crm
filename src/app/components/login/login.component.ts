@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  public form: FormGroup;
+
+  get submitButtonDisabled(): boolean {
+    return this.form && this.form.invalid;
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
+    this.form = this.fb.group({
+      username: [null, [Validators.required, Validators.minLength(6)]],
+      password: [null, [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
+  login() {
+    this.userService.login(this.form.getRawValue())
+      .subscribe(
+        () => this.router.navigate([''])
+      );
   }
 
 }

@@ -11,7 +11,9 @@ class CostHelper {
 	async cost(order) {
 		const tarrifId = order.product && order.product.tariffId;
 		const orderProducts = order.products || [];
-		const tariffs = orderProducts.map(p => p.product.tariff);
+		const tariffs = orderProducts.map(
+			p => Object.assign({}, p.product.tariff, {quantity: +p.quantity})
+		);
 		if (tarrifId) {
 			const tariff = await this.fetchTariffById(tarrifId);
 			tariffs.unshift(tariff);
@@ -56,7 +58,9 @@ class CostHelper {
 
 	}
 	costOnce(order, tariff) {
-		return tariff.cost || 0;
+		const cost = tariff.cost || 0;
+		const qty = tariff.quantity || 1; 
+		return cost * qty;
 	}
 	getDuration(order) {
 		const timeline = order.timeline;

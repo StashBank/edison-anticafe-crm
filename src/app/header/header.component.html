@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default" *ngIf="currentUser">
   <div class="container-fluid">
     <mat-toolbar class="collapse navbar-collapse">
       <div class="navbar-header">
@@ -17,11 +17,15 @@
       <div class="nav navbar-nav navbar-right">
         <button mat-button
           [matMenuTriggerFor]="userMenu" 
-          class="navbar-brand">User name<span class="caret"></span></button>
-          <mat-menu #userMenu="matMenu">
-            <button mat-menu-item routerLink="/">Профіль</button>
-            <button mat-menu-item routerLink="/">Вихід</button>
-          </mat-menu>
+          class="navbar-brand">
+          <mat-icon>account_box</mat-icon>
+          {{currentUser?.name}}
+          <span class="caret"></span>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <!-- <button mat-menu-item routerLink="/">Профіль</button> -->
+          <button mat-menu-item (click)="logout()">Вихід</button>
+        </mat-menu>
       </div>
     </mat-toolbar>
   </div>
