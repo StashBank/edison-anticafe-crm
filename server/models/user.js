@@ -22,8 +22,13 @@ const adminUser = {
   email: 'admin@email.com',
   isAdmin: true
 }
-
-// User.create(adminUser);
+User.findOne({
+  where: { login: 'admin'}
+}).then(user => {
+  if (!user) {
+    User.create(adminUser);
+  }
+})
 
 // Income.sync({ alter: alterTableOnSync })
 User.sync({ alter: true })
