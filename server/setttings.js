@@ -89,9 +89,7 @@ module.exports = {
         mongoDB: process.env.NODE_ENV === 'production'
             ? prodConnectionString
             : devConnectionString,
-        sequelize: process.env.NODE_ENV === 'production'
-            ? SEQUELIZE_CONNECTION.PROD
-            : SEQUELIZE_CONNECTION.DEV
+        sequelize: process.env.DATABASE_URL || process.env.NODE_ENV === 'production' ? SEQUELIZE_CONNECTION.PROD : SEQUELIZE_CONNECTION.DEV
     },
     sequelize: {
         alterTableOnSync: false
