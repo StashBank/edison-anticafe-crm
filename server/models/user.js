@@ -23,7 +23,7 @@ const adminUser = {
   isAdmin: true
 }
 
-User.create(adminUser);
+// User.create(adminUser);
 
 // Income.sync({ alter: alterTableOnSync })
 User.sync({ alter: true })
