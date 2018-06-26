@@ -1,40 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs';
 
 import { Expense } from '../models/expense.model';
-import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class ExpenseService {
     private dataServiceURI = '/api/expenseService';
 
-    constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
     public getExpenses(): Observable<any> {
-        return this.http.get(this.dataServiceURI)
-            .map(res => res.json());
+        return this.http.get(this.dataServiceURI);
     }
 
     public getExpense(id: string): Observable<any> {
-        return this.http.get(`${this.dataServiceURI}/${id}`)
-            .map(res => res.json());
+        return this.http.get(`${this.dataServiceURI}/${id}`);
     }
 
     public add(order: Expense): Observable<any> {
-        return this.http.post(this.dataServiceURI, order)
-            .map(res => res.json());
+        return this.http.post(this.dataServiceURI, order);
     }
 
     public update(id: string, order: Expense): Observable<any> {
-        return this.http.put(`${this.dataServiceURI}/${id}`, order)
-            .map(res => res.json());
+        return this.http.put(`${this.dataServiceURI}/${id}`, order);
     }
 
     public delete(id: string): Observable<any> {
-        return this.http.delete(`${this.dataServiceURI}/${id}`)
-            .map(res => res.json());
+        return this.http.delete(`${this.dataServiceURI}/${id}`);
     }
 }

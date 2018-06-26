@@ -8,7 +8,8 @@ import { MatSnackBar } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LookupsService } from '../../services/lookups.service';
 import { Lookup } from '../../models/base.types';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-expense-card',

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user.model';
+import { Observable ,  Subject } from 'rxjs';
 import 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class UserService {
@@ -13,14 +12,14 @@ export class UserService {
   private currentUser: User;
   private currentUserSubject = new Subject<User>();
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     // this.setCurrentUser();
   }
 
-  public login(user) {
+  public login(user): Observable<User> {
     return this.http.post('/login', user)
     .map(response => {
-      this.currentUser = new User(response.json());
+      this.currentUser = new User(response);
       this.currentUserSubject.next(this.currentUser);
       return this.currentUser;
     });
@@ -43,7 +42,7 @@ export class UserService {
   private async requestCurrentUser() {
     const query = this.http.get(`${this.dataServiceURI}/currentUser`)
       .map(response => {
-        this.currentUser = new User(response.json());
+        this.currentUser = new User(response);
         return this.currentUser;
       });
     this.currentUser = await query.toPromise();

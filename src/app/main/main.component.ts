@@ -8,7 +8,7 @@ import {
   MatDialog,
   MatSort
 } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 
 @Component({

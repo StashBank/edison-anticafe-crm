@@ -6,7 +6,7 @@ import {
   MatDialog,
   MatSort
 } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ExpenseService } from '../../services/expense.service';
 
 @Component({

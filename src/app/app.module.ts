@@ -1,9 +1,8 @@
-import { AppHttp } from './services/http.service';
 import { LookupsService } from './services/lookups.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpModule, Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
@@ -75,10 +74,9 @@ import { UserService } from './services/user.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
     AppRouterModule,
     NgxSpinnerModule,
     MatButtonModule,

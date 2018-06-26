@@ -1,6 +1,6 @@
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Product } from './../../models/product.model';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OrderService } from './../../services/order.service';
 import { ContactServiceService } from './../../services/contact-service.service';
 import { Order, OrderStatus, OrderProduct } from './../../models/order.model';
@@ -12,8 +12,8 @@ import { LookupsService } from './../../services/lookups.service';
 import { Lookup } from '../../models/base.types';
 import { Contact } from '../../models/contact.model';
 import { NgxSpinnerService } from 'ngx-spinner';
-import 'rxjs/add/operator/finally';
 import { AddProductDialogComponent } from '../add-product-dialog/add-product-dialog.component';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-order-card',
