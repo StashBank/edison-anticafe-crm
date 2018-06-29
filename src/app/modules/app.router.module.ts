@@ -15,7 +15,6 @@ import { LoginComponent } from '../components/login/login.component';
 
 const appRoutes = [
   { path: '', pathMatch: 'full', component: MainComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'contact/:id', component: ContactCardComponent },
   { path: 'contact', pathMatch: 'full', component: ContactCardComponent },
   { path: 'lookup/Tariff', component: TariffCardComponent },
@@ -34,7 +33,7 @@ const appRoutes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forChild(appRoutes)
   ],
   exports: [
     RouterModule

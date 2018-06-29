@@ -1,9 +1,6 @@
-import { UserService } from './../services/user.service';
-import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LookupsService } from '../services/lookups.service';
 import { User } from '../models/user.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -12,27 +9,32 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
 
+  private _currentUser: User;
+  @Input() set currentUser( value: User) {
+    this._currentUser = value;
+    this.loadLookups();
+  }
+  get currentUser(): User {
+    return this._currentUser;
+  }
+  @Output() logOut = new EventEmitter<any>();
   lookups: any[];
-  currentUser: User;
 
   constructor(
-    private router: Router,
     private lookupsService: LookupsService,
-    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.lookupsService.get()
-      .subscribe(data => this.lookups = data);
-    const query = this.userService.getCurrentUser();
-    query.subscribe(user => this.currentUser = user);
+  }
+
+  loadLookups() {
+    if (!this.lookups) {
+      this.lookupsService.get().subscribe(data => this.lookups = data);
+    }
   }
 
   logout() {
-    this.userService.logout().subscribe(response => {
-      this.currentUser = null;
-        this.router.navigate(['login']);
-    });
+    this.logOut.emit();
   }
 
 }
