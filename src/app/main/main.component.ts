@@ -123,13 +123,16 @@ export class MainComponent implements OnInit {
 
   delete() {
     if (this.selectedItem) {
-      this.conactService.deleteContact(this.selectedItem.id)
-      .subscribe((res: {success: boolean}) => {
-        if (res.success) {
-          this.selectedItem = null;
-          this.getContacts();
-        }
-      });
+      const confirmation = confirm('Дійсно видалити?');
+      if (confirmation === true) {
+        this.conactService.deleteContact(this.selectedItem.id)
+          .subscribe((res: { success: boolean }) => {
+            if (res.success) {
+              this.selectedItem = null;
+              this.getContacts();
+            }
+          });
+      }
     }
   }
 

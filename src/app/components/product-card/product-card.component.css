@@ -20,7 +20,7 @@ form {
     max-width: 920px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: center;*/
 }
 mat-form-field {
     width: 100%;

@@ -50,6 +50,8 @@ import { IncomeListComponent } from './components/income-list/income-list.compon
 import { AddProductDialogComponent } from './components/add-product-dialog/add-product-dialog.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user.service';
+import {BookListComponent} from './components/book-list/book-list.component';
+
 
 @NgModule({
   declarations: [
@@ -68,8 +70,9 @@ import { UserService } from './services/user.service';
     ExpenseCardComponent,
     IncomeCardComponent,
     IncomeListComponent,
+    BookListComponent,
     AddProductDialogComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

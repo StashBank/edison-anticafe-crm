@@ -2,3 +2,7 @@
   width: 96px;
   margin-right: 16px;
 }
+
+.active-link {
+  border-bottom: solid 2px black;
+}
