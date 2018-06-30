@@ -4,5 +4,10 @@
 }
 
 .active-link {
+  /*background-color: rgba(197,202,233,.3);*/
   border-bottom: solid 2px black;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }
