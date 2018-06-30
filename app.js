@@ -47,7 +47,8 @@ app.post('/login',
 
 app.post('/logout', (req, res) => {
   req.logout();
-  res.redirect('/login');
+  // res.redirect('/login');
+  res.send(null);
 });
 
 passport.use(new LocalStrategy(

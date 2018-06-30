@@ -14,6 +14,16 @@ export class HeaderComponent implements OnInit {
 
   lookups: any[];
   currentUser: User;
+  private _isAuthenticated: boolean;
+  public set isAuthenticated(value: boolean) {
+    this._isAuthenticated = value;
+    if (value) {
+      this.onAuthenticated();
+    }
+  }
+  public get isAuthenticated(): boolean {
+    return this._isAuthenticated;
+  }
 
   constructor(
     private router: Router,
@@ -22,16 +32,26 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userService.getCurrentUser().subscribe(
+      user => this.currentUser = user
+    );
+    this.userService.onAuthenticated().subscribe(
+      isAuthenticated => this.isAuthenticated = isAuthenticated
+    );
+  }
+
+  onAuthenticated() {
+    this.loadLookups();
+  }
+
+  loadLookups() {
     this.lookupsService.get()
       .subscribe(data => this.lookups = data);
-    const query = this.userService.getCurrentUser();
-    query.subscribe(user => this.currentUser = user);
   }
 
   logout() {
     this.userService.logout().subscribe(response => {
-      this.currentUser = null;
-        this.router.navigate(['login']);
+      this.router.navigate(['/login']);
     });
   }
 
