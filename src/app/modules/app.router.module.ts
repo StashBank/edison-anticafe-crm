@@ -12,9 +12,11 @@ import { ExpenseListComponent } from '../components/expense-list/expense-list.co
 import { IncomeCardComponent } from '../components/income-card/income-card.component';
 import { IncomeListComponent } from '../components/income-list/income-list.component';
 import { LoginComponent } from '../components/login/login.component';
+import {BookListComponent} from '../components/book-list/book-list.component';
+
 
 const appRoutes = [
-  { path: '', pathMatch: 'full', component: MainComponent },
+  { path: 'contacts', component: MainComponent },
   { path: 'login', component: LoginComponent },
   { path: 'contact/:id', component: ContactCardComponent },
   { path: 'contact', pathMatch: 'full', component: ContactCardComponent },
@@ -30,6 +32,8 @@ const appRoutes = [
   { path: 'incomes', component: IncomeListComponent },
   { path: 'income', component: IncomeCardComponent },
   { path: 'income/:id', component: IncomeCardComponent },
+  { path: 'book-list', component: BookListComponent },
+  { path: '', pathMatch: 'full', redirectTo: '/contacts'}
 ];
 
 @NgModule({
