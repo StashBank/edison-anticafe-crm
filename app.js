@@ -12,10 +12,11 @@ const User = require('./server/models/user').User;
 const authenticationMiddleware = require('./server/authenticate/middleware')
 var api = require('./server/api');
 var app = express();
+const HOUR_PERIOD = 3600000;
 
 app.use(session({
   store: new MemoryStore({
-    checkPeriod: 86400000
+    checkPeriod: HOUR_PERIOD * 1
   }),
   secret: config.memoryStore.secret,
   resave: false,

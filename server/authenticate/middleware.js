@@ -4,6 +4,10 @@ module.exports = function authenticationMiddleware() {
     if (req.isAuthenticated() || reqExp.test(req.url)) {
       return next()
     }
-    res.redirect('/login')
+    if (req.url.startsWith('/api/') && !req.url.startsWith('/api/userService')) {
+      res.status(401).send({ url: req.url })
+    } else {
+      res.redirect('/login');
+    } 
   }
 }

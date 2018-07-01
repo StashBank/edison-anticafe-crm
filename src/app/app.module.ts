@@ -1,8 +1,9 @@
+import { UnauthorizedHttpInterceptor } from './services/unauthorized-http-interceptor.service';
 import { LookupsService } from './services/lookups.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
@@ -126,6 +127,7 @@ import {BookListComponent} from './components/book-list/book-list.component';
     AddProductDialogComponent
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: UnauthorizedHttpInterceptor, multi: true },
     ContactServiceService,
     LookupsService,
     OrderService,

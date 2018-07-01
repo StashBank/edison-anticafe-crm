@@ -55,8 +55,12 @@ app.get('/lookupData/:lookupName', (req, res) => {
         let Model = LookupModels[lookupName]; 
         const include = getInclude(lookup);
         Model.findAll({ include: include})
-            .then(data => res.send({ data: data, success: true }))
-            .catch((err) => { errorHandler(res, err) });
+            .then(
+                data => res.send({ data: data, success: true })
+            )
+            .catch(
+                err => { errorHandler(res, err) }
+            );
     } else {
         res.status(400).send({
             error: `lookup with name ${lookupName} not found`,
@@ -73,8 +77,12 @@ app.get('/lookupItem/:lookupName/:id', (req, res) => {
         let Model = LookupModels[lookupName];
         const include = getInclude(lookup);
         Model.findById(id, { include: include })
-            .then(data => res.send({ data: data, success: true }))
-            .catch((err) => { errorHandler(res, err) });
+            .then(
+                data => res.send({ data: data, success: true })
+            )
+            .catch(
+                err => { errorHandler(res, err) }
+            );
     } else {
         res.status(400).send({
             error: `lookup with name ${lookupName} not found`,
@@ -93,8 +101,12 @@ app.post('/lookupItem/:lookupName', (req, res) => {
     if (lookup) {
         let Model = LookupModels[lookupName];
         Model.create(getModelObject(body, Model))
-            .then(data => res.send({ data: data, success: true }))
-            .catch((err) => { errorHandler(res, err) });
+            .then(
+                data => res.send({ data: data, success: true })
+            )
+            .catch(
+                err => { errorHandler(res, err) }
+            );
     } else {
         res.status(400).send({
             error: `lookup with name ${lookupName} not found`,
@@ -119,8 +131,12 @@ app.put('/lookupItem/:lookupName/:id', (req, res) => {
                     return res.status(404).send({ success: false, message: 'Lookup item Not Found' });
                 }
                 item.update(getModelObject(body, Model))
-                    .then(data => res.send({ data: data, success: true }))
-                    .catch((err) => { errorHandler(res, err) });
+                    .then(
+                        data => res.send({ data: data, success: true })
+                    )
+                    .catch(
+                        err => { errorHandler(res, err) }
+                    );
             })
             .catch((err) => { errorHandler(res, err) });
     } else {
@@ -144,9 +160,13 @@ app.delete('/lookupItem/:lookupName/:id', (req, res) => {
                 }
                 item.destroy()
                     .then(() => res.send({ success: true }))
-                    .catch((err) => { errorHandler(res, err) });
+                    .catch(
+                        err => { errorHandler(res, err) }
+                    );
             })
-            .catch((err) => { errorHandler(res, err) });
+            .catch(
+                err => { errorHandler(res, err) }
+            );
     } else {
         res.status(400).send({
             error: `lookup with name ${lookupName} not found`,

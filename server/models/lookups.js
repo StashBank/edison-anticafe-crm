@@ -31,4 +31,17 @@ sequelize.sync({ alter: alterTableOnSync })
    .then(() => console.log('sequelize Lookups has been synchronized'))
    .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
 
+const tariffTypesToExists = [
+    { name: 'Одноразово', code: 'once' },
+    { name: 'День', code: 'day' },
+    { name: 'Ручне введеня', code: 'manually' },
+    { name: 'Погодинно', code: 'hour' },
+]
+tariffTypesToExists.forEach(async type => {
+    const dbType = await TariffType.findOne({where: {code: type.code }});
+    if (!dbType) {
+        TariffType.create(type); 
+    }
+});
+
 module.exports = lookupModels;
