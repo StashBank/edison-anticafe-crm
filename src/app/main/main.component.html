@@ -8,7 +8,7 @@
       <mat-icon>refresh</mat-icon>
     </button>
     <button mat-icon-button 
-       [routerLink]="['contact']">
+       [routerLink]="['/contact']">
       <mat-icon>add</mat-icon>
     </button>
     <button mat-icon-button (click)="order()">
@@ -19,7 +19,7 @@
     </button>
     <mat-menu #additionalMenu="matMenu">
       <button mat-menu-item
-        [routerLink]="['contact', selectedItem && selectedItem.id]"
+        [routerLink]="['/contact', selectedItem && selectedItem.id]"
         [disabled]="!selectedItem">
         <mat-icon>edit</mat-icon>
         <span>Редагувати</span>

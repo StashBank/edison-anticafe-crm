@@ -91,7 +91,7 @@
             </mat-grid-list>
             <mat-tab-group>
                 <mat-tab label="Продукти">
-                    <button mat-button color="primary" (click)="addProduct()">Додати</button>
+                    <button *ngIf="!isNew" mat-button color="primary" (click)="addProduct()" [disabled]="form?.invalid">Додати</button>
                     <mat-list role="products">
                         <mat-list-item role="products" *ngFor="let item of products; let i = index">
                             <div class="product-item">

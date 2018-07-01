@@ -18,6 +18,8 @@ for(const lookup of LOOKUPS) {
 const Tariff = lookupModels.Tariff;
 const TariffType = lookupModels.TariffType;
 const Product = lookupModels.Product;
+const OrderStatus = lookupModels.OrderStatus;
+const IncomeType = lookupModels.IncomeType;
 
 Tariff.hasMany(Tariff, { as: 'children', foreignKey: 'parentId' });
 Tariff.belongsTo(Tariff, { as: 'parent' });
@@ -36,11 +38,35 @@ const tariffTypesToExists = [
     { name: 'День', code: 'day' },
     { name: 'Ручне введеня', code: 'manually' },
     { name: 'Погодинно', code: 'hour' },
-]
+];
 tariffTypesToExists.forEach(async type => {
     const dbType = await TariffType.findOne({where: {code: type.code }});
     if (!dbType) {
         TariffType.create(type); 
+    }
+});
+
+const orderStatusesToExists = [
+    { name: 'Призупинено', code: 'Postponed', isFinal: false },
+    { name: 'Виконується', code: 'InProgress', isFinal: false },
+    { name: 'Закрито', code: 'Closed', isFinal: true },
+    { name: 'Новий', code: 'New', isFinal: false },
+    { name: 'Відмінено', code: 'Canceled', isFinal: true },
+];
+orderStatusesToExists.forEach(async status => {
+    const dbType = await OrderStatus.findOne({ where: { code: status.code } });
+    if (!dbType) {
+        OrderStatus.create(status);
+    }
+});
+
+incomeTypesToExists = [
+    {name: 'Замовлення', code: 'order'}
+];
+incomeTypesToExists.forEach(async type => {
+    const dbType = await IncomeType.findOne({ where: { code: type.code } });
+    if (!dbType) {
+        IncomeType.create(type);
     }
 });
 
