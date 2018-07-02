@@ -119,15 +119,17 @@ export class LookupsComponent implements OnInit {
   }
 
   deleteItem(item: any) {
-    if (this.lookup) {
-      this.spinner.show();
-      this.lookupService.deleteLookupItem(this.lookup.name, item.id)
-      .finally(() => this.spinner.hide())
-      .subscribe(res => {
-        if (res.success) {
-          this.getLookupData();
-        }
-      });
+    if (confirm('Ви дійсно бажаете видалити запис?')) {
+      if (this.lookup) {
+        this.spinner.show();
+        this.lookupService.deleteLookupItem(this.lookup.name, item.id)
+          .finally(() => this.spinner.hide())
+          .subscribe(res => {
+            if (res.success) {
+              this.getLookupData();
+            }
+          });
+      }
     }
   }
 
