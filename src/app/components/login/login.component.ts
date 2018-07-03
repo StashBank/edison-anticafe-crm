@@ -39,7 +39,8 @@ export class LoginComponent implements OnInit {
         () => this.spinner.hide()
       )
       .subscribe(
-        () => this.router.navigate([''])
+        () => this.router.navigate(['']),
+        err => alert('Не коректний логин/пароль')
       );
   }
 

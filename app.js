@@ -9,7 +9,8 @@ const passport = require('passport');
 const config = require('./server/config');
 const LocalStrategy = require('passport-local').Strategy
 const User = require('./server/models/user').User;
-const authenticationMiddleware = require('./server/authenticate/middleware')
+const authenticationMiddleware = require('./server/authenticate/middleware');
+const bcrypt = require('bcrypt');
 var api = require('./server/api');
 var app = express();
 const HOUR_PERIOD = 3600000;
@@ -63,7 +64,8 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false)
       }
-      if (password !== user.password) {
+      // const encryptedPassword = bcrypt.hashSync(password, user.salt || 12);
+      if (!bcrypt.compareSync(password, user.password)) {
         return done(null, false)
       }
       return done(null, user)
