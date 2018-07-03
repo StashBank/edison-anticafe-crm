@@ -8,12 +8,11 @@
         <button mat-button routerLink="/expenses" routerLinkActive="active-link">Витрати</button>
         <button mat-button routerLink="/incomes" routerLinkActive="active-link">Доходи</button>
         <button mat-button routerLink="/book-list" routerLinkActive="active-link">Броні</button>
-        <button mat-button [matMenuTriggerFor]="lookupMenu" routerLink="/lookup" routerLinkActive="active-link">Довідники
-          <span class="caret"></span>
+        <button mat-button [matMenuTriggerFor]="lookupMenu" routerLinkActive="active-link">Довідники<span class="caret"></span>
+          <mat-menu #lookupMenu="matMenu">
+            <button *ngFor="let lookup of lookups" mat-menu-item [routerLink]="'lookup/' + lookup.name">{{lookup.caption}}</button>
+          </mat-menu>
         </button>
-        <mat-menu #lookupMenu="matMenu">
-          <button *ngFor="let lookup of lookups" mat-menu-item [routerLink]="'lookup/' + lookup.name">{{lookup.caption}}</button>
-        </mat-menu>
 
         <span class="spacer"></span>
 
