@@ -1,36 +1,35 @@
 <mat-toolbar *ngIf="currentUser">
-      <mat-toolbar-row>
-        <div>
-          <img class="logo" src='/assets/img/logo.png' />
-        </div>
-        <button mat-button routerLink="/contacts"  routerLinkActive="active-link">Головна</button>
-            mat-menu-item [routerLink]="'lookup/' + lookup.name" routerLinkActive="active-link-lookups">{{lookup.caption}}</button>
-        <button mat-button routerLink="/orders" routerLinkActive="active-link">Замовлення</button>
-        <button mat-button routerLink="/expenses" routerLinkActive="active-link">Витрати</button>
-        <button mat-button routerLink="/incomes" routerLinkActive="active-link">Доходи</button>
-        <button mat-button routerLink="/book-list" routerLinkActive="active-link">Броні</button>
-        
-        <span class="spacer"></span>
-        
-        <button mat-button [matMenuTriggerFor]="lookupMenu" routerLinkActive="active-link">Довідники<span class="caret"></span>
-          <mat-menu #lookupMenu="matMenu">
-            <button *ngFor="let lookup of lookups" mat-menu-item [routerLink]="'lookup/' + lookup.name">{{lookup.caption}}</button>
-          </mat-menu>
-        </button>
-        <div>
-          <button mat-button
-            [matMenuTriggerFor]="userMenu">
-            <mat-icon>account_box</mat-icon>
-            {{currentUser?.name}}
-            <span class="caret"></span>
-          </button>
-          <mat-menu #userMenu="matMenu">
-            <!-- <button mat-menu-item routerLink="/">Профіль</button> -->
-            <!-- <button mat-menu-item routerLink="/">Створити користувача</button> -->
-            <button mat-menu-item (click)="logout()">Вихід</button>
-        </mat-menu>
-        </div>
-      </mat-toolbar-row>
+  <mat-toolbar-row>
+    <div>
+      <img class="logo" src='/assets/img/logo.png' />
+    </div>
+    <button mat-button routerLink="/contacts"  routerLinkActive="active-link">Головна</button>
+    <button mat-button routerLink="/orders" routerLinkActive="active-link">Замовлення</button>
+    <button mat-button routerLink="/expenses" routerLinkActive="active-link">Витрати</button>
+    <button mat-button routerLink="/incomes" routerLinkActive="active-link">Доходи</button>
+    <button mat-button routerLink="/book-list" routerLinkActive="active-link">Броні</button>
+
+    <span class="spacer"></span>
+
+    <button mat-button [matMenuTriggerFor]="lookupMenu" routerLinkActive="active-link">Довідники<span class="caret"></span>
+      <mat-menu #lookupMenu="matMenu">
+        <button *ngFor="let lookup of lookups" mat-menu-item [routerLink]="'lookup/' + lookup.name" routerLinkActive="active-link-lookups">{{lookup.caption}}</button>
+      </mat-menu>
+    </button>
+    <div>
+      <button mat-button
+              [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_box</mat-icon>
+        {{currentUser?.name}}
+        <span class="caret"></span>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <!-- <button mat-menu-item routerLink="/">Профіль</button> -->
+        <!-- <button mat-menu-item routerLink="/">Створити користувача</button> -->
+        <button mat-menu-item (click)="logout()">Вихід</button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 
