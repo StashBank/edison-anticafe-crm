@@ -30,4 +30,6 @@ Order.belongsTo(Product, { as: 'product' });
 //    .then(() => console.log('sequelize Order has been synchronized'))
 //    .catch((err) => { console.log('sequelize Order has not been synchronized'); throw err });
 
+// Order.destroy({ where: { productId: 'eb0ba58e-1432-4294-94f9-8ed42f075a08'}});
+
 module.exports = { Order };

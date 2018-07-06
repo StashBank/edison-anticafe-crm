@@ -33,6 +33,7 @@ const appRoutes = [
   { path: 'income', component: IncomeCardComponent },
   { path: 'income/:id', component: IncomeCardComponent },
   { path: 'book-list', component: BookListComponent },
+  { path: 'main', redirectTo: '/contacts'},
   { path: '', pathMatch: 'full', redirectTo: '/contacts'}
 ];
 

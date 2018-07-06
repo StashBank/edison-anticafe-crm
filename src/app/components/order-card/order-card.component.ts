@@ -277,7 +277,7 @@ export class OrderCardComponent implements OnInit {
 
   onSaved(res: any) {
     if (res.success) {
-      this.order.status = this.orderstatusList.find(i => i.id = res.data.statusId);
+      this.order.status = this.orderstatusList.find(i => i.value === res.data.statusId || i.id === res.data.statusId);
       this.order.timeline = res.data.timeline;
       this.form.controls['status'].setValue(res.data.statusId);
       this.isNew = false;
@@ -427,6 +427,7 @@ export class OrderCardComponent implements OnInit {
           this.form.patchValue({ products: this.products });
           this.form.markAsTouched();
           this.form.markAsDirty();
+          this.save();
         }
       });
   }

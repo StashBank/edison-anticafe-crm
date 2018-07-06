@@ -65,6 +65,9 @@ export class Order {
     }
 
     public addProduct(product: any): Array<OrderProduct> {
+        if (!Array.isArray(this.products)) {
+            this.products = [];
+        }
         this.products.push(new OrderProduct(product));
         return this.products;
     }
