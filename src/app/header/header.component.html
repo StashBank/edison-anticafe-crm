@@ -3,7 +3,7 @@
     <div>
       <img class="logo" src='/assets/img/logo.png' />
     </div>
-    <button mat-button routerLink="/contacts"  routerLinkActive="active-link">Головна</button>
+    <button mat-button routerLink="/contacts"  routerLinkActive="active-link">Контакти</button>
     <button mat-button routerLink="/orders" routerLinkActive="active-link">Замовлення</button>
     <button mat-button routerLink="/expenses" routerLinkActive="active-link">Витрати</button>
     <button mat-button routerLink="/incomes" routerLinkActive="active-link">Доходи</button>
@@ -25,7 +25,7 @@
       </button>
       <mat-menu #userMenu="matMenu">
         <!-- <button mat-menu-item routerLink="/">Профіль</button> -->
-        <!-- <button mat-menu-item routerLink="/">Створити користувача</button> -->
+        <button mat-menu-item routerLink="/">Створити користувача</button>
         <button mat-menu-item (click)="logout()">Вихід</button>
       </mat-menu>
     </div>

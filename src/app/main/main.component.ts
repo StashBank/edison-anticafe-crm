@@ -48,11 +48,11 @@ export class MainComponent implements OnInit {
       { caption: 'Номер клієнта', path: 'contactId' },
       { caption: 'Ім\'я', path: 'fullName' },
       { caption: 'Продукт', path: 'product' },
-      { caption: 'Вік', path: 'age' },
       { caption: 'Мобільний телефон', path: 'mobilePhone' },
-      { caption: 'E-mail', path: 'email' },
+      { caption: 'Вік', path: 'age' },
+      // { caption: 'E-mail', path: 'email' },
       { caption: 'ЦА', path: 'target' },
-      { caption: 'Дата народження', path: 'birthDate' },
+      // { caption: 'Дата народження', path: 'birthDate' },
       { caption: 'Примітки', path: 'notes' }
     ];
   }
