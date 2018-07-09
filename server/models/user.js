@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 const User = sequelize.define('User', {
   id: { type: Sequelize.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-  login: DataTypes.TEXT,
+  login: { type:DataTypes.TEXT, unique: true },
   password: DataTypes.TEXT,
   active: DataTypes.BOOLEAN,
   email: DataTypes.TEXT,
@@ -21,8 +21,7 @@ const adminUser = {
   login: 'admin',
   password: encryptedPassword,
   active: true,
-  email: 'admin@email.com',
-  isAdmin: true
+  email: 'admin@email.com'
 }
 User.findOne({
   where: { login: 'admin'}
@@ -32,7 +31,7 @@ User.findOne({
   } else if (user.password !== encryptedPassword) {
     user.update({ password: encryptedPassword});
   }
-})
+});
 
 // Income.sync({ alter: alterTableOnSync })
 User.sync({ alter: true })
