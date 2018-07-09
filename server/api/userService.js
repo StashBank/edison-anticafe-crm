@@ -51,6 +51,19 @@ app.get('/:id', async (req, res) => {
   }
 });
 
+app.get('/byLogin/:login', async (req, res) => {
+  const login = req.params.login;
+  try {
+    const user = await User.findOne({ login });
+    if(!user) {
+      return res.status(404).send({ success: false, message: 'User Not Found' });
+    }
+    res.send({ success: true, data: user });
+  } catch (err) {
+    errorHandler(res, err)
+  }
+});
+
 app.post('/', async (req, res) => {
   const body = req.body;
   if (!body || body === {}) {
