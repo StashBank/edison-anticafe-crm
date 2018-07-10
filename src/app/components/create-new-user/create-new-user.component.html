@@ -1,0 +1,22 @@
+<div class="new-user-container">
+  <h3>Створити користувача</h3>
+  <form [formGroup]="createUserForm" (submit)="registerNewUser()">
+    <mat-form-field>
+      <input matInput placeholder="Логін" formControlName="newUserLogin" required>
+      <mat-icon matSuffix>assignment_ind</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Пароль" type="password" formControlName="newUserPassword" required>
+      <mat-icon matSuffix>vpn_key</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="newUserEmail" required>
+      <mat-icon matSuffix>mail</mat-icon>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Номер мобільного" formControlName="newUserPhoneNumber" required>
+      <mat-icon matSuffix>phone_iphone</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="createUserForm.invalid">Зареєструвати</button>
+  </form>
+</div>

@@ -1,0 +1,23 @@
+.new-user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.new-user-container > * {
+  width: 25%;
+}
+
+h3 {
+  margin-left: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+button {
+  align-self: flex-end;
+}
