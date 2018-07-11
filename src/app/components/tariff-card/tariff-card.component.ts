@@ -141,6 +141,8 @@ export class TariffCardComponent implements OnInit {
   }
 
   onSaved(data: any) {
+    data.type = this.tarifftypeList.find(i => i.value === data.typeId);
+    data.parent = this.tariffList.find(i => i.value === data.parentId)
     const tariff = new Tariff(data);
     if (this.isNew) {
       this.tariffList.unshift(tariff);

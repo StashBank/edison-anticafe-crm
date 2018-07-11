@@ -15,7 +15,7 @@
     "tsc:w": "tsc -w",
     "prod": "NODE_ENV=production ./bin/www",
     "dev": "ng build --aot && node ./bin/www",
-    "dev-server": "node ./bin/www",
+    "dev-server": "nodemon ./bin/www",
     "dev-client": "ng build --aot --watch",
     "build:prod": "node bin/bundler.js --prod",
     "postinstall": "ng build --aot --prod"
