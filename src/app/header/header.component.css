@@ -14,3 +14,7 @@
 .spacer {
   flex: 1 1 auto;
 }
+
+.mat-button, .mat-flat-button, .mat-icon-button, .mat-stroked-button {
+  line-height: 62px;
+}

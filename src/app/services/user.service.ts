@@ -80,4 +80,20 @@ export class UserService {
       this.isAuthenticated = true;
     }
   }
+
+  public get(id: string): Observable<any> {
+    return this.http.get(`${this.dataServiceURI}/${id}`).map(v => new User(v));
+  }
+
+  public create(userData: User): Observable<any> {
+    return this.http.post(this.dataServiceURI, userData);
+  }
+
+  public modify(id: string, userData: User) {
+    return this.http.put(`${this.dataServiceURI}/${id}`, userData);
+  }
+
+  public newPassword(id: string, userData: User) {
+    return this.http.put(`${this.dataServiceURI}/changePassword/${id}`, userData);
+  }
 }

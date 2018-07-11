@@ -1,37 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { NewUserService } from '../../services/new-user.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
   selector: 'app-create-new-user',
-  templateUrl: './create-new-user.component.html',
-  styleUrls: ['./create-new-user.component.css']
+  templateUrl: './create-user.component.html',
+  styleUrls: ['./create-user.component.css']
 })
 
-export class CreateNewUserComponent implements OnInit {
+export class CreateUserComponent implements OnInit {
 
   public createUserForm: FormGroup;
 
   constructor( private formBuilder: FormBuilder,
-               private newUserService: NewUserService,
+               private newUserService: UserService,
   ) { }
 
   ngOnInit() {
     this.createUserForm = this.formBuilder.group({
-      newUserLogin: ['',
+      login: ['',
         [ Validators.required,
           Validators.pattern(/^([A-z][A-Za-z]*\s+[A-Za-z]*)|([A-z][A-Za-z]*)$/),]
       ],
-      newUserPassword: ['',
+      password: ['',
         [Validators.required,
         ]
       ],
-      newUserEmail: ['',
+      email: ['',
         [ Validators.required,
           Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]
       ],
-      newUserPhoneNumber: ['',
+      phone: ['',
         [Validators.required]]
     })
   }
@@ -39,7 +39,7 @@ export class CreateNewUserComponent implements OnInit {
   public registerNewUser() { //when add parametr 'userData' to function - compilator get error
     let sendData = this.createUserForm.value;
 
-    this.newUserService.createNewUser(sendData).subscribe(send => {
+    this.newUserService.create(sendData).subscribe(send => {
       console.log('okay');
     }, error => {
       console.log('error');
