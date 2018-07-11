@@ -13,7 +13,7 @@ import { IncomeCardComponent } from '../components/income-card/income-card.compo
 import { IncomeListComponent } from '../components/income-list/income-list.component';
 import { LoginComponent } from '../components/login/login.component';
 import {BookListComponent} from '../components/book-list/book-list.component';
-import { CreateNewUserComponent } from '../components/create-new-user/create-new-user.component';
+import { CreateUserComponent } from '../components/create-user/create-user.component';
 
 
 const appRoutes = [
@@ -34,7 +34,7 @@ const appRoutes = [
   { path: 'income', component: IncomeCardComponent },
   { path: 'income/:id', component: IncomeCardComponent },
   { path: 'book-list', component: BookListComponent },
-  { path: 'create-new-user', component: CreateNewUserComponent },
+  { path: 'create-new-user', component: CreateUserComponent },
   { path: 'main', redirectTo: '/contacts'},
   { path: '', pathMatch: 'full', redirectTo: '/contacts'}
 ];

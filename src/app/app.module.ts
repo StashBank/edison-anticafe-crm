@@ -52,8 +52,7 @@ import { AddProductDialogComponent } from './components/add-product-dialog/add-p
 import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user.service';
 import {BookListComponent} from './components/book-list/book-list.component';
-import { CreateNewUserComponent } from './components/create-new-user/create-new-user.component';
-import { NewUserService } from './services/new-user.service';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 
 
 @NgModule({
@@ -76,7 +75,7 @@ import { NewUserService } from './services/new-user.service';
     BookListComponent,
     AddProductDialogComponent,
     LoginComponent,
-    CreateNewUserComponent,
+    CreateUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -137,7 +136,6 @@ import { NewUserService } from './services/new-user.service';
     ExpenseService,
     IncomeService,
     UserService,
-    NewUserService
   ],
   bootstrap: [AppComponent]
 })
