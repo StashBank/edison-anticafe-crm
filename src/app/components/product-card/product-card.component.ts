@@ -131,6 +131,7 @@ export class ProductCardComponent implements OnInit {
   }
 
   onSaved(data: any) {
+    data.tariff = this.tariffList.find(i => i.value === data.tariffId);
     const product = new Product(data);
     if (this.isNew) {
       this.productList.unshift(product);

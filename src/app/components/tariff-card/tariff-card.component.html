@@ -41,13 +41,13 @@
               </mat-form-field>
             </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="6">
+            <mat-grid-tile [colspan]="6" *ngIf="positionFieldVisible">
               <mat-form-field>
                 <input matInput type="number" tabindex="4" placeholder="Позиція" formControlName="position">
               </mat-form-field>
             </mat-grid-tile>
 
-            <mat-grid-tile [colspan]="6">
+            <mat-grid-tile [colspan]="6" *ngIf="parentFieldVisible">
               <mat-form-field>
                 <mat-select placeholder="Належить до" tabindex="5" formControlName="parent">
                   <mat-option>--</mat-option>

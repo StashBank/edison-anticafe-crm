@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 7%;
+  /*margin-top: 7%;*/
 }
 
 form {
@@ -13,6 +13,7 @@ form {
   flex-direction: column;
   background-color: whitesmoke;
   padding: 24px;
+  margin-top: -25%;
 }
 
 button {
