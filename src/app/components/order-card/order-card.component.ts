@@ -1,12 +1,14 @@
+import { Tariff, TariffType, TariffTypeCodes } from './../../models/tariff.model';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Product } from './../../models/product.model';
 import { Observable } from 'rxjs';
+import { merge } from 'rxjs/observable/merge';
 import { OrderService } from './../../services/order.service';
 import { ContactServiceService } from './../../services/contact-service.service';
 import { Order, OrderStatus, OrderProduct } from './../../models/order.model';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidatorFn, AbstractControl, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { LookupsService } from './../../services/lookups.service';
 import { Lookup } from '../../models/base.types';
@@ -14,6 +16,7 @@ import { Contact } from '../../models/contact.model';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AddProductDialogComponent } from '../add-product-dialog/add-product-dialog.component';
 import 'rxjs/add/operator/finally';
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'app-order-card',
@@ -28,14 +31,19 @@ export class OrderCardComponent implements OnInit {
   anonymous = true;
   order: Order;
   form: FormGroup;
-  productList: any[];
-  orderstatusList: any[];
+  productList: Array<Product> = [];
+  orderstatusList: Array<OrderStatus> = [];
+  tariffList: Array<Tariff> = [];
+  tarifftypeList: Array<TariffType> = [];
   isNew = true;
   lookupTypes = {
     'Product': Product,
-    'OrderStatus': OrderStatus
+    'OrderStatus': OrderStatus,
+    'Tariff': Tariff,
+    'TariffType': TariffType,
   };
 
+  // #region Properties
   get orderStatusNew(): any {
     return this.getOrderStatus('New');
   }
@@ -60,14 +68,14 @@ export class OrderCardComponent implements OnInit {
   }
 
   get postponeButtonVisible(): boolean {
-    if (!this.isNew && this.orderstatusList) {
+    if (!this.isNew && this.orderstatusList && this.isHourly) {
       return this.currentStatus && this.currentStatus === this.orderStatusInProgress;
     }
     return false;
   }
 
   get continueButtonVisible(): boolean {
-    if (!this.isNew && this.orderstatusList) {
+    if (!this.isNew && this.orderstatusList && this.isHourly) {
       return this.currentStatus && this.currentStatus === this.orderStatusPostponed;
     }
     return false;
@@ -75,7 +83,10 @@ export class OrderCardComponent implements OnInit {
 
   get closeButtonVisible(): boolean {
     if (!this.isNew && this.orderstatusList) {
-      return this.currentStatus && this.currentStatus !== this.orderStatusNew;
+      if (this.isHourly) {
+        return this.currentStatus && this.currentStatus !== this.orderStatusNew;
+      }
+      return this.currentStatus && this.currentStatus === this.orderStatusInProgress;
     }
     return false;
   }
@@ -83,6 +94,13 @@ export class OrderCardComponent implements OnInit {
   get rejectButtonVisible(): boolean {
     if (!this.isNew && this.orderstatusList) {
       return this.currentStatus && this.currentStatus !== this.orderStatusNew;
+    }
+    return false;
+  }
+
+  get closeButtonDisabled(): boolean {
+    if (this.isManualCost) {
+      return this.form && this.form.invalid;
     }
     return false;
   }
@@ -96,7 +114,7 @@ export class OrderCardComponent implements OnInit {
   }
 
   get saveButtonEnabled(): boolean {
-    return this.form.touched && this.form.valid;
+    return this.form.touched && this.form.valid && !this.isFinalStatus;
   }
 
   get timelines(): any[] {
@@ -107,7 +125,44 @@ export class OrderCardComponent implements OnInit {
     return this.order && this.order.products;
   }
 
+  get orderProduct(): Product {
+    const order = this.order;
+    let productId = this.form && this.form.get('product').value;
+    productId = productId || order && order.product && (order.product.value || order.product);
+    const product = this.productList.find(p => p.value === productId);
+    return product;
+  }
+
+  get orderProductTariff(): Tariff {
+    const product = this.orderProduct;
+    const tariffId = product && product.tariff && product.tariff.value;
+    const tariff = this.tariffList.find(t => t.value === tariffId);
+    return tariff;
+  }
+
+  get orderProductTariffType(): TariffType {
+    const tariff = this.orderProductTariff
+    const typeId = tariff && tariff.type && tariff.type.value;
+    const tariffType = this.tarifftypeList.find(t => t.value === typeId);
+    return tariffType;
+  }
+
+  get orderTariffTypeCode(): string {
+    const tariffType = this.orderProductTariffType;
+    return tariffType && tariffType.code || '';
+  }
+
+  get isManualCost(): boolean {
+    return this.orderTariffTypeCode === TariffTypeCodes.Manually;
+  }
+
+  get isHourly(): boolean {
+    return this.orderTariffTypeCode === TariffTypeCodes.Hour;
+  }
+  // #endregion
+
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private location: Location,
     private contactService: ContactServiceService,
@@ -117,6 +172,7 @@ export class OrderCardComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private dialog: MatDialog) { }
 
+  // #region Methods
   ngOnInit() {
     this.spinner.show();
     this.order = new Order();
@@ -126,18 +182,76 @@ export class OrderCardComponent implements OnInit {
   }
 
   initFormControls() {
-    this.form = new FormGroup({
-      contactName: new FormControl(),
-      contact: new FormControl({value: '', disabled: true}),
-      number: new FormControl({ value: '', disabled: true }),
-      status: new FormControl({ value: null, disabled: true }),
-      startDate: new FormControl({ value: this.getDateString(new Date()), disabled: true }),
-      endDate: new FormControl({ value: null, disabled: true }),
-      cost: new FormControl({ value: null, disabled: true }),
-      product: new FormControl(null, Validators.required),
-      notes: new FormControl(),
-      products: new FormControl()
+    this.form = this.fb.group({
+      contactName: null,
+      contact: [{value: '', disabled: true}],
+      number: [{ value: '', disabled: true }],
+      status: [{ value: null, disabled: true }],
+      startDate: [{ value: this.getDateString(new Date()), disabled: true }],
+      endDate: [{ value: null, disabled: true }],
+      cost: [{ value: null, disabled: true }, [this.getCostValidator()]],
+      product: [null, Validators.required],
+      notes: null,
+      products: null
     });
+    this.subscribes();
+  }
+  
+  subscribes() {
+    merge(
+      this.form.get('product').valueChanges,
+      this.form.get('status').valueChanges
+    )
+      .filter(value => !this.getIsFinalStatus(value) && !this.isFinalStatus)
+      .subscribe(status => this.setCostControlEnabled());
+    this.form.get('status').valueChanges
+      .filter(status => !this.getIsFinalStatus(status))
+      .subscribe(status => this.setProductControlEnabled());
+    this.form.get('status').valueChanges
+      .filter(status => !this.getIsFinalStatus(status))
+      .subscribe(status => this.setProductControlEnabled());
+    this.form.get('status').valueChanges
+      .filter(status => this.getIsFinalStatus(status))
+      .subscribe(status => this.lockAllControls());
+  }
+
+  getIsFinalStatus(statusId): boolean {
+    if (this.orderstatusList) {
+      const status = this.orderstatusList.find(i => i.value === statusId);
+      return status && status.isFinal;
+    }
+    return false;
+  }
+
+  setCostControlEnabled() {
+    if (this.isManualCost) {
+      this.form.get('cost').enable();
+    } else {
+      this.form.get('cost').disable();
+    }
+  }
+
+  setProductControlEnabled() {
+    if (this.isNew || this.order.status === this.orderStatusNew) {
+      this.form.get('product').enable();
+    } else {
+      this.form.get('product').disable();
+    }
+  }
+
+  lockAllControls() {
+    this.form.disable({
+      emitEvent: false
+    });
+  }
+
+  getCostValidator(): ValidatorFn {
+    return (control: AbstractControl): Validators => {
+      if (this.isNew || this.currentStatus === this.orderStatusNew || !this.isManualCost) {
+        return null;
+      }
+      return control.value > 0 ? null : { required: true };
+    }
   }
 
   getRouterParams() {
@@ -161,7 +275,7 @@ export class OrderCardComponent implements OnInit {
   }
 
   initLookups() {
-    const lookups = ['Product', 'OrderStatus'];
+    const lookups = ['Product', 'OrderStatus', 'Tariff', 'TariffType'];
     lookups.forEach(lookupName => {
       this.lookupsService.getLookupData(lookupName)
         .subscribe(res => {
@@ -187,8 +301,8 @@ export class OrderCardComponent implements OnInit {
       .subscribe(res => {
         if (res.success && res.data) {
           this.order = new Order(res.data);
-          this.setOrderControlValues();
           this.isNew = false;
+          this.setOrderControlValues();
         }
       });
   }
@@ -200,8 +314,8 @@ export class OrderCardComponent implements OnInit {
         if (res.success && res.data) {
           this.order = new Order(res.data);
           this.anonymous = !this.order.contact;
-          this.setOrderControlValues();
           this.isNew = false;
+          this.setOrderControlValues();
         }
       });
   }
@@ -211,12 +325,13 @@ export class OrderCardComponent implements OnInit {
       const control = this.form.controls[columnName];
       const value = this.order[columnName];
       if (control) {
-        control.setValue(this.getConrtolValue(columnName, value));
+        control.setValue(this.getControlValue(columnName, value));
       }
     }
+    this.setProductControlEnabled();
   }
 
-  getConrtolValue(controlName: string, value: any) {
+  getControlValue(controlName: string, value: any) {
     if (controlName === 'contact') {
       return value && value.fullName;
     }
@@ -253,14 +368,16 @@ export class OrderCardComponent implements OnInit {
   getTwoDigitDateValue(value: number): any {
     return <any>(value > 9 ? value : '0' + value);
   }
+  // #endregion
 
+  // #region Action
   cancel() {
     this.location.back();
   }
 
   save() {
     let order = <any>this.order;
-    order.status = order.status && order.status.value;
+    order.status = this.currentStatus || order.status && order.status.value;
     order.contact = this.contactId;
     order = Object.assign(order, this.form.value);
     this.spinner.show();
@@ -277,7 +394,7 @@ export class OrderCardComponent implements OnInit {
 
   onSaved(res: any) {
     if (res.success) {
-      this.order.status = this.orderstatusList.find(i => i.value === res.data.statusId || i.id === res.data.statusId);
+      this.order.status = this.orderstatusList.find((i: any) => i.value === res.data.statusId || i.id === res.data.statusId);
       this.order.timeline = res.data.timeline;
       this.form.controls['status'].setValue(res.data.statusId);
       this.isNew = false;
@@ -298,6 +415,8 @@ export class OrderCardComponent implements OnInit {
   }
 
   setOrderStatus(id: string) {
+    const status = this.orderstatusList.find(s => s.value === id);
+    this.order.status = status;
     this.form.controls['status'].setValue(id);
   }
 
@@ -338,7 +457,11 @@ export class OrderCardComponent implements OnInit {
   }
 
   close() {
-    this.orderService.close(this.order.id)
+    let manualCost = null;
+    if (this.isManualCost) {
+      manualCost = this.form.value.cost || prompt('Введіть суму розрахунку');
+    }
+    this.orderService.close(this.order.id, manualCost)
       .subscribe(res => {
         this.order.timeline = res.data.timeline;
         this.onStageChanged(res);
@@ -346,6 +469,7 @@ export class OrderCardComponent implements OnInit {
           this.getDateString(new Date(Date.parse(res.data.endDate)))
         );
         this.form.controls['cost'].setValue(res.data.cost);
+        alert(`До сплати ${res.data.cost} грн.`)
       });
   }
 
@@ -359,6 +483,7 @@ export class OrderCardComponent implements OnInit {
         );
       });
   }
+  // #endregion
 
   getTimelineString(item: any) {
     const startDate = this.parseDate(item && item.startDate);

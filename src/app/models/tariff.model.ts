@@ -1,5 +1,9 @@
 import { Lookup } from './base.types';
 
+export enum TariffTypeCodes {
+  Hour = 'hour',
+  Manually = 'manually'
+}
 export class TariffType extends Lookup {
 
     public code: string;
