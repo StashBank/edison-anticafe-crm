@@ -1,10 +1,9 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Tariff } from './../../models/tariff.model';
+import { Tariff, TariffType, TariffTypeCodes } from './../../models/tariff.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { LookupsService } from '../../services/lookups.service';
 import { UUID, Lookup } from '../../models/base.types';
-import { TariffType } from '../../models/tariff.model';
 import { MatSnackBar } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 import 'rxjs/add/operator/finally';
@@ -25,6 +24,26 @@ export class TariffCardComponent implements OnInit {
   isNew = true;
   itemSelected = false;
   form: FormGroup;
+
+  get tariffType(): TariffType {
+    if (!Array.isArray(this.tarifftypeList)) {
+      return null;
+    }
+    const tariffTypeId = this.form.get('type').value;
+    const type = this.tarifftypeList.find(i => i.value === tariffTypeId);
+    return type;
+  }
+
+  get tariffTypeCode(): string {
+    return this.tariffType && this.tariffType.code || '';
+  }
+
+  get positionFieldVisible(): boolean {
+    return this.tariffTypeCode === TariffTypeCodes.Hour;
+  }
+  get parentFieldVisible(): boolean {
+    return this.tariffTypeCode === TariffTypeCodes.Hour;
+  }
 
   constructor(
     private location: Location,
@@ -141,6 +160,8 @@ export class TariffCardComponent implements OnInit {
   }
 
   onSaved(data: any) {
+    data.type = this.tarifftypeList.find(i => i.value === data.typeId);
+    data.parent = this.tariffList.find(i => i.value === data.parentId)
     const tariff = new Tariff(data);
     if (this.isNew) {
       this.tariffList.unshift(tariff);
