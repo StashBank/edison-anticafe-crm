@@ -31,6 +31,7 @@ export class OrderService {
   }
 
   public update(id: string, order: Order): Observable<any> {
+    Object.assign(order, {product: order.product && order.product.value});
     return this.http.put(`${this.dataServiceURI}/${id}`, order);
   }
 
@@ -50,8 +51,8 @@ export class OrderService {
     return this.http.post(`${this.dataServiceURI}/continue`, { orderId });
   }
 
-  public close(orderId: string): Observable<any> {
-    return this.http.post(`${this.dataServiceURI}/close`, { orderId });
+  public close(orderId: string, manualCost?: number): Observable<any> {
+    return this.http.post(`${this.dataServiceURI}/close`, { orderId, manualCost });
   }
 
   public reject(orderId: string): Observable<any> {

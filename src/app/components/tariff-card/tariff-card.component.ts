@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Tariff, TariffType } from './../../models/tariff.model';
+import { Tariff, TariffType, TariffTypeCodes } from './../../models/tariff.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { LookupsService } from '../../services/lookups.service';
@@ -39,10 +39,10 @@ export class TariffCardComponent implements OnInit {
   }
 
   get positionFieldVisible(): boolean {
-    return this.tariffTypeCode === 'hour';
+    return this.tariffTypeCode === TariffTypeCodes.Hour;
   }
   get parentFieldVisible(): boolean {
-    return this.tariffTypeCode === 'hour';
+    return this.tariffTypeCode === TariffTypeCodes.Hour;
   }
 
   constructor(

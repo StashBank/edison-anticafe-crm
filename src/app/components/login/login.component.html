@@ -7,6 +7,6 @@
     <mat-form-field>
       <input matInput tabindex="2" placeholder="Пароль" formControlName="password" type="password">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="form?.invalid">Вхід</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="(form?.touched || form?.dirty) && form?.invalid">Вхід</button>
   </form>
 </div>

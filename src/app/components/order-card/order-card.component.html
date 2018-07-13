@@ -7,7 +7,7 @@
                 <button mat-button color="primary" *ngIf="performButtonVisible" (click)="perform()">Виконати</button>
                 <button mat-button color="primary" *ngIf="postponeButtonVisible" (click)="postpone()">Призупинити</button>
                 <button mat-button color="primary" *ngIf="continueButtonVisible" (click)="continue()">Продовжити</button>
-                <button mat-button color="primary" *ngIf="closeButtonVisible" (click)="close()">Закінчити</button>
+                <button mat-button color="primary" *ngIf="closeButtonVisible" (click)="close()" [disabled]="closeButtonDisabled">Закінчити</button>
                 <button mat-button color="primary" *ngIf="rejectButtonVisible" (click)="reject()">Відмінити</button>
             </div>
         </mat-card-actions>
@@ -70,6 +70,7 @@
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
                         <input matInput
+                            type="number"
                             tabindex="6"
                             placeholder="Вартість"
                             formControlName="cost">
