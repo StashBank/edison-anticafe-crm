@@ -53,6 +53,7 @@ import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user.service';
 import {BookListComponent} from './components/book-list/book-list.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
+import { TextMaskModule } from 'angular2-text-mask';
 
 
 @NgModule({
@@ -102,7 +103,8 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
     MatGridListModule,
     MatAutocompleteModule,
     MatTabsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    TextMaskModule
   ],
   exports: [
     MatButtonModule,

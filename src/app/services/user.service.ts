@@ -93,7 +93,7 @@ export class UserService {
     return this.http.put(`${this.dataServiceURI}/${id}`, userData);
   }
 
-  public newPassword(id: string, userData: User) {
+  public changePassword(id: string, userData: User) {
     return this.http.put(`${this.dataServiceURI}/changePassword/${id}`, userData);
   }
 }

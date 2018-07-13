@@ -33,6 +33,7 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
+    "angular2-text-mask": "^9.0.0",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.2",
     "bootstrap": "^3.3.7",
@@ -46,6 +47,7 @@
     "mongodb": "^2.2.35",
     "mongoose": "^4.13.3",
     "morgan": "^1.9.0",
+    "ng4-intl-phone": "^1.2.1",
     "ngx-spinner": "^6.0.0",
     "nodemon": "^1.17.3",
     "passport": "^0.4.0",
@@ -55,6 +57,7 @@
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
     "sequelize": "^4.37.6",
+    "text-mask-addons": "^3.7.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

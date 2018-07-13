@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { RegistrationValidator } from './registration-validator';
 
 
 @Component({
@@ -12,34 +13,43 @@ import { UserService } from '../../services/user.service';
 export class CreateUserComponent implements OnInit {
 
   public createUserForm: FormGroup;
+  public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
   constructor( private formBuilder: FormBuilder,
-               private newUserService: UserService,
-  ) { }
+               private userService: UserService,
+              ) { }
 
   ngOnInit() {
     this.createUserForm = this.formBuilder.group({
       login: ['',
-        [ Validators.required,
-          Validators.pattern(/^([A-z][A-Za-z]*\s+[A-Za-z]*)|([A-z][A-Za-z]*)$/),]
+        [Validators.required,
+        Validators.pattern(/^([A-z][A-Za-z]*\s+[A-Za-z]*)|([A-z][A-Za-z]*)$/),]
       ],
       password: ['',
         [Validators.required,
         ]
       ],
+      repeatPassword: ['',
+        [Validators.required,
+        ]
+      ],
       email: ['',
-        [ Validators.required,
-          Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]
+        [Validators.required,
+        Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]
       ],
       phone: ['',
         [Validators.required]]
+    },
+     {
+      validator: RegistrationValidator.validate
     })
   }
 
-  public registerNewUser() { //when add parametr 'userData' to function - compilator get error
-    let sendData = this.createUserForm.value;
+  public registerNewUser() {
 
-    this.newUserService.create(sendData).subscribe(send => {
+    const data = this.createUserForm.value;
+
+    this.userService.create(data).subscribe(response => {
       console.log('okay');
     }, error => {
       console.log('error');

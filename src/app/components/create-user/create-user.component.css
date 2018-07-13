@@ -8,4 +8,5 @@ form {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  min-width: 315px;
 }
