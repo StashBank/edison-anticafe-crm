@@ -15,11 +15,11 @@
       <mat-icon matSuffix *ngIf="createUserForm.valid">done</mat-icon>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Email" formControlName="email" required>
+      <input matInput placeholder="Email" formControlName="email">
       <mat-icon matSuffix>mail</mat-icon>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Номер мобільного" [textMask]="{mask: mask}" formControlName="phone" required>
+      <input matInput placeholder="Номер мобільного" [textMask]="{mask: mask}" formControlName="phone">
       <mat-icon matSuffix>phone_iphone</mat-icon>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="(createUserForm?.touched || createUserForm?.dirty) && createUserForm?.invalid">Зареєструвати</button>

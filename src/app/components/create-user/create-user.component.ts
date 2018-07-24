@@ -21,24 +21,28 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit() {
     this.createUserForm = this.formBuilder.group({
-      login: ['',
-        [Validators.required,
-        Validators.pattern(/^([A-z][A-Za-z]*\s+[A-Za-z]*)|([A-z][A-Za-z]*)$/),]
-      ],
-      password: ['',
-        [Validators.required,
+      login: ['', [
+          Validators.required,
+          Validators.pattern(/^([A-z][A-Za-z]*\s+[A-Za-z]*)|([A-z][A-Za-z]*)$/),
         ]
       ],
-      repeatPassword: ['',
-        [Validators.required,
+      password: ['', [
+          Validators.required,
         ]
       ],
-      email: ['',
-        [Validators.required,
-        Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)]
+      repeatPassword: ['',[
+          Validators.required,
+        ]
       ],
-      phone: ['',
-        [Validators.required]]
+      email: ['', [
+          // Validators.required,
+          Validators.pattern(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        ]
+      ],
+      phone: ['', [
+          // Validators.required
+        ]
+      ]
     },
      {
       validator: RegistrationValidator.validate
@@ -50,10 +54,20 @@ export class CreateUserComponent implements OnInit {
     const data = this.createUserForm.value;
 
     this.userService.create(data).subscribe(response => {
-      console.log('okay');
+      // console.log('okay');
+      if (response.success) {
+        alert('Користувача створенно');
+      } else {
+        this.errorOnRegisterNewUser();
+      }
     }, error => {
-      console.log('error');
-    })
+      console.log(error);
+      this.errorOnRegisterNewUser();
+    });
+  }
+
+  errorOnRegisterNewUser() {
+    alert('Помилка під час створення користувача');
   }
 
 }

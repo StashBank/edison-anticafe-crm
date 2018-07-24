@@ -14,11 +14,11 @@ const errorHandler = (res, err) => {
 }
 
 const validateLogin = login => {
-  return login && login.length >= 6;
+  return login && login.length >= 4;
 }
 
 const validatePassword = password => {
-  return password && password.length >= 6;
+  return password && password.length >= 4;
 }
 
 const getModelObject = (body, model) => {
