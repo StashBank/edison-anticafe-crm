@@ -1,12 +1,12 @@
-import { ExpenseCardComponent } from './../components/expense-card/expense-card.component';
-import { OrderListComponent } from './../components/order-list/order-list.component';
-import { ProductCardComponent } from './../components/product-card/product-card.component';
-import { TariffCardComponent } from './../components/tariff-card/tariff-card.component';
-import { OrderCardComponent } from './../components/order-card/order-card.component';
+import { ExpenseCardComponent } from '../components/expense-card/expense-card.component';
+import { OrderListComponent } from '../components/order-list/order-list.component';
+import { ProductCardComponent } from '../components/product-card/product-card.component';
+import { TariffCardComponent } from '../components/tariff-card/tariff-card.component';
+import { OrderCardComponent } from '../components/order-card/order-card.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from '../main/main.component';
-import { LookupsComponent } from './../components/lookups/lookups.component';
+import { LookupsComponent } from '../components/lookups/lookups.component';
 import { ContactCardComponent } from '../components/contact-card/contact-card.component';
 import { ExpenseListComponent } from '../components/expense-list/expense-list.component';
 import { IncomeCardComponent } from '../components/income-card/income-card.component';
@@ -14,7 +14,7 @@ import { IncomeListComponent } from '../components/income-list/income-list.compo
 import { LoginComponent } from '../components/login/login.component';
 import {BookListComponent} from '../components/book-list/book-list.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
-import { AdminGuard } from '../models/admin.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 
 const appRoutes = [

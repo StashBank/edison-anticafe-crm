@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Order } from './../../models/order.model';
+import { Order } from '../../models/order.model';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
   MatTableDataSource,
@@ -29,7 +29,7 @@ export class OrderListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.intiColumnsConfig();
+    this.initColumnsConfig();
     this.displayedColumns = this.columnsConfig.map(i => i.path);
     this.getOrders();
   }
@@ -50,7 +50,7 @@ export class OrderListComponent implements OnInit {
     this.applyFilter('');
   }
 
-  intiColumnsConfig() {
+  initColumnsConfig() {
     this.columnsConfig = [
       { caption: 'Номер', path: 'number' },
       { caption: 'Кліент', path: 'client' },
