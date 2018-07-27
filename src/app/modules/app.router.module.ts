@@ -14,6 +14,7 @@ import { IncomeListComponent } from '../components/income-list/income-list.compo
 import { LoginComponent } from '../components/login/login.component';
 import {BookListComponent} from '../components/book-list/book-list.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
+import { AdminGuard } from '../models/admin.guard';
 
 
 const appRoutes = [
@@ -21,9 +22,9 @@ const appRoutes = [
   { path: 'login', component: LoginComponent },
   { path: 'contact/:id', component: ContactCardComponent },
   { path: 'contact', pathMatch: 'full', component: ContactCardComponent },
-  { path: 'lookup/Tariff', component: TariffCardComponent },
-  { path: 'lookup/Product', component: ProductCardComponent },
-  { path: 'lookup/:lookupName', component: LookupsComponent },
+  { path: 'lookup/Tariff', component: TariffCardComponent, canActivate: [AdminGuard] },
+  { path: 'lookup/Product', component: ProductCardComponent, canActivate: [AdminGuard] },
+  { path: 'lookup/:lookupName', component: LookupsComponent, canActivate: [AdminGuard] },
   { path: 'order', component: OrderCardComponent },
   { path: 'order/:id', component: OrderCardComponent },
   { path: 'orders', component: OrderListComponent },
@@ -34,7 +35,7 @@ const appRoutes = [
   { path: 'income', component: IncomeCardComponent },
   { path: 'income/:id', component: IncomeCardComponent },
   { path: 'book-list', component: BookListComponent },
-  { path: 'create-new-user', component: CreateUserComponent },
+  { path: 'create-new-user', component: CreateUserComponent, canActivate: [AdminGuard] },
   { path: 'main', redirectTo: '/contacts'},
   { path: '', pathMatch: 'full', redirectTo: '/contacts'}
 ];

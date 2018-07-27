@@ -54,6 +54,7 @@ import { UserService } from './services/user.service';
 import {BookListComponent} from './components/book-list/book-list.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { TextMaskModule } from 'angular2-text-mask';
+import { AdminGuard } from './models/admin.guard';
 
 
 @NgModule({
@@ -138,6 +139,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     ExpenseService,
     IncomeService,
     UserService,
+    AdminGuard,
   ],
   bootstrap: [AppComponent]
 })

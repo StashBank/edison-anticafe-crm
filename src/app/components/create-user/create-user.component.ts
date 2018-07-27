@@ -13,7 +13,7 @@ import { RegistrationValidator } from './registration-validator';
 export class CreateUserComponent implements OnInit {
 
   public createUserForm: FormGroup;
-  public mask = ['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  public mask = ['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-' ,/\d/, /\d/];
 
   constructor( private formBuilder: FormBuilder,
                private userService: UserService,
