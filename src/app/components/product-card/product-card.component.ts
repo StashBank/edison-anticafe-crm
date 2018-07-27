@@ -1,7 +1,7 @@
-import { LookupsService } from './../../services/lookups.service';
+import { LookupsService } from '../../services/lookups.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Tariff } from './../../models/tariff.model';
-import { Product } from './../../models/product.model';
+import { Tariff } from '../../models/tariff.model';
+import { Product } from '../../models/product.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { Lookup } from '../../models/base.types';
