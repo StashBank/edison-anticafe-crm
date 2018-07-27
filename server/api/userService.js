@@ -34,8 +34,8 @@ const getModelObject = (body, model) => {
 }
 
 app.get('/currentUser', (req, res) => {
-  const { id, login } = req.user;
-  res.send({ id, login });
+  const { id, login, isAdmin } = req.user;
+  res.send({ id, login, isAdmin });
 });
 
 app.get('/:id', async (req, res) => {
