@@ -28,4 +28,6 @@ Contact.belongsTo(Product, { as: 'product' });
 //    .then(() => console.log('sequelize Contact has been synchronized'))
 //    .catch((err) => { console.log('sequelize Contact has not been synchronized'); throw err});
 
+// Contact.destroy({ where: { id: { [Sequelize.Op.ne]: null } } });
+
 module.exports = Contact;

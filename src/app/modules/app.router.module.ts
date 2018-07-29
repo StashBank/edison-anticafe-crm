@@ -15,6 +15,7 @@ import { LoginComponent } from '../components/login/login.component';
 import {BookListComponent} from '../components/book-list/book-list.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { UserListComponent } from '../../../src/app/components/user-list/user-list.component';
 
 
 const appRoutes = [
@@ -36,6 +37,7 @@ const appRoutes = [
   { path: 'income/:id', component: IncomeCardComponent },
   { path: 'book-list', component: BookListComponent },
   { path: 'create-new-user', component: CreateUserComponent, canActivate: [AdminGuard] },
+  { path: 'user-list', component: UserListComponent, canActivate: [AdminGuard] },
   { path: 'main', redirectTo: '/contacts'},
   { path: '', pathMatch: 'full', redirectTo: '/contacts'}
 ];

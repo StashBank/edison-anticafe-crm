@@ -19,8 +19,8 @@ Income.belongsTo(IncomeType, { as: 'type' });
 Income.belongsTo(Order, { as: 'order' });
 
 // Income.sync({ alter: alterTableOnSync })
-Income.sync({ alter: true })
-    .then(() => console.log('sequelize Income has been synchronized'))
-    .catch((err) => { console.log('sequelize Income has not been synchronized'); throw err });
+// Income.sync({ alter: true })
+//     .then(() => console.log('sequelize Income has been synchronized'))
+//     .catch((err) => { console.log('sequelize Income has not been synchronized'); throw err });
 
 module.exports = { Income };

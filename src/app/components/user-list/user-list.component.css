@@ -1,0 +1,39 @@
+.selected {
+    color: dodgerblue !important;
+}
+
+.edit-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.user-list{
+    flex-grow: 1;
+}
+
+.user-edit {
+    flex-grow: 3;
+}
+
+.checkbox {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start
+}
+
+form {
+    max-width: 920px;
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;*/
+}
+mat-form-field {
+    width: 100%;
+    height: 100%;
+}
+mat-form-field > * {
+    width: 90%;
+    height: 100%;
+}

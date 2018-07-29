@@ -26,12 +26,12 @@ Tariff.belongsTo(Tariff, { as: 'parent' });
 Tariff.belongsTo(TariffType, { as: 'type' });
 Product.belongsTo(Tariff, { as: 'tariff' });
 
-Tariff.sync({ alter: true });
-Product.sync({ alter: true });
+// Tariff.sync({ alter: true });
+// Product.sync({ alter: true });
 
-sequelize.sync({ alter: alterTableOnSync })
-   .then(() => console.log('sequelize Lookups has been synchronized'))
-   .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
+// sequelize.sync({ alter: alterTableOnSync })
+//    .then(() => console.log('sequelize Lookups has been synchronized'))
+//    .catch((err) => { console.log('sequelize Lookups has not been synchronized'); throw err });
 
 const tariffTypesToExists = [
     { name: 'Одноразово', code: 'once' },
