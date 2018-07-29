@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { LookupsService } from './../../services/lookups.service';
+import { LookupsService } from '../../services/lookups.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContactServiceService } from '../../services/contact-service.service';

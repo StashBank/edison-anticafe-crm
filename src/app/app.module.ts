@@ -24,7 +24,8 @@ import {
   MatAutocompleteModule,
   MatSnackBarModule,
   MatTabsModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatCheckboxModule
 } from '@angular/material';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -54,6 +55,8 @@ import { UserService } from './services/user.service';
 import {BookListComponent} from './components/book-list/book-list.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { TextMaskModule } from 'angular2-text-mask';
+import { AdminGuard } from './guards/admin.guard';
+import { UserListComponent } from '../../src/app/components/user-list/user-list.component';
 
 
 @NgModule({
@@ -77,6 +80,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     AddProductDialogComponent,
     LoginComponent,
     CreateUserComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -92,6 +96,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatCheckboxModule,
     MatSelectModule,
     MatIconModule,
     MatMenuModule,
@@ -138,6 +143,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     ExpenseService,
     IncomeService,
     UserService,
+    AdminGuard,
   ],
   bootstrap: [AppComponent]
 })

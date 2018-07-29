@@ -1,0 +1,56 @@
+<div class="card-container">
+  <mat-card>
+    <mat-card-header>Користувачі</mat-card-header>
+    <hr>
+    <mat-card-actions>
+      <!-- <button mat-raised-button (click)="create()" [disabled]="isNew">Створити</button> -->
+      <button mat-raised-button color="primary" (click)="save()" [disabled]="!form.touched || !form.valid">Зберегти</button>
+      <!-- <button mat-raised-button color="warn" (click)="delete()" [disabled]="!userSelected">Видалити</button> -->
+      <button mat-button (click)="cancel()">Назад</button>
+    </mat-card-actions>
+    <mat-card-content>
+      <div class="edit-container">
+        <mat-nav-list class="user-list">
+          <mat-list-item *ngFor="let user of userList" [ngClass]="getListItemClass(user)" (click)="selectUser(user)">
+            {{user.userName}}
+          </mat-list-item>
+        </mat-nav-list>
+        <form [formGroup]="form" class="user-edit">
+          <mat-grid-list cols="6" rowHeight="60">
+
+            <mat-grid-tile [colspan]="6">
+              <mat-form-field required>
+                <input matInput tabindex="1" placeholder="Логін" formControlName="login" required>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="6">
+              <mat-form-field required>
+                <input matInput tabindex="2" placeholder="Ім'я" formControlName="name" required>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="6">
+              <mat-form-field>
+                <input matInput tabindex="3" placeholder="E-mail" formControlName="email">
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="6">
+              <mat-form-field>
+                <input matInput tabindex="4" placeholder="моб. тел" formControlName="phone">
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="6">
+              <div class="checkbox">
+                <mat-checkbox tabindex="5" formControlName="isAdmin">Адміністратор</mat-checkbox>
+              </div>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

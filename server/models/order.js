@@ -32,4 +32,6 @@ Order.belongsTo(Product, { as: 'product' });
 
 // Order.destroy({ where: { productId: 'eb0ba58e-1432-4294-94f9-8ed42f075a08'}});
 
+// Order.destroy({ where: {id:{[Sequelize.Op.ne]: null}}});
+
 module.exports = { Order };

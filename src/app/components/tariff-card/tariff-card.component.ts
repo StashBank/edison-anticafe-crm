@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Tariff, TariffType, TariffTypeCodes } from './../../models/tariff.model';
+import { Tariff, TariffType, TariffTypeCodes } from '../../models/tariff.model';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { LookupsService } from '../../services/lookups.service';

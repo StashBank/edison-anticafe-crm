@@ -42,8 +42,9 @@ app.post('/login',
   },
   function (req, res) {
     // res.redirect('/');
-    const { id, login } = req.user;
-    res.send({ id, login });
+    const { id, login, name, isAdmin } = req.user;
+    const userName = name || login
+    res.send({ id, name: userName, isAdmin });
   }
 );
 

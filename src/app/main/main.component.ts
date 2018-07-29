@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { ContactCardDialogComponent } from './../components/contact-card-dialog/contact-card-dialog.component';
+import { ContactCardDialogComponent } from '../components/contact-card-dialog/contact-card-dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Contact } from '../models/contact.model';
 import { ContactServiceService } from '../services/contact-service.service';
@@ -25,13 +25,13 @@ export class MainComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private conactService: ContactServiceService,
+    private contactService: ContactServiceService,
     private dialog: MatDialog,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.intiColumnsConfig();
+    this.initColumnsConfig();
     this.displayedColumns = this.columnsConfig.map(i => i.path);
     this.getContacts();
   }
@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  intiColumnsConfig() {
+  initColumnsConfig() {
     this.columnsConfig = [
       //  caption: 'Ім\'я', path: 'firstName' },
       // { caption: 'Прізвище', path: 'lastName' },
@@ -69,7 +69,7 @@ export class MainComponent implements OnInit {
   }
 
   getContacts() {
-    this.conactService.getContacts()
+    this.contactService.getContacts()
       .subscribe((res: {success: boolean, data: any[]}) => {
         if (res.success && res.data) {
           this.selectedItem = null;
@@ -93,7 +93,7 @@ export class MainComponent implements OnInit {
     this.openContactDialog()
       .subscribe(contact => {
         if (contact) {
-          this.conactService.addContact(contact)
+          this.contactService.addContact(contact)
           .subscribe((res: {success: boolean}) => {
             if (res.success) {
               this.getContacts();
@@ -109,7 +109,7 @@ export class MainComponent implements OnInit {
       this.openContactDialog(contact)
         .subscribe(result => {
           if (result) {
-            this.conactService.setContact(this.selectedItem.id, result)
+            this.contactService.setContact(this.selectedItem.id, result)
             .subscribe((response: {success: boolean}) => {
               if (response.success) {
                 this.getContacts();
@@ -125,7 +125,7 @@ export class MainComponent implements OnInit {
     if (this.selectedItem) {
       const confirmation = confirm('Дійсно видалити?');
       if (confirmation === true) {
-        this.conactService.deleteContact(this.selectedItem.id)
+        this.contactService.deleteContact(this.selectedItem.id)
           .subscribe((res: { success: boolean }) => {
             if (res.success) {
               this.selectedItem = null;

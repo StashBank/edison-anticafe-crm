@@ -14,11 +14,11 @@ const errorHandler = (res, err) => {
 }
 
 const validateLogin = login => {
-  return login && login.length >= 6;
+  return login && login.length >= 4;
 }
 
 const validatePassword = password => {
-  return password && password.length >= 6;
+  return password && password.length >= 4;
 }
 
 const getModelObject = (body, model) => {
@@ -34,8 +34,18 @@ const getModelObject = (body, model) => {
 }
 
 app.get('/currentUser', (req, res) => {
-  const { id, login } = req.user;
-  res.send({ id, login });
+  const { id, login, name, isAdmin } = req.user;
+  userName = name || login;
+  res.send({ id, name: userName, isAdmin });
+});
+
+app.get('/', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.send({ success: true, data: users });
+  } catch (err) {
+    errorHandler(res, err)
+  }
 });
 
 app.get('/:id', async (req, res) => {
@@ -79,6 +89,9 @@ app.post('/', async (req, res) => {
       return;
     }
     const password = bcrypt.hashSync(body.password, 12);
+    if (!req.user.isAdmin) {
+      body.isAdmin = false;
+    }
     const user = await User.create(getModelObject(Object.assign(body, { password, active: true }), User));
     res.send({ success: true, data: user });
   } catch(err) {
@@ -94,8 +107,8 @@ app.put('/:id', async (req, res) => {
   }
   try {
     let user = await User.findById(id);
-    user = await income.update({
-      active: body.hasOwnProperty('active') ? body.active : user.active,
+    user = await user.update({
+      name: body.hasOwnProperty('name') ? body.name : user.name,
       email: body.hasOwnProperty('email') ? body.email : user.email,
       phone: body.hasOwnProperty('email') ? body.phone : user.phone,
       isAdmin: body.hasOwnProperty('email') ? body.isAdmin : user.isAdmin
@@ -106,7 +119,7 @@ app.put('/:id', async (req, res) => {
   }
 });
 
-app.put('/changePassword/:id', async (req, res) => {
+app.put('/:id/changePassword', async (req, res) => {
   const body = req.body;
   const id = req.params.id;
   if (!body || body === {}) {

@@ -17,8 +17,10 @@ const Expense = sequelize.define('Expense', {
 
 Expense.belongsTo(ExpenseType, { as: 'type' });
 
-Expense.sync({ alter: alterTableOnSync })
-    .then(() => console.log('sequelize Expense has been synchronized'))
-    .catch((err) => { console.log('sequelize Expense has not been synchronized'); throw err });
+// Expense.sync({ alter: alterTableOnSync })
+//     .then(() => console.log('sequelize Expense has been synchronized'))
+//     .catch((err) => { console.log('sequelize Expense has not been synchronized'); throw err });
+
+// Expense.destroy({ where: {id:{[Sequelize.Op.ne]: null}}});
 
 module.exports = Expense;

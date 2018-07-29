@@ -1,4 +1,4 @@
-import { Income } from './../../models/income.model';
+import { Income } from '../../models/income.model';
 import { Router } from '@angular/router';
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import {
@@ -29,7 +29,7 @@ export class IncomeListComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.intiColumnsConfig();
+    this.initColumnsConfig();
     this.displayedColumns = this.columnsConfig.map(i => i.path)
       .concat(['order']);
     this.getIncomes();
@@ -51,7 +51,7 @@ export class IncomeListComponent implements OnInit {
     this.applyFilter('');
   }
 
-  intiColumnsConfig() {
+  initColumnsConfig() {
     this.columnsConfig = [
       { caption: 'Тип', path: 'type' },
       { caption: 'Дата', path: 'date' },

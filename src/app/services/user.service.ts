@@ -81,8 +81,24 @@ export class UserService {
     }
   }
 
-  public get(id: string): Observable<any> {
-    return this.http.get(`${this.dataServiceURI}/${id}`).map(v => new User(v));
+  public get(id: string): Observable<User> {
+    return this.http.get(`${this.dataServiceURI}/${id}`)
+      .filter((r: any) => r.success)
+      .map(v => new User(v.data));
+  }
+
+  public getList(): Observable<User[]> {
+    return this.http.get(this.dataServiceURI)
+      .filter((r: any) => r.success)
+      .map(
+        (l: any) => l.data.map(
+          v => new User(v)
+        )
+      );
+  }
+
+  public remove(id: string): Observable<any> {
+    return this.http.delete(`${this.dataServiceURI}/${id}`);
   }
 
   public create(userData: User): Observable<any> {
@@ -93,7 +109,15 @@ export class UserService {
     return this.http.put(`${this.dataServiceURI}/${id}`, userData);
   }
 
+  public activate(id: string) {
+    return this.http.put(`${this.dataServiceURI}/${id}/activate`, null);
+  }
+
+  public deactivate(id: string) {
+    return this.http.put(`${this.dataServiceURI}/${id}/deactivate`, null);
+  }
+
   public changePassword(id: string, userData: User) {
-    return this.http.put(`${this.dataServiceURI}/changePassword/${id}`, userData);
+    return this.http.put(`${this.dataServiceURI}/${id}/changePassword`, userData);
   }
 }

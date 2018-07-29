@@ -20,12 +20,13 @@
       <button mat-button
               [matMenuTriggerFor]="userMenu">
         <mat-icon>account_box</mat-icon>
-        {{currentUser?.name}}
+        {{currentUser?.userName}}
         <span class="caret"></span>
       </button>
       <mat-menu #userMenu="matMenu">
         <!-- <button mat-menu-item routerLink="/">Профіль</button> -->
         <button mat-menu-item routerLink="/create-new-user" routerLinkActive="active-link-lookups">Створити користувача</button>
+        <button mat-menu-item routerLink="/user-list" routerLinkActive="active-link-lookups">Користувачі</button>
         <button mat-menu-item (click)="logout()">Вихід</button>
       </mat-menu>
     </div>
