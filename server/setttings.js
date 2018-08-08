@@ -86,7 +86,7 @@ const SEQUELIZE_CONNECTION = {
 module.exports = {
     connectionStrings: {
         sequelize: process.env.DATABASE_URL || (
-            process.env.NODE_ENV === 'production' ? SEQUELIZE_CONNECTION.PROD : SEQUELIZE_CONNECTION.LOCAL_DEV
+            process.env.NODE_ENV === 'production' ? SEQUELIZE_CONNECTION.PROD : SEQUELIZE_CONNECTION.DEV
         )
     },
     sequelize: {
