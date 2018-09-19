@@ -53,10 +53,19 @@
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6">
                     <mat-form-field>
-                        <input matInput
+                        <!--<input matInput
                             tabindex="4"
                             placeholder="Дата початку"
-                            formControlName="startDate">
+                            formControlName="startDate"
+                            [matDatepicker]="startDatePicker">
+                        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startDatePicker></mat-datepicker>-->
+                        <mat-form-field>
+                          <mat-placeholder>Дата початку</mat-placeholder>
+                          <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
+                          <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+                          <input matInput formControlName="startDate" [matDatetimepicker]="datetimePicker" required autocomplete="false">
+                        </mat-form-field>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6">
@@ -64,7 +73,10 @@
                         <input matInput
                             tabindex="5"
                             placeholder="Дата закінчення"
-                            formControlName="endDate">
+                            formControlName="endDate"
+                            [matDatepicker]="endDatePicker">
+                        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endDatePicker></mat-datepicker>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6">

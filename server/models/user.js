@@ -41,9 +41,9 @@ User.findOne({
 });
 
 
-User.sync({ alter: true })
+/*User.sync({ alter: true })
   .then(() => console.log('sequelize Users has been synchronized'))
-  .catch((err) => { console.log('sequelize Users has not been synchronized'); throw err });
+  .catch((err) => { console.log('sequelize Users has not been synchronized'); throw err });*/
   
 
 module.exports = { User };

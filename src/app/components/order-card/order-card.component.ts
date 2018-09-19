@@ -1,3 +1,5 @@
+import { User } from './../../models/user.model';
+import { UserService } from './../../services/user.service';
 import { Tariff, TariffType, TariffTypeCodes } from '../../models/tariff.model';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Product } from '../../models/product.model';
@@ -42,6 +44,7 @@ export class OrderCardComponent implements OnInit {
     'Tariff': Tariff,
     'TariffType': TariffType,
   };
+  currentUser: User;
 
   // #region Properties
   get orderStatusNew(): any {
@@ -57,7 +60,7 @@ export class OrderCardComponent implements OnInit {
   }
 
   get currentStatus(): string {
-    return this.form.controls['status'].value;
+    return this.form && this.form.controls['status'].value;
   }
 
   get performButtonVisible(): boolean {
@@ -100,7 +103,7 @@ export class OrderCardComponent implements OnInit {
 
   get closeButtonDisabled(): boolean {
     if (this.isManualCost) {
-      return this.form && this.form.invalid;
+      return this.form && this.form && this.form.invalid;
     }
     return false;
   }
@@ -114,7 +117,7 @@ export class OrderCardComponent implements OnInit {
   }
 
   get saveButtonEnabled(): boolean {
-    return this.form.touched && this.form.valid && !this.isFinalStatus;
+    return this.form && this.form && this.form.touched && this.form.valid && !this.isFinalStatus;
   }
 
   get timelines(): any[] {
@@ -141,7 +144,7 @@ export class OrderCardComponent implements OnInit {
   }
 
   get orderProductTariffType(): TariffType {
-    const tariff = this.orderProductTariff
+    const tariff = this.orderProductTariff;
     const typeId = tariff && tariff.type && tariff.type.value;
     const tariffType = this.tarifftypeList.find(t => t.value === typeId);
     return tariffType;
@@ -170,7 +173,8 @@ export class OrderCardComponent implements OnInit {
     private lookupsService: LookupsService,
     public snackBar: MatSnackBar,
     private spinner: NgxSpinnerService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private userService: UserService) { }
 
   // #region Methods
   ngOnInit() {
@@ -179,6 +183,10 @@ export class OrderCardComponent implements OnInit {
     this.initFormControls();
     this.initLookups();
     this.getRouterParams();
+    this.userService.getCurrentUser().subscribe(user => {
+      this.currentUser = user;
+      this.changeControlsDisabled();
+    });
   }
 
   initFormControls() {
@@ -196,7 +204,14 @@ export class OrderCardComponent implements OnInit {
     });
     this.subscribes();
   }
-  
+
+  changeControlsDisabled() {
+    if (this.currentUser.isAdmin) {
+      this.form.get('startDate').enable();
+      this.form.get('endDate').enable();
+    }
+  }
+
   subscribes() {
     merge(
       this.form.get('product').valueChanges,
@@ -251,7 +266,7 @@ export class OrderCardComponent implements OnInit {
         return null;
       }
       return control.value > 0 ? null : { required: true };
-    }
+    };
   }
 
   getRouterParams() {
@@ -469,7 +484,7 @@ export class OrderCardComponent implements OnInit {
           this.getDateString(new Date(Date.parse(res.data.endDate)))
         );
         this.form.controls['cost'].setValue(res.data.cost);
-        alert(`До сплати ${res.data.cost} грн.`)
+        alert(`До сплати ${res.data.cost} грн.`);
       });
   }
 

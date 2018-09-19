@@ -2,7 +2,7 @@ import { UnauthorizedHttpInterceptor } from './services/unauthorized-http-interc
 import { LookupsService } from './services/lookups.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -25,8 +25,10 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatExpansionModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MAT_DATE_LOCALE
 } from '@angular/material';
+import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { AppComponent } from './app.component';
@@ -52,7 +54,7 @@ import { IncomeListComponent } from './components/income-list/income-list.compon
 import { AddProductDialogComponent } from './components/add-product-dialog/add-product-dialog.component';
 import { LoginComponent } from './components/login/login.component';
 import { UserService } from './services/user.service';
-import {BookListComponent} from './components/book-list/book-list.component';
+import { BookListComponent} from './components/book-list/book-list.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { AdminGuard } from './guards/admin.guard';
@@ -104,6 +106,8 @@ import { UserListComponent } from '../../src/app/components/user-list/user-list.
     MatCardModule,
     MatListModule,
     MatDatepickerModule,
+    MatDatetimepickerModule,
+    MatNativeDatetimeModule,
     MatNativeDateModule,
     MatGridListModule,
     MatAutocompleteModule,
@@ -144,6 +148,14 @@ import { UserListComponent } from '../../src/app/components/user-list/user-list.
     IncomeService,
     UserService,
     AdminGuard,
+    {
+      provide: LOCALE_ID,
+      useValue: 'uk-UA'
+    },
+    {
+      provide: MAT_DATE_LOCALE,
+      useExisting: LOCALE_ID
+    }
   ],
   bootstrap: [AppComponent]
 })
