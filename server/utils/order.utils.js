@@ -98,7 +98,8 @@ const utils = {
     }
     const costHelper = new CostHelper();
     const cost = await costHelper.cost(order);
-    return Math.round(cost * 100) / 100;
+    const multiplier = 1; // 100;
+    return Math.round(cost * multiplier) / multiplier;
   },
   createOrderIncomes: async (order, amount) => {
     const type = await IncomeType.find({
