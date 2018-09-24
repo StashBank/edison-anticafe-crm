@@ -92,7 +92,10 @@ const getModelObject = (body, model) => {
 }
 
 const utils = {
-  cost: async order => {
+  cost: async (order, user) => {
+    if (user.isAdmin && order.manualCost) {
+      return order.manualCost;
+    }
     const costHelper = new CostHelper();
     const cost = await costHelper.cost(order);
     return Math.round(cost * 100) / 100;

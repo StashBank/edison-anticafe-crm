@@ -156,7 +156,8 @@ export class OrderCardComponent implements OnInit {
   }
 
   get isManualCost(): boolean {
-    return this.orderTariffTypeCode === TariffTypeCodes.Manually;
+    return this.orderTariffTypeCode === TariffTypeCodes.Manually
+      || (this.currentUser && this.currentUser.isAdmin);
   }
 
   get isHourly(): boolean {
@@ -209,6 +210,7 @@ export class OrderCardComponent implements OnInit {
     if (this.currentUser.isAdmin) {
       this.form.get('startDate').enable();
       this.form.get('endDate').enable();
+      this.form.get('cost').enable();
     }
   }
 
@@ -350,8 +352,11 @@ export class OrderCardComponent implements OnInit {
     if (controlName === 'contact') {
       return value && value.fullName;
     }
-    const dateValue = Date.parse(value);
-    if (!isNaN(dateValue) && dateValue > 1514000000000) {
+    if (controlName === 'startDate' || controlName === 'endDate') {
+      return new Date(Date.parse(value));
+    }
+    const dateValue = (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/.test(value)) ? Date.parse(value) : NaN;
+    if (!isNaN(dateValue)) {
       return this.getDateString(new Date(dateValue));
     }
     return value && value.value ? value.value : value;

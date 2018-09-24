@@ -220,6 +220,7 @@ app.post('/continue', async (req, res) => {
 
 app.post('/close', async (req, res) => {
   const id = req.body.orderId;
+  const user = req.user;
   const manualCost = req.body.manualCost;
   if (!id) {
     res.status(500).send({ error: "orderId is required", success: false })
@@ -244,7 +245,7 @@ app.post('/close', async (req, res) => {
     timelines[timeline.index].endDate = endDate;
     order.timeline = timeline;
     order.manualCost = manualCost;
-    const cost = await Utils.cost(order);
+    const cost = await Utils.cost(order, user);
     await Utils.createOrderIncomes(order, cost);
     const newValues = { statusId, endDate, timeline, cost }
     await order.update(getModelObject(newValues, Order))

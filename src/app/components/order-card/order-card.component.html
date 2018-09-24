@@ -52,24 +52,24 @@
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6">
-                    <mat-form-field>
-                        <!--<input matInput
+                    <!--<mat-form-field>
+                        <input matInput
                             tabindex="4"
                             placeholder="Дата початку"
                             formControlName="startDate"
                             [matDatepicker]="startDatePicker">
                         <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                        <mat-datepicker #startDatePicker></mat-datepicker>-->
-                        <mat-form-field>
-                          <mat-placeholder>Дата початку</mat-placeholder>
-                          <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
-                          <mat-datetimepicker #datetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-                          <input matInput formControlName="startDate" [matDatetimepicker]="datetimePicker" required autocomplete="false">
-                        </mat-form-field>
+                        <mat-datepicker #startDatePicker></mat-datepicker>
+                      </mat-form-field>-->
+                    <mat-form-field>
+                      <mat-placeholder>Дата початку</mat-placeholder>
+                      <input matInput formControlName="startDate" [matDatetimepicker]="startDatetimePicker" autocomplete="false">
+                      <mat-datetimepicker-toggle [for]="startDatetimePicker" matSuffix></mat-datetimepicker-toggle>
+                      <mat-datetimepicker #startDatetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6">
-                    <mat-form-field>
+                    <!-- <mat-form-field>
                         <input matInput
                             tabindex="5"
                             placeholder="Дата закінчення"
@@ -77,6 +77,11 @@
                             [matDatepicker]="endDatePicker">
                         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #endDatePicker></mat-datepicker>
+                    </mat-form-field> -->
+                    <mat-form-field>
+                      <input matInput tabindex="5" placeholder="Дата закінчення"formControlName="endDate" [matDatetimepicker]="endDatetimePicker" autocomplete="false">
+                      <mat-datetimepicker-toggle [for]="endDatetimePicker" matSuffix></mat-datetimepicker-toggle>
+                      <mat-datetimepicker #endDatetimePicker type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
                     </mat-form-field>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="6">
@@ -109,7 +114,7 @@
                         <mat-list-item role="products" *ngFor="let item of products; let i = index">
                             <div class="product-item">
                                 <span>{{item}}</span>
-                                <mat-icon (click)="removeProduct(i)" class="icon">clear</mat-icon>
+                                <mat-icon (click)="removeProduct(i)" class="icon" *ngIf="!isFinalStatus">clear</mat-icon>
                             </div>
                         </mat-list-item>
                     </mat-list>
